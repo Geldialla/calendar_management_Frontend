@@ -12,6 +12,8 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
 import { UsersComponent } from './admin/users/users.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-
     HttpClientModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
+    MatTreeModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

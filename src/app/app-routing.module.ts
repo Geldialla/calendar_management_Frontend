@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login/login.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
+import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
       {
         path: 'Dashboard',
         component: DashboardComponent,
+      },
+      {
+        path: 'Hierarchy',
+        component: HierarchyComponent,
       },
       {
         path: 'Users',
