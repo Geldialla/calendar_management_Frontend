@@ -24,7 +24,7 @@ export class LoginComponent {
     
     if (loginSuccessful) {
       // Navigate to DashboardComponent if login is successful
-      this.router.navigate(['/Dashboard']);
+      this.router.navigate(['/SuperAdminPanel']);
     }
   }
 }

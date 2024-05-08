@@ -6,10 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login/login.component';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
+import { UsersComponent } from './admin/users/users.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-
     LoginComponent,
     DashboardComponent,
     HierarchyComponent,
+    UsersComponent,
     SuperAdminPanelComponent,
   ],
   imports: [
