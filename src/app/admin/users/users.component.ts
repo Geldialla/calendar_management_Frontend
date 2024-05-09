@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users',
@@ -27,7 +27,7 @@ export class UsersComponent {
   role: string = '';
   currentUserID = '';
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.getAllUsers();
   }
 
@@ -46,7 +46,6 @@ export class UsersComponent {
       });
   }
 
-
   search(): void {
     if (this.searchKeyword.trim() !== '') {
         this.pagedUserArray = this.UserArray.filter(first_name =>
@@ -58,199 +57,204 @@ export class UsersComponent {
     }
 }
 
+register() {
+  let bodyData = {
+    "first_name": this.first_name,
+    "last_name": this.last_name,
+    "email": this.email,
+    "password": this.password,
+    "phone_number": this.phone_number,
+    "country": this.country,
+    "address": this.address,
+    "status": this.status,
+    "role": this.role,
+  };
 
-
-  register() {
-    let bodyData = {
-      "first_name": this.first_name,
-      "last_name": this.last_name,
-      "email": this.email,
-      "password": this.password,
-      "phone_number": this.phone_number,
-      "country": this.country,
-      "address": this.address,
-      "status": this.status,
-      "role": this.role,
-    };
-
-    this.http.post("http://localhost:8085/api/users_table/add", bodyData)
-      .pipe(
-        catchError(error => {
-          console.error('Error registering User:', error);
-          return throwError(error);
-        })
-      )
-      .subscribe((resultData: any) => {
-        console.log(resultData);
-        alert(`User Register Successfully`);
-        this.getAllUsers();
-        // Clear form data
-        this.clearFormData();
-        // Show the table
-        this.showTable = true;
-        // Update paged array
-        this.updatePagedArray();
-        // Hide the form
-        this.showForm = false;
+  this.http.post("http://localhost:8085/api/users_table/add", bodyData)
+    .pipe(
+      catchError(error => {
+        console.error('Error registering User:', error);
+        return throwError(error);
+      })
+    )
+    .subscribe((resultData: any) => {
+      console.log(resultData);
+      this.snackBar.open('User Registered Successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
       });
-  }
-
-  setUpdate(data: any) {
-    this.first_name = data.first_name;
-    this.last_name = data.last_name;
-    this.email = data.email;
-    this.password = data.password;
-    this.country = data.country;
-    this.address = data.contract;
-    this.status = data.status;
-    this.role = data.role;
-
-    // Convert start_date and end_date strings to Date objects
-    const startDate = new Date(data.start_date);
-    const endDate = new Date(data.end_date);
-
-    // Format the dates as "yyyy-MM-dd"
-    const formattedStartDate = this.formatDate(startDate);
-    const formattedEndDate = this.formatDate(endDate);
-
-    // Assign the formatted dates to the component properties
-
-    this.currentUserID = data.id;
-    // Show the form when editing
-    this.showForm = true;
-    this.showTable = false;
-  }
-
-  // Helper function to format date as "yyyy-MM-dd"
-  formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero if needed
-    const day = date.getDate().toString().padStart(2, '0'); // Add leading zero if needed
-
-    return `${year}-${month}-${day}`;
-  }
-
-
-
-  updateRecords() {
-    let bodyData = {
-      "first_name": this.first_name,
-      "last_name": this.last_name,
-      "email": this.email,
-      "password": this.password,
-      "phone_number": this.phone_number,
-      "country": this.country,
-      "address": this.address,
-      "status": this.status,
-      "role": this.role,
-    };
-
-    this.http.put("http://localhost:8085/api/users_table/update" + "/" + this.currentUserID, bodyData)
-      .subscribe((resultData: any) => {
-        console.log(resultData);
-        alert(`User Updated successfully`);
-        this.getAllUsers();
-        // Close the form after updating
-        this.showForm = false;
+      this.getAllUsers();
+      this.clearFormData();
+      this.showTable = true;
+      this.updatePagedArray();
+      this.showForm = false;
+    }, error => {
+      console.error('Error registering User:', error);
+      this.snackBar.open('Error registering User. Please try again.', 'Close', {
+        duration: 6000,
+        panelClass: ['error-snackbar']
       });
-  }
+    });
+}
 
-  save() {
-    if (this.currentUserID === '') {
-      this.register();
-    } else {
-      this.updateRecords();
-    }
-    // Clear form data
-    this.clearFormData();
-    // Show the table
-    this.showTable = true;
-    // Update paged array
-    this.updatePagedArray();
-  }
-
-  clearFormData() {
-    this.first_name = '';
-    this.last_name = '';
-    this.email = '';
-    this.password = '';
-    this.phone_number = '';
-    this.country = '';
-    this.address = '';
-    this.status = '';
-    this.role = '';
-    this.currentUserID = '';
-  }
-
-
-
-  setDelete(data: any) {
-    this.http.delete("http://localhost:8085/api/users_table/delete" + "/" + data.id)
-      .subscribe((resultData) => {
-        console.log(resultData);
-        alert(`User Deleted Successfully`);
-        this.getAllUsers();
+deleteRecord(data: any) {
+  this.http.delete("http://localhost:8085/api/users_table/delete" + "/" + data.id)
+    .subscribe((resultData) => {
+      console.log(resultData);
+      this.snackBar.open('User Deleted Successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
       });
+      this.getAllUsers();
+    });
+}
+
+updateRecords() {
+  let bodyData = {
+    "first_name": this.first_name,
+    "last_name": this.last_name,
+    "email": this.email,
+    "password": this.password,
+    "phone_number": this.phone_number,
+    "country": this.country,
+    "address": this.address,
+    "status": this.status,
+    "role": this.role,
+  };
+
+  this.http.put("http://localhost:8085/api/users_table/update" + "/" + this.currentUserID, bodyData)
+    .subscribe((resultData: any) => {
+      console.log(resultData);
+      this.snackBar.open('User Updated Successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
+      });
+      this.getAllUsers();
+      // Close the form after updating
+      this.showForm = false;
+    });
+}
+
+save() {
+  if (this.currentUserID === '') {
+    this.register();
+  } else {
+    this.updateRecords();
   }
+  // Clear form data
+  this.clearFormData();
+  // Show the table
+  this.showTable = true;
+  // Update paged array
+  this.updatePagedArray();
+}
 
+clearFormData() {
+  this.first_name = '';
+  this.last_name = '';
+  this.email = '';
+  this.password = '';
+  this.phone_number = '';
+  this.country = '';
+  this.address = '';
+  this.status = '';
+  this.role = '';
+  this.currentUserID = '';
+}
 
-  // Other component properties
+setDelete(data: any) {
+  this.snackBar.open('Are you sure you want to delete this user?', 'Confirm', {
+    duration: 8000,
+    panelClass: ['confirm-snackbar']
+  }).onAction().subscribe(() => {
+    this.deleteRecord(data);
+  });
+}
 
-  showForm: boolean = false;
-  showTable: boolean = true;
+setUpdate(data: any) {
+  this.first_name = data.first_name;
+  this.last_name = data.last_name;
+  this.email = data.email;
+  this.password = data.password;
+  this.phone_number = data.phone_number;
+  this.country = data.country;
+  this.address = data.address;
+  this.status = data.status;
+  this.role = data.role;
 
-  // Method to toggle the visibility of the form
-  toggleFormVisibility() {
-    this.showForm = !this.showForm; // Toggle the form visibility
-    this.showTable = false; // Ensure the table is hidden when showing the form
-  }
+  // Convert start_date and end_date strings to Date objects
+  const startDate = new Date(data.start_date);
+  const endDate = new Date(data.end_date);
 
+  // Format the dates as "yyyy-MM-dd"
+  const formattedStartDate = this.formatDate(startDate);
+  const formattedEndDate = this.formatDate(endDate);
 
-  // Method to close the form
-  closeForm() {
-    this.showForm = false;
-  }
+  // Assign the formatted dates to the component properties
 
-  // Method to handle going back
-  goBack() {
-    // Close the form when going back
-    this.closeForm();
-    // Clear form data
-    this.clearFormData();
-    // Show the table
-    this.showTable = true;
-    // Update paged array
-    this.updatePagedArray();
-    // Handle other go back logic if needed
-  }
+  this.currentUserID = data.id;
+  // Show the form when editing
+  this.showForm = true;
+  this.showTable = false;
+}
 
+// Helper function to format date as "yyyy-MM-dd"
+formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero if needed
+  const day = date.getDate().toString().padStart(2, '0'); // Add leading zero if needed
 
+  return `${year}-${month}-${day}`;
+}
 
-  // pagination
+// Other component properties
 
-  // Inside the DashboardComponent class
+showForm: boolean = false;
+showTable: boolean = true;
 
-  pageSize = 10; // Number of items per page
-  pageIndex = 1; // Current page index
-  pagedUserArray: any[] = []; // Array to hold the paged items
+// Method to toggle the visibility of the form
+toggleFormVisibility() {
+  this.showForm = !this.showForm; // Toggle the form visibility
+  this.showTable = false; // Ensure the table is hidden when showing the form
+}
 
+// Method to close the form
+closeForm() {
+  this.showForm = false;
+}
 
-  // Inside the DashboardComponent class
-  updatePagedArray(): void {
-    const startIndex = (this.pageIndex - 1) * this.pageSize;
-    const endIndex = Math.min(startIndex + this.pageSize, this.UserArray.length);
+// Method to handle going back
+goBack() {
+  // Close the form when going back
+  this.closeForm();
+  // Clear form data
+  this.clearFormData();
+  // Show the table
+  this.showTable = true;
+  // Update paged array
+  this.updatePagedArray();
+}
 
-    console.log("Start Index:", startIndex);
-    console.log("End Index:", endIndex);
-    console.log("Total Length:", this.UserArray.length);
+// pagination
 
-    this.pagedUserArray = this.UserArray.slice(startIndex, endIndex);
-  }
+pageSize = 10; // Number of items per page
+pageIndex = 1; // Current page index
+pagedUserArray: any[] = []; // Array to hold the paged items
 
-  // Method to handle page change event
-  pageChanged(event: any): void {
-    this.pageIndex = event.pageIndex + 1; // +1 to match 1-based indexing
-    this.updatePagedArray(); // Update paged array when page changes
-  }
+updatePagedArray(): void {
+  const startIndex = (this.pageIndex - 1) * this.pageSize;
+  const endIndex = Math.min(startIndex + this.pageSize, this.UserArray.length);
+
+  console.log("Start Index:", startIndex);
+  console.log("End Index:", endIndex);
+  console.log("Total Length:", this.UserArray.length);
+
+  this.pagedUserArray = this.UserArray.slice(startIndex, endIndex);
+}
+
+pageChanged(event: any): void {
+  this.pageIndex = event.pageIndex + 1; // +1 to match 1-based indexing
+  this.updatePagedArray(); // Update paged array when page changes
+}
 
 }

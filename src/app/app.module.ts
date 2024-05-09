@@ -15,6 +15,7 @@ import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { RoleComponent } from './admin/role/role.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RoleComponent } from './admin/role/role.component';
     BrowserAnimationsModule,
     MatPaginatorModule,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule ,
   ],
   providers: [],
   bootstrap: [AppComponent]
