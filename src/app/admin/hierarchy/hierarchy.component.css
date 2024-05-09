@@ -1,13 +1,4 @@
-/*CSS*/
-html, body{
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin:0;
-    overflow: hidden;
-    font-family: Helvetica;
-  }
-  #tree{
-    width:100%;
-    height:100%;
-  }
+:host ::ng-deep [data-n-id='1'] rect {
+    fill: #750000;
+}
+ 

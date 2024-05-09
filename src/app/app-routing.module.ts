@@ -5,6 +5,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
 import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
+import { RoleComponent } from './admin/role/role.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'Users',
         component: UsersComponent,
+      },
+      {
+        path: 'Role',
+        component: RoleComponent,
       }
     ]
   }

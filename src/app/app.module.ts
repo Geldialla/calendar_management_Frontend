@@ -14,6 +14,7 @@ import { UsersComponent } from './admin/users/users.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
+import { RoleComponent } from './admin/role/role.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
     HierarchyComponent,
     UsersComponent,
     SuperAdminPanelComponent,
+    RoleComponent,
   ],
   imports: [
     BrowserModule,
