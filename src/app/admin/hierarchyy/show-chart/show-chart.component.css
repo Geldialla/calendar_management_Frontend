@@ -1,0 +1,139 @@
+/* Converted SCSS to CSS */
+
+.org-chart {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .org-chart ul {
+    padding-top: 20px;
+    position: relative;
+    transition: all 0.5s;
+  }
+  
+  .org-chart ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0;
+  }
+  
+  .org-chart li {
+    float: left;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px;
+    transition: all 0.5s;
+  }
+  
+  .org-chart li::before,
+  .org-chart li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #ccc;
+    width: 50%;
+    height: 20px;
+  }
+  
+  .org-chart li::after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid #ccc;
+  }
+  
+  .org-chart li:only-child::after,
+  .org-chart li:only-child::before {
+    display: none;
+  }
+  
+  .org-chart li:only-child {
+    padding-top: 0;
+  }
+  
+  .org-chart li:first-child::before,
+  .org-chart li:last-child::after {
+    border: 0 none;
+  }
+  
+  .org-chart li:last-child::before {
+    border-right: 1px solid #ccc;
+    border-radius: 0 5px 0 0;
+  }
+  
+  .org-chart li:first-child::after {
+    border-radius: 5px 0 0 0;
+  }
+  
+  .org-chart .user {
+    text-decoration: none;
+    color: #666;
+    display: inline-block;
+    padding: 20px 10px;
+    transition: all 0.5s;
+    background: #fff;
+    min-width: 120px;
+    border-radius: 6px;
+  }
+  
+  .org-chart .user:hover,
+  .org-chart .user:hover + ul li .user {
+    background: #d3e0f1;
+    color: #002a50;
+    transition: all 0.15s;
+    transform: translateY(-5px);
+    box-shadow: inset 0 0 0 3px #22659c, 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+  
+  .org-chart .user:hover img {
+    box-shadow: 0 0 0 5px #22659c;
+  }
+  
+  .org-chart .user:hover + ul li::after,
+  .org-chart .user:hover + ul li::before,
+  .org-chart .user:hover + ul::before,
+  .org-chart .user:hover + ul ul::before {
+    border-color: #94a0b4;
+  }
+  
+  .org-chart .user > div,
+  .org-chart .user > a {
+    font-size: 12px;
+  }
+  
+  .org-chart .user img {
+    margin: 0 auto;
+    max-width: 60px;
+    max-width: 60px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px #aaa;
+  }
+  
+  .org-chart .user .name {
+    font-size: 16px;
+    margin: 15px 0 0;
+    font-weight: 300;
+  }
+  
+  .org-chart .user .role {
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+  
+  .org-chart .user .manager {
+    font-size: 12px;
+    color: #b21e04;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #fff;
+  }
+  

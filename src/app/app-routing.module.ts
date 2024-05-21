@@ -6,6 +6,8 @@ import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-
 import { UsersComponent } from './admin/users/users.component';
 import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
 import { RoleComponent } from './admin/role/role.component';
+import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
+import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,14 @@ const routes: Routes = [
       {
         path: 'Role',
         component: RoleComponent,
+      },
+      {
+        path: 'Add',
+        component: AddChartComponent,
+      },
+      {
+        path: 'Show',
+        component: ShowChartComponent,
       }
     ]
   }

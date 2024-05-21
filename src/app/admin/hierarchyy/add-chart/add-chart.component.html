@@ -9,25 +9,42 @@
                     <!-- Show the form only when `showForm` is true -->
                     <div *ngIf="showForm">
                         <!-- Your form code goes here -->
-                        <form (ngSubmit)="save()" style="width: 50%; margin: 0 auto;">
-                            <a class="btn btn-outline-secondary float-right mb-1" (click)="goBack()">Go Back</a>
-                            <div class="form-group">
-                                <label>Role</label>
-                                <input type="text" [(ngModel)]="user_role" name="role" class="form-control"
-                                    id="role">
-                            </div>
-                            <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
-                        </form>
+                        <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4 col-12 addbox">
+                            <form (ngSubmit)="save()" style="width: 50%; margin: 0 auto;">
+                                <a class="btn btn-outline-secondary float-right mb-1" (click)="goBack()">Go Back</a>
+
+                                <div class="form-group">
+                                    <label>employee_name</label>
+                                    <input type="text" [(ngModel)]="employee_name" name="employee_name"
+                                        class="form-control" id="employee_name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Role</label>
+                                    <select class="form-control" [(ngModel)]="employee_role" name="employee_role">
+                                        <option *ngFor="let role of RoleArray" [value]="role.user_role">{{
+                                            role.user_role }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>employee_supervisor</label>
+                                    <input type="email" [(ngModel)]="employee_supervisor" name="employee_supervisor"
+                                        class="form-control" id="employee_supervisor">
+                                </div>
+
+                                <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
+                            </form>
+                        </div>
                     </div>
                     <!-- Show the table only when `showTable` is true -->
                     <div *ngIf="showTable">
                         <!-- Button to toggle form visibility -->
                         <div class="d-flex justify-content-between mb-2">
-                            <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New Role</button>
+                            <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New
+                                Employee</button>
                             <!-- Search input field -->
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Search by name"
-                                    [(ngModel)]="searchKeyword" (input)="search()">
+                                <input type="text" class="form-control" placeholder="Search by name">
                             </div>
                         </div>
                         <!-- Table to display Users data -->
@@ -42,29 +59,35 @@
                                 <!-- Table headers -->
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Full Name</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Supervisor</th>
+                                    <!-- <th scope="col">Phoyo URL</th> -->
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <!-- Loop through Users data and display in table rows -->
-                                <tr *ngFor="let RoleItem of pagedRoleArray; let i = index">
+                                <tr *ngFor="let hierarchyItem of pagedHierarchyArray; let i = index">
                                     <!-- Index column -->
                                     <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
                                     <!-- Users data columns -->
-                                    <td>{{ RoleItem.user_role }}</td>
+                                    <td>{{ hierarchyItem.employee_name }}</td>
+                                    <td>{{ hierarchyItem.employee_role }}</td>
+                                    <td>{{ hierarchyItem.employee_supervisor }}</td>
+                                    <!-- <td>{{ hierarchyItem.employee_image }}</td> -->
                                     <!-- Action buttons -->
                                     <td>
                                         <button type="button" class="btn btn-outline-success mr-1"
-                                            (click)="setUpdate(RoleItem)">Edit</button>
+                                            (click)="setUpdate(hierarchyItem)">Edit</button>
                                         <button type="button" class="btn btn-outline-danger"
-                                            (click)="setDelete(RoleItem)">Delete</button>
+                                            (click)="setDelete(hierarchyItem)">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <!-- Pagination -->
-                        <mat-paginator [length]="RoleArray.length" [pageSize]="pageSize"
+                        <mat-paginator [length]="pagedHierarchyArray.length" [pageSize]="pageSize"
                             (page)="pageChanged($event)"></mat-paginator>
                     </div>
 

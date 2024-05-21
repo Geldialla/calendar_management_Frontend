@@ -1,0 +1,13 @@
+<div class="loader-bg" *ngIf="isLoading">
+  <div class="loader"></div>
+</div>
+<div class="org-chart">
+  <ul>
+    <li *ngFor="let emp of empArr">
+      <div class="user">
+        <div class="name">{{ emp.employee_name }}</div> <!-- Display employee name -->
+        <div class="role">{{ emp.employee_role }}</div> <!-- Display employee role -->
+      </div>
+    </li>
+  </ul>
+</div>

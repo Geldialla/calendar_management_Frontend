@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -16,6 +16,10 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { RoleComponent } from './admin/role/role.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
+import { CommonModule } from '@angular/common';
+import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
+
 
 @NgModule({
   declarations: [
@@ -26,9 +30,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     UsersComponent,
     SuperAdminPanelComponent,
     RoleComponent,
+    AddChartComponent,
+    ShowChartComponent,
   ],
   imports: [
     BrowserModule,
+    CommonModule ,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -37,6 +44,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatTreeModule,
     MatIconModule,
     MatSnackBarModule ,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

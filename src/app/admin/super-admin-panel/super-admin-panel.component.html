@@ -10,7 +10,19 @@
                         <a routerLink="/SuperAdminPanel/Dashboard" class="nav-link">Dashboard</a>
                     </li>
             <li>
-                <a routerLink="/SuperAdminPanel/Hierarchy">Hierarchy</a>
+                <a routerLink="/SuperAdminPanel/Add">Hierarchy</a>
+                
+            </li>
+            <li>
+                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Hierarchy</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu">
+                    <li>
+                        <a routerLink="/SuperAdminPanel/Add">Add</a>
+                    </li>
+                    <li>
+                        <a routerLink="/SuperAdminPanel/Show">Show</a>
+                    </li>
+                </ul>
             </li>
             <li>
                 <a routerLink="/SuperAdminPanel/Users" class="nav-link">Users</a>

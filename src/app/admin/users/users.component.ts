@@ -181,33 +181,11 @@ setUpdate(data: any) {
   this.address = data.address;
   this.status = data.status;
   this.role = data.role;
-
-  // Convert start_date and end_date strings to Date objects
-  const startDate = new Date(data.start_date);
-  const endDate = new Date(data.end_date);
-
-  // Format the dates as "yyyy-MM-dd"
-  const formattedStartDate = this.formatDate(startDate);
-  const formattedEndDate = this.formatDate(endDate);
-
-  // Assign the formatted dates to the component properties
-
   this.currentUserID = data.id;
   // Show the form when editing
   this.showForm = true;
   this.showTable = false;
 }
-
-// Helper function to format date as "yyyy-MM-dd"
-formatDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero if needed
-  const day = date.getDate().toString().padStart(2, '0'); // Add leading zero if needed
-
-  return `${year}-${month}-${day}`;
-}
-
-// Other component properties
 
 showForm: boolean = false;
 showTable: boolean = true;
