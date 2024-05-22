@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-chart',
@@ -12,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AddChartComponent {
   HierarchyArray: any[] = [];
+  UserArray: any[] = [];
   RoleArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
@@ -22,16 +22,18 @@ export class AddChartComponent {
   employee_supervisor: string = '';
   currentHierarchyID = '';
 
-  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.getAllHierarchy();
     this.getAllRoles();
+    this.getAllUsers();
   }
 
 
   ngOnInit(): void {
     this.getAllHierarchy();
     this.updatePagedArray();
-    this.getAllRoles()
+    this.getAllRoles();
+    this.getAllUsers();
   }
 
   getAllHierarchy() {
@@ -40,6 +42,16 @@ export class AddChartComponent {
         this.isResultLoaded = true;
         console.log(resultData.data);
         this.HierarchyArray = resultData.data;
+        this.updatePagedArray();
+      });
+  }
+
+  getAllUsers() {
+    this.http.get("http://localhost:8085/api/users_table/")
+      .subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        console.log(resultData.data);
+        this.UserArray = resultData.data;
         this.updatePagedArray();
       });
   }

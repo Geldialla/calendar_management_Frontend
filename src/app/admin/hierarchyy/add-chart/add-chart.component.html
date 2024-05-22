@@ -25,13 +25,14 @@
                                             role.user_role }}</option>
                                     </select>
                                 </div>
-
                                 <div class="form-group">
-                                    <label>employee_supervisor</label>
-                                    <input type="email" [(ngModel)]="employee_supervisor" name="employee_supervisor"
-                                        class="form-control" id="employee_supervisor">
+                                    <label>Supervisor</label>
+                                    <select class="form-control" [(ngModel)]="employee_supervisor" name="employee_supervisor">
+                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{
+                                            user.first_name }}</option>
+                                    </select>
                                 </div>
-
+                                
                                 <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
                             </form>
                         </div>
