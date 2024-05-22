@@ -9,7 +9,6 @@ import { LoginComponent } from './login/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
-import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
 import { UsersComponent } from './admin/users/users.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { MatTreeModule } from '@angular/material/tree';
@@ -26,7 +25,6 @@ import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.com
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    HierarchyComponent,
     UsersComponent,
     SuperAdminPanelComponent,
     RoleComponent,

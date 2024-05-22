@@ -4,7 +4,6 @@ import { LoginComponent } from './login/login/login.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
-import { HierarchyComponent } from './admin/hierarchy/hierarchy.component';
 import { RoleComponent } from './admin/role/role.component';
 import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
@@ -26,10 +25,6 @@ const routes: Routes = [
       {
         path: 'Dashboard',
         component: DashboardComponent,
-      },
-      {
-        path: 'Hierarchy',
-        component: HierarchyComponent,
       },
       {
         path: 'Users',
