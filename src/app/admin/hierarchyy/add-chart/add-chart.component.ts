@@ -20,6 +20,7 @@ export class AddChartComponent {
   employee_name: string = '';
   employee_role: string = '';
   employee_supervisor: string = '';
+  employee_image: string = '';
   currentHierarchyID = '';
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
@@ -82,6 +83,7 @@ export class AddChartComponent {
       "employee_name": this.employee_name,
       "employee_role": this.employee_role,
       "employee_supervisor": this.employee_supervisor,
+      "employee_image": this.employee_image,
     };
 
     this.http.post("http://localhost:8085/api/hierarchy_table/add", bodyData)
@@ -128,6 +130,7 @@ export class AddChartComponent {
       "employee_name": this.employee_name,
       "employee_role": this.employee_role,
       "employee_supervisor": this.employee_supervisor,
+      "employee_image": this.employee_image,
     };
 
     this.http.put("http://localhost:8085/api/hierarchy_table/update" + "/" + this.currentHierarchyID, bodyData)
@@ -161,6 +164,7 @@ export class AddChartComponent {
     this.employee_name = '';
     this.employee_role = '';
     this.employee_supervisor = '';
+    this.employee_image = '';
     this.currentHierarchyID = '';
   }
 
@@ -177,6 +181,7 @@ export class AddChartComponent {
     this.employee_name = data.employee_name;
     this.employee_role = data.employee_role;
     this.employee_supervisor = data.employee_supervisor;
+    this.employee_image = data.employee_image;
     this.currentHierarchyID = data.id;
     // Show the form when editing
     this.showForm = true;

@@ -21,16 +21,19 @@
                                 <div class="form-group">
                                     <label>Role</label>
                                     <select class="form-control" [(ngModel)]="employee_role" name="employee_role">
-                                        <option *ngFor="let role of RoleArray" [value]="role.user_role">{{
-                                            role.user_role }}</option>
+                                        <option *ngFor="let role of RoleArray" [value]="role.user_role">{{ role.user_role }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Supervisor</label>
                                     <select class="form-control" [(ngModel)]="employee_supervisor" name="employee_supervisor">
-                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{
-                                            user.first_name }}</option>
+                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{ user.first_name }}</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>employee_name</label>
+                                    <input type="text" [(ngModel)]="employee_image" name="employee_image"
+                                        class="form-control" id="employee_image">
                                 </div>
                                 
                                 <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
@@ -41,11 +44,10 @@
                     <div *ngIf="showTable">
                         <!-- Button to toggle form visibility -->
                         <div class="d-flex justify-content-between mb-2">
-                            <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New
-                                Employee</button>
+                            <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New Employee</button>
                             <!-- Search input field -->
                             <div class="col-md-4">
-                                <input type="text" class="form-control" placeholder="Search by name">
+                                <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="searchKeyword" (ngModelChange)="search()">
                             </div>
                         </div>
                         <!-- Table to display Users data -->
@@ -63,7 +65,7 @@
                                     <th scope="col">Full Name</th>
                                     <th scope="col">Role</th>
                                     <th scope="col">Supervisor</th>
-                                    <!-- <th scope="col">Phoyo URL</th> -->
+                                    <th scope="col">Image CRC</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -76,22 +78,18 @@
                                     <td>{{ hierarchyItem.employee_name }}</td>
                                     <td>{{ hierarchyItem.employee_role }}</td>
                                     <td>{{ hierarchyItem.employee_supervisor }}</td>
-                                    <!-- <td>{{ hierarchyItem.employee_image }}</td> -->
+                                    <td>{{ hierarchyItem.employee_image }}</td>
                                     <!-- Action buttons -->
                                     <td>
-                                        <button type="button" class="btn btn-outline-success mr-1"
-                                            (click)="setUpdate(hierarchyItem)">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger"
-                                            (click)="setDelete(hierarchyItem)">Delete</button>
+                                        <button type="button" class="btn btn-outline-success mr-1" (click)="setUpdate(hierarchyItem)">Edit</button>
+                                        <button type="button" class="btn btn-outline-danger" (click)="setDelete(hierarchyItem)">Delete</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <!-- Pagination -->
-                        <mat-paginator [length]="pagedHierarchyArray.length" [pageSize]="pageSize"
-                            (page)="pageChanged($event)"></mat-paginator>
+                        <mat-paginator [length]="HierarchyArray.length" [pageSize]="pageSize" (page)="pageChanged($event)"></mat-paginator>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -5,8 +5,10 @@ interface Employee {
   employee_name: string;
   employee_role: string;
   employee_supervisor: string;
+  employee_image: string;  // New property for the image URL
   children?: Employee[];
 }
+
 
 @Component({
   selector: 'app-show-chart',
