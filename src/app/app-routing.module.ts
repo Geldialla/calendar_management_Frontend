@@ -35,13 +35,13 @@ const routes: Routes = [
         component: RoleComponent,
       },
       {
-        path: 'Add',
+        path: 'Add-Hierarchy',
         component: AddChartComponent,
       },
       {
-        path: 'Show',
+        path: 'Show-Hierarchy',
         component: ShowChartComponent,
-      }
+      },
     ]
   }
 

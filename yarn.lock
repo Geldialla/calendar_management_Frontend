@@ -204,7 +204,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^16.2.0", "@angular/common@>=10.0.6", "@angular/common@16.2.4":
+"@angular/common@^16.0.0 || ^17.0.0", "@angular/common@^16.2.0", "@angular/common@>=10.0.6", "@angular/common@12 - 17", "@angular/common@16.2.4":
   version "16.2.4"
   resolved "https://registry.npmjs.org/@angular/common/-/common-16.2.4.tgz"
   integrity sha512-MsZfO/XedwL/3WKMgvefLOKz6w/eRQuRUYjhJtjCImqQB7evDLohjgfNY0tYPeyr1a+N6ekMyFbIAJdKlirOsg==
@@ -232,7 +232,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^16.2.0", "@angular/core@>=10.0.6", "@angular/core@16.2.4":
+"@angular/core@^16.0.0 || ^17.0.0", "@angular/core@^16.2.0", "@angular/core@>=10.0.6", "@angular/core@12 - 17", "@angular/core@16.2.4":
   version "16.2.4"
   resolved "https://registry.npmjs.org/@angular/core/-/core-16.2.4.tgz"
   integrity sha512-8A1WGGvsKbwSEKoa1y6yBHgOBgv/4hCMo01HJv6BR9ApBjsjpBjXG3ltfRq293j9NF8tSu6gQMs7jrc2uVXZCg==
@@ -1347,6 +1347,49 @@
   resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.18.17.tgz"
   integrity sha512-fGEb8f2BSA3CW7riJVurug65ACLuQAzKq0SSqkY2b2yHHH0MzDfbLyKIGzHwOI/gkHcxM/leuSW6D5w/LMNitA==
 
+"@fullcalendar/angular@^6.1.10":
+  version "6.1.10"
+  resolved "https://registry.npmjs.org/@fullcalendar/angular/-/angular-6.1.10.tgz"
+  integrity sha512-y0aIC5Zexu8PaULF4u+K8LzMVu8pI7kLkEI53c7gV2/1OOGMg5Ld3tVeuArsHfAdlPdOqiWa/q2/ECZj28/Izg==
+  dependencies:
+    tslib "^2.3.0"
+
+"@fullcalendar/core@^6.1.13", "@fullcalendar/core@~6.1.10", "@fullcalendar/core@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.13.tgz"
+  integrity sha512-Cps/hMQan4kwnsBhFf2+m2mijbGoWs6r18ZzxBnAAOkkNHtPmHU8EdR6lF+ZLsiVvb7nsC4H/ZKqnxXWwgpoPw==
+  dependencies:
+    preact "~10.12.1"
+
+"@fullcalendar/daygrid@^6.1.13", "@fullcalendar/daygrid@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-6.1.13.tgz"
+  integrity sha512-0I0hL1kgGjkZuc7Qt8mu4jjrqIL5PZzd58bEpTxoXRKI5UBZ9KbshGVMryQSXYANlrRtkPnXVt90VIDrxZbDrA==
+
+"@fullcalendar/interaction@^6.1.13", "@fullcalendar/interaction@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/interaction/-/interaction-6.1.13.tgz"
+  integrity sha512-r1w+jqCRGZZyxKFquueDSFvbsFhJLhc1BX8Nlyz684lYxS1SiToYJW9Q8X/XkySCzpjO3KOnxEp2jVOn1Usyjg==
+
+"@fullcalendar/list@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/list/-/list-6.1.13.tgz"
+  integrity sha512-bPW4EsgGNwDZh91NtD+q4hqGfS6jEvCXQo7+MNy4JLMwFtdenEURRrzsb6CW3l97L3Vp0E2mSqiXaNESOmXEcQ==
+
+"@fullcalendar/multimonth@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/multimonth/-/multimonth-6.1.13.tgz"
+  integrity sha512-fn0BaLaMNkLmFzxijGZXYcO/fHQkuCcQV1R44mnu/01V4uSnFM1KPt2+V+6SgNiW1+ZNkUBHkkSLST1XdZjodw==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.13"
+
+"@fullcalendar/timegrid@~6.1.13":
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/@fullcalendar/timegrid/-/timegrid-6.1.13.tgz"
+  integrity sha512-8Ub2mSV+6Mh8WWDKuyCYbj5PKYpmyjSctpJ/21fDBJduE9QFS0WfG9CZZxSJT7CT+srnyk4mX2/5gYN9gYZjUg==
+  dependencies:
+    "@fullcalendar/daygrid" "~6.1.13"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.npmjs.org/@isaacs/cliui/-/cliui-8.0.2.tgz"
@@ -2439,12 +2482,19 @@
     expect "^29.0.0"
     pretty-format "^29.0.0"
 
-"@types/jquery@^3.5.30":
+"@types/jquery@*", "@types/jquery@^3.5.30":
   version "3.5.30"
   resolved "https://registry.npmjs.org/@types/jquery/-/jquery-3.5.30.tgz"
   integrity sha512-nbWKkkyb919DOUxjmRVk8vwtDb0/k8FKncmUKFi+NY+QXqWltooxTrswvz4LspQwxvLdvzBN1TImr6cw3aQx2A==
   dependencies:
     "@types/sizzle" "*"
+
+"@types/jqueryui@^1.12.22":
+  version "1.12.22"
+  resolved "https://registry.npmjs.org/@types/jqueryui/-/jqueryui-1.12.22.tgz"
+  integrity sha512-4r7ROoUJ5gaIWvQa2qAHyrhskJcUNM62Md8M9+4DtabEiIQ9Y0pVlW88ojyXvn4M1HNUc/47KpFJaXhrk8P/rg==
+  dependencies:
+    "@types/jquery" "*"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   version "7.0.12"
@@ -4311,6 +4361,18 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fullcalendar@^6.1.13:
+  version "6.1.13"
+  resolved "https://registry.npmjs.org/fullcalendar/-/fullcalendar-6.1.13.tgz"
+  integrity sha512-m/9OX3reJY0SIa5ca0kQ3i6Z8zNTDLduQWPbBmkcs3A/SlS1wUqLdDVUs6LYgh/3NiEmSUVlm6OufXDSnUHNwg==
+  dependencies:
+    "@fullcalendar/core" "~6.1.13"
+    "@fullcalendar/daygrid" "~6.1.13"
+    "@fullcalendar/interaction" "~6.1.13"
+    "@fullcalendar/list" "~6.1.13"
+    "@fullcalendar/multimonth" "~6.1.13"
+    "@fullcalendar/timegrid" "~6.1.13"
 
 function-bind@^1.1.1:
   version "1.1.1"
@@ -6189,6 +6251,11 @@ postcss-value-parser@^4.1.0, postcss-value-parser@^4.2.0:
     nanoid "^3.3.6"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@~10.12.1:
+  version "10.12.1"
+  resolved "https://registry.npmjs.org/preact/-/preact-10.12.1.tgz"
+  integrity sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==
 
 pretty-bytes@^5.3.0:
   version "5.6.0"

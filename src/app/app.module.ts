@@ -18,7 +18,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
-
+import { FullCalendarModule } from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 
 @NgModule({
   declarations: [
@@ -33,7 +35,7 @@ import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.com
   ],
   imports: [
     BrowserModule,
-    CommonModule ,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
@@ -41,13 +43,11 @@ import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.com
     MatPaginatorModule,
     MatTreeModule,
     MatIconModule,
-    MatSnackBarModule ,
+    MatSnackBarModule,
     ReactiveFormsModule,
+    FullCalendarModule, // Import FullCalendarModule without calling forRoot
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  
-
-}
+export class AppModule { }
