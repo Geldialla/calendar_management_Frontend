@@ -51,10 +51,16 @@
                                     id="status">
                             </div>
                             <div class="form-group">
-                                <label>Role</label>
-                                <input type="text" [(ngModel)]="role" name="role" class="form-control"
-                                    id="role">
+                                <label for="role">Role</label>
+                                <select [(ngModel)]="role" name="role" class="form-control" id="role">
+                                    <option value="" disabled selected>Select one</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="manager">Manager</option>
+                                    <option value="user">User</option>
+                                </select>
                             </div>
+                            
+                            
                             <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
                         </form>
                     </div>
@@ -85,6 +91,7 @@
                                     <th scope="col">Last Name</th>
                                     <th scope="col">Email Number</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Password</th>
                                     <th scope="col">Phone Number</th>
                                     <th scope="col">Country</th>
                                     <th scope="col">Address</th>
@@ -102,6 +109,7 @@
                                     <td>{{ UsersItem.first_name }}</td>
                                     <td>{{ UsersItem.last_name }}</td>
                                     <td>{{ UsersItem.email }}</td>
+                                    <td>{{ UsersItem.password }}</td>
                                     <td>{{ UsersItem.password }}</td>
                                     <td>{{ UsersItem.phone_number }}</td>
                                     <td>{{ UsersItem.country }}</td>

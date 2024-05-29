@@ -7,6 +7,9 @@ import { UsersComponent } from './admin/users/users.component';
 import { RoleComponent } from './admin/role/role.component';
 import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
+import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
+import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
+import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component';
 
 const routes: Routes = [
   {
@@ -41,6 +44,18 @@ const routes: Routes = [
       {
         path: 'Show-Hierarchy',
         component: ShowChartComponent,
+      },
+      {
+        path: 'Calendar',
+        component: CalendarComponent,
+      },
+      {
+        path: 'Add-event',
+        component: EventModalComponent,
+      },
+      {
+        path: 'Event',
+        component: CalendarEventComponent,
       },
     ]
   }

@@ -20,7 +20,10 @@ import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction';
+import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
+import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
+import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component'; // a plugin
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
     RoleComponent,
     AddChartComponent,
     ShowChartComponent,
+    EventModalComponent,
+    CalendarComponent,
+    CalendarEventComponent,
   ],
   imports: [
     BrowserModule,
