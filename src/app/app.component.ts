@@ -7,6 +7,7 @@ import emailjs, { EmailJSResponseStatus } from 'emailjs-com';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  [x: string]: any;
   sendEmail() {
     const emailParams = {
       from_name: 'Your Name',

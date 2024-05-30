@@ -19,11 +19,21 @@ import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.compon
 import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
-import interactionPlugin from '@fullcalendar/interaction';
 import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
-import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component'; // a plugin
+import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component';
+import { UserCalendarComponent } from './user/calendar/user-calendar/user-calendar.component';
+import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
+import { ManagerCalendarComponent } from './manager/calendar/manager-calendar/manager-calendar.component';
+import { ManagerEventModalComponent } from './manager/calendar/manager-event-modal/manager-event-modal.component';
+import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
+import { UserPanelComponent } from './user/user-panel/user-panel.component';
+import { ManagerPanelComponent } from './manager/manager-panel/manager-panel.component';
+import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
+import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
+import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-dashboard.component';
+import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +48,17 @@ import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event
     EventModalComponent,
     CalendarComponent,
     CalendarEventComponent,
+    UserCalendarComponent,
+    UserEventModalComponent,
+    ManagerCalendarComponent,
+    ManagerEventModalComponent,
+    ManagerCalendarEventComponent,
+    UserPanelComponent,
+    ManagerPanelComponent,
+    ManagerHierarchyComponent,
+    UserHierarchyComponent,
+    ManagerDashboardComponent,
+    UserDashboardComponent,
   ],
   imports: [
     BrowserModule,

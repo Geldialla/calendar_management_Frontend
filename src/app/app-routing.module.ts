@@ -10,6 +10,16 @@ import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.com
 import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
 import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component';
+import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
+import { ManagerCalendarComponent } from './manager/calendar/manager-calendar/manager-calendar.component';
+import { ManagerEventModalComponent } from './manager/calendar/manager-event-modal/manager-event-modal.component';
+import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-dashboard.component';
+import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
+import { ManagerPanelComponent } from './manager/manager-panel/manager-panel.component';
+import { UserPanelComponent } from './user/user-panel/user-panel.component';
+import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
+import { UserCalendarComponent } from './user/calendar/user-calendar/user-calendar.component';
+import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
 
 const routes: Routes = [
   {
@@ -58,7 +68,47 @@ const routes: Routes = [
         component: CalendarEventComponent,
       },
     ]
-  }
+  },
+  {
+    path: 'Manager',
+    component: ManagerPanelComponent,
+    children: [
+      {
+        path: 'Hierarchy',
+        component: ManagerHierarchyComponent,
+      },
+      {
+        path: 'Calendar',
+        component: ManagerCalendarComponent,
+      },
+      {
+        path: 'Add-event',
+        component: ManagerEventModalComponent,
+      },
+    ]
+  },
+  {
+    path: 'User',
+    component: UserPanelComponent,
+    children: [
+      {
+        path: 'Dashboard',
+        component: UserDashboardComponent,
+      },
+      {
+        path: 'Hierarchy',
+        component: UserHierarchyComponent,
+      },
+      {
+        path: 'Calendar',
+        component: UserCalendarComponent,
+      },
+      {
+        path: 'Add-event',
+        component: UserEventModalComponent,
+      },
+    ]
+  },
 
 ];
 

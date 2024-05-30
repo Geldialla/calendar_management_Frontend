@@ -9,11 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar) {}
+  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar) { }
 
   UserArray: any[] = [];
-  email: string = '';  // Default email field
-  password: string = '';  // Default password field
+  email: string = '';
+  password: string = '';
+  role: string = '';
   isResultLoaded = false;
 
   // Hard-coded admin credentials
@@ -44,9 +45,23 @@ export class LoginComponent implements OnInit {
       // Regular user login
       const user = this.UserArray.find(u => u.email === this.email && u.password === this.password);
 
-      if (user) {
+      if (user.role === 'admin') {
         // User login successful
         this.router.navigate(['/SuperAdminPanel/Dashboard']);
+        this.snackBar.open('Successfully login', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      } else if (user.role === 'manager') {
+        // User login successful
+        this.router.navigate(['/Manager']);
+        this.snackBar.open('Successfully login', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar']
+        });
+      } else if (user.role === 'user') {
+        // User login successful
+        this.router.navigate(['/User/Dashboard']);
         this.snackBar.open('Successfully login', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
@@ -61,3 +76,4 @@ export class LoginComponent implements OnInit {
     }
   }
 }
+
