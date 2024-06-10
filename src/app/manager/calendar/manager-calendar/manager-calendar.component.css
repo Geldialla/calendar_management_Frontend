@@ -1,0 +1,43 @@
+/* manager-calendar.component.css */
+
+/* Ensure the calendar container takes full width */
+.calendar-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* Add padding and margin to the calendar */
+  .full-calendar {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  
+  /* Ensure the calendar adjusts properly on resize */
+  #content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+  }
+  
+  #sidebar.active + #content {
+    margin-left: 0;
+  }
+  
+  @media (max-width: 768px) {
+    #sidebar {
+      margin-left: -250px;
+    }
+    #sidebar.active {
+      margin-left: 0;
+    }
+    #sidebarCollapse span {
+      display: none;
+    }
+  }
+  

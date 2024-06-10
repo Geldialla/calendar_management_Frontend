@@ -2,18 +2,26 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Calendar Management</h3>
+            <h3 class="ml-2">Welcome, {{ loggedInUser?.first_name }}!</h3> <!-- Welcome message inside the dropdown toggle -->
         </div>
 
         <ul class="list-unstyled components">
-                    <li>
-                        <a routerLink="/User/Calendar" class="nav-link">Calendar</a>
-                    </li>
-                    <li>
-                        <a routerLink="/User/Hierarchy">Show</a>
-                    </li>
+            <li>
+                <a routerLink="/User/Calendar" class="nav-link">Calendar</a>
+            </li>
+            <li>
+                <a routerLink="/User/Hierarchy">Hierarchy</a>
+            </li>
         </ul>
 
+        <!-- <ul class="list-unstyled CTAs">
+            <li>
+                <a href="" class="download">Download source</a>
+            </li>
+            <li>
+                <a href="" class="article">Back to article</a>
+            </li>
+        </ul> -->
     </nav>
 
     <!-- Page Content  -->
@@ -21,7 +29,6 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-
                 <button type="button" id="sidebarCollapse" class="btn btn-info">
                     <i class="fas fa-align-left"></i>
                     <span>Toggle Sidebar</span>
@@ -31,13 +38,26 @@
                     aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i> <!-- Profile icon -->
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">My Profile</a>
+                                <a class="dropdown-item" href="#">My Events</a>
+                                <a class="dropdown-item" href="#">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" routerLink="/Login">Logout</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+
 
         <router-outlet></router-outlet>
     </div>

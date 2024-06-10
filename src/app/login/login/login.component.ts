@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar) { }
+  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar,private authService: AuthService) { }
 
   UserArray: any[] = [];
   email: string = '';
@@ -44,28 +45,22 @@ export class LoginComponent implements OnInit {
     } else {
       // Regular user login
       const user = this.UserArray.find(u => u.email === this.email && u.password === this.password);
-
-      if (user.role === 'admin') {
+      if (user) {
         // User login successful
-        this.router.navigate(['/SuperAdminPanel/Dashboard']);
-        this.snackBar.open('Successfully login', 'Close', {
+        if (user.role === 'admin') {
+          this.router.navigate(['/SuperAdminPanel/Dashboard']);
+        } else if (user.role === 'manager') {
+          this.router.navigate(['/Manager']);
+        } else if (user.role === 'user') {
+          this.router.navigate(['/User/Dashboard']);
+        }
+        // Show snackbar
+        this.snackBar.open('Successfully logged in', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
-      } else if (user.role === 'manager') {
-        // User login successful
-        this.router.navigate(['/Manager']);
-        this.snackBar.open('Successfully login', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
-      } else if (user.role === 'user') {
-        // User login successful
-        this.router.navigate(['/User/Dashboard']);
-        this.snackBar.open('Successfully login', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar']
-        });
+        // Call authService login method
+        this.authService.login(user);
       } else {
         // Login failed
         this.snackBar.open('Invalid email or password', 'Close', {
@@ -75,5 +70,6 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+  
 }
 

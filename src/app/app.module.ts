@@ -19,9 +19,9 @@ import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.compon
 import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
+import { EventModalComponent } from './admin/calendar/calendar/event-modal/event-modal.component';
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
-import { CalendarEventComponent } from './admin/calendar/calendar/calendar-event/calendar-event.component';
+import { CalendarEventComponent } from './admin/calendar-event/calendar-event.component';
 import { UserCalendarComponent } from './user/calendar/user-calendar/user-calendar.component';
 import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
 import { ManagerCalendarComponent } from './manager/calendar/manager-calendar/manager-calendar.component';
@@ -33,6 +33,7 @@ import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-h
 import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
 import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-dashboard.component';
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
+import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.com
     UserHierarchyComponent,
     ManagerDashboardComponent,
     UserDashboardComponent,
+    CalendarListComponent,
   ],
   imports: [
     BrowserModule,

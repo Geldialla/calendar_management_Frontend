@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -9,10 +9,10 @@ import { UserEventModalComponent } from '../user-event-modal/user-event-modal.co
   templateUrl: './user-calendar.component.html',
   styleUrls: ['./user-calendar.component.css']
 })
-export class UserCalendarComponent implements OnInit {
+export class UserCalendarComponent implements OnInit, AfterViewInit {
 
   @ViewChild(UserEventModalComponent) eventModal!: UserEventModalComponent;
-  calendarOptions!: CalendarOptions;
+  UserCalendarOptions!: CalendarOptions;
 
   constructor() {}
 
@@ -22,7 +22,7 @@ export class UserCalendarComponent implements OnInit {
     const m = date.getMonth();
     const y = date.getFullYear();
 
-    this.calendarOptions = {
+    this.UserCalendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin],
       headerToolbar: {
         left: 'prev,next today',
@@ -39,7 +39,13 @@ export class UserCalendarComponent implements OnInit {
     };
   }
 
+  ngAfterViewInit(): void {
+    // Now the eventModal reference should be available
+    console.log('Event Modal:', this.eventModal);
+  }
+
   handleDateClick(arg: { dateStr: string; }) {
+    console.log('Date clicked:', arg.dateStr);
     this.eventModal.eventStart = arg.dateStr;
     this.eventModal.eventEnd = '';
     this.eventModal.eventTitle = '';
@@ -51,7 +57,7 @@ export class UserCalendarComponent implements OnInit {
   }
 
   addEvent(event: { title: string, start: string, end: string }) {
-    this.calendarOptions.events = [...(this.calendarOptions.events as any), {
+    this.UserCalendarOptions.events = [...(this.UserCalendarOptions.events as any), {
       title: event.title,
       start: event.start,
       end: event.end

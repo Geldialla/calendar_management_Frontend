@@ -1,4 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/auth.service';
+
 declare var $: any; // Declare $ for using jQuery
 
 @Component({
@@ -7,9 +9,14 @@ declare var $: any; // Declare $ for using jQuery
   styleUrls: ['./super-admin-panel.component.css']
 })
 export class SuperAdminPanelComponent implements OnInit {
-  constructor(private elRef: ElementRef) { }
+  loggedInUser: any;
+
+  constructor(private elRef: ElementRef, private authService: AuthService) { }
 
   ngOnInit(): void {
+    // Get logged-in user information
+    this.loggedInUser = this.authService.getLoggedInUser();
+
     // jQuery code for toggling sidebar
     $(this.elRef.nativeElement).find('#sidebarCollapse').on('click', function () {
       $('#sidebar').toggleClass('active');
