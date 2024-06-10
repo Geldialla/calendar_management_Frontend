@@ -87,9 +87,56 @@ export class CalendarComponent implements OnInit {
     this.eventModal.show(); // Implement show method in EventModalComponent to display the modal
   }
 
-  handleEventClick(arg: { event: { title: string; }; }) {
-    alert('Event clicked: ' + arg.event.title);
-  }
+  handleEventClick(arg: { event: { title: string; start: Date | null; end: Date | null; }; }) {
+    const eventTitle = arg.event.title;
+    const eventStart = arg.event.start ? arg.event.start.toLocaleString() : 'N/A';
+    const eventEnd = arg.event.end ? arg.event.end.toLocaleString() : 'N/A';
+
+    // Construct the HTML content for the modal dialog
+    const modalContent = `
+     <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-primary text-white border-0 d-flex justify-content-center align-items-center">
+            <h4 class="modal-title mb-0">${eventTitle}</h4>
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="mb-0"><strong>Start Time:</strong> ${eventStart}</p>
+            <p class="mb-0"><strong>End Time:</strong> ${eventEnd}</p>
+        </div>
+        <div class="modal-footer border-0">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+</div>
+ `;
+
+
+    // Create a modal element and append the content
+    const modalElement = document.createElement('div');
+    modalElement.classList.add('modal');
+    modalElement.setAttribute('tabindex', '-1');
+    modalElement.setAttribute('role', 'dialog');
+    modalElement.setAttribute('aria-labelledby', 'exampleModalCenterTitle');
+    modalElement.setAttribute('aria-hidden', 'true');
+    modalElement.innerHTML = modalContent;
+
+    // Append the modal to the document body
+    document.body.appendChild(modalElement);
+
+    // Show the modal
+    modalElement.classList.add('show');
+    modalElement.style.display = 'block';
+
+    // Remove the modal from the DOM when it's closed
+    modalElement.addEventListener('click', function () {
+        modalElement.remove();
+    });
+}
+
+
 
   handleEventMount(info: { event: EventApi; el: HTMLElement; }) {
     const title = info.event.title;
