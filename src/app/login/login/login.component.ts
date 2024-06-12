@@ -59,6 +59,11 @@ export class LoginComponent implements OnInit {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
+        
+        // Save user information in local storage
+        localStorage.setItem('loggedInUserFirstName', user.first_name);
+        localStorage.setItem('loggedInUserLastName', user.last_name);
+  
         // Call authService login method
         this.authService.login(user);
       } else {
@@ -70,6 +75,7 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+  
   
 }
 

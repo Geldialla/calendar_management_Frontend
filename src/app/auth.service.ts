@@ -18,9 +18,12 @@ export class AuthService {
 
   login(user: any) {
     this.isLoggedIn = true;
-    this.loggedInUser = user;
+    this.loggedInUser = {
+      firstName: user.firstName,
+      lastName: user.lastName
+    };
     // Save user information in localStorage for persistence
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
   }
 
   logout() {
@@ -36,5 +39,10 @@ export class AuthService {
   getLoggedInUser(): any {
     // Retrieve logged-in user information from the property
     return this.loggedInUser;
+  }
+
+  getLoggedInUserName(): string {
+    // Retrieve logged-in user's full name
+    return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
   }
 }

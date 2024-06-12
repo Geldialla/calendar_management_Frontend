@@ -14,6 +14,8 @@ export class EventModalComponent {
   isResultLoaded = false;
   isUpdateFormActive = false;
   loggedInUser: any;
+  firstName: string | null = null;
+  lastName: string | null = null;
 
   event_name: string = '';
   start_date: Date | null = null;
@@ -27,11 +29,14 @@ export class EventModalComponent {
 
   @ViewChild('modal') modal!: ElementRef;
   @Output() eventAdded = new EventEmitter<{ title: string, start: string, end: string, createdBy: string, createdDate: string }>();
+  @Output() modalClosed = new EventEmitter<void>();
+  @Output() eventSubmitted = new EventEmitter<void>();
+
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar, private authService: AuthService) {
     this.getAllEvents();
     this.getAllCalendarEvents();
-    this.loggedInUser = this.authService.getLoggedInUser();
+    this.getLoggedInUser()
   }
 
   ngOnInit(): void {
@@ -39,6 +44,12 @@ export class EventModalComponent {
     this.getAllCalendarEvents();
     this.loggedInUser = this.authService.getLoggedInUser();
   }
+
+  getLoggedInUser() {
+    this.firstName = localStorage.getItem('loggedInUserFirstName');
+    this.lastName = localStorage.getItem('loggedInUserLastName');
+  }
+  
 
   getAllCalendarEvents() {
     this.http.get("http://localhost:8085/api/calendar_event_table/")
@@ -50,14 +61,15 @@ export class EventModalComponent {
 
   register() {
     const createdDate = new Date().toISOString();
+
     let bodyData = {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
-      "createdBy": `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
+      "createdBy": `${this.firstName} ${this.lastName}`, // Corrected
       "createdDate": createdDate
     };
-
+  
     this.http.post("http://localhost:8085/api/calendar_event_table/add", bodyData)
       .subscribe((resultData: any) => {
         this.snackBar.open('Event Registered Successfully', 'Close', {
@@ -67,7 +79,7 @@ export class EventModalComponent {
         this.getAllCalendarEvents();
       });
   }
-
+  
   deleteRecord(data: any) {
     this.http.delete("http://localhost:8085/api/calendar_event_table/delete" + "/" + data.id)
       .subscribe((resultData) => {
@@ -85,11 +97,9 @@ export class EventModalComponent {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
-      "createdBy": `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
+      "createdBy": `${this.firstName} ${this.lastName}`, // Corrected
       "createdDate": createdDate
     };
-
-    // Implement update logic here
   }
 
   save() {
@@ -113,20 +123,43 @@ export class EventModalComponent {
 
   closeModal() {
     this.modal.nativeElement.style.display = 'none';
+    this.modalClosed.emit(); // Emit event when modal is closed
   }
 
   onSubmit() {
-    const loggedInUser = this.authService.getLoggedInUser();
+    if (!this.event_name || !this.start_date || !this.end_date) {
+      this.snackBar.open('Please fill in all required fields', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+  
+    // Convert string dates to Date objects
+    const startDate = new Date(this.start_date);
+    const endDate = new Date(this.end_date);
+  
+    // Check if the conversion was successful
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      // Handle invalid dates
+      console.error('Invalid date format');
+      return;
+    }
+  
+    const createdBy = this.loggedInUser ? `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}` : 'Unknown User';
     const createdDate = new Date().toISOString();
-
+  
     this.eventAdded.emit({
-      title: this.eventTitle,
-      start: this.eventStart,
-      end: this.eventEnd,
-      createdBy: `${loggedInUser.first_name} ${loggedInUser.last_name}`,
+      title: this.event_name,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+      createdBy: createdBy,
       createdDate: createdDate
     });
     this.closeModal();
     this.save();
+    this.modalClosed.emit(); // Emit event when modal is closed
   }
+
+  
 }

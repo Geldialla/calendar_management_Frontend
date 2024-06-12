@@ -1,9 +1,9 @@
-// calendar-list.component.ts
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
+import { EventModalComponent } from '../event-modal/event-modal.component';
 
 @Component({
   selector: 'app-calendar-list',
@@ -11,11 +11,13 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./calendar-list.component.css']
 })
 export class CalendarListComponent implements OnInit {
+  @ViewChild(EventModalComponent) eventModal!: EventModalComponent;
   RoleArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
   searchKeyword: string = '';
   loggedInUser: any;
+  loggedInUserName: string | undefined;
 
   event_name: string = '';
   start_date: Date | null = null;
@@ -46,7 +48,6 @@ export class CalendarListComponent implements OnInit {
         this.updatePagedArray();
       });
   }
-
 
   search(): void {
     if (this.searchKeyword.trim() !== '') {
@@ -152,6 +153,9 @@ export class CalendarListComponent implements OnInit {
   toggleFormVisibility() {
     this.showForm = !this.showForm;
     this.showTable = !this.showForm;
+    if (this.showForm) {
+      this.eventModal.loggedInUser = this.loggedInUser; // Pass logged-in user's information to the modal
+    }
   }
 
   closeForm() {

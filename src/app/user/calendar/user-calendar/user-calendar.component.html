@@ -1,2 +1,3 @@
-<full-calendar [options]="UserCalendarOptions"></full-calendar>
-<app-user-event-modal (eventAdded)="addEvent($event)"></app-user-event-modal> <!-- Ensure this is correct -->
+<full-calendar [options]="calendarOptions"></full-calendar>
+<app-user-event-modal (modalClosed)="handleModalClosed()"
+(eventSubmitted)="handleEventSubmitted()">></app-user-event-modal> <!-- Ensure this is correct -->

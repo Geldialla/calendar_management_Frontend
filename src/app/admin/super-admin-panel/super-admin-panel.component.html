@@ -2,7 +2,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3 class="ml-2">Welcome, {{ loggedInUser?.first_name }}!</h3> <!-- Welcome message inside the dropdown toggle -->
+            <h3 class="ml-2">Welcome,<br>  {{ firstName }} {{ lastName }}!</h3>
         </div>
 
         <ul class="list-unstyled components">
@@ -71,14 +71,14 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-user"></i> <!-- Profile icon -->
                             </a>
-                         
+
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">My Profile</a>
                                 <a class="dropdown-item" href="#">My Events</a>
                                 <a class="dropdown-item" href="#">Change Password</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" routerLink="/Login">Logout</a>
+                                <a class="dropdown-item" (click)="logout()" href="#">Logout</a>
                             </div>
                         </li>
                     </ul>

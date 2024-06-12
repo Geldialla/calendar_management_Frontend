@@ -1,5 +1,9 @@
 <div class="calendar-container">
-    <full-calendar [options]="ManagerCalendarOptions"></full-calendar>
-    <app-manager-event-modal (eventAdded)="addEvent($event)"></app-manager-event-modal> <!-- Ensure this is correct -->
+    <full-calendar [options]="calendarOptions"></full-calendar>
+    <app-manager-event-modal 
+  (modalClosed)="handleModalClosed()"
+  (eventSubmitted)="handleEventSubmitted()">
+</app-manager-event-modal>
+
   </div>
   

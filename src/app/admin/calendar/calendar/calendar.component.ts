@@ -1,3 +1,4 @@
+// calendar.component.ts
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -12,19 +13,20 @@ import { AuthService } from 'src/app/auth.service';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-
   @ViewChild(EventModalComponent) eventModal!: EventModalComponent;
   calendarOptions!: CalendarOptions;
-  calendarComponent: any;
+  loggedInUser: any;
 
   constructor(private http: HttpClient, private authService: AuthService) { }
+  
 
   ngOnInit(): void {
-    const date = new Date();
-    const d = date.getDate();
-    const m = date.getMonth();
-    const y = date.getFullYear();
+    this.loggedInUser = this.authService.getLoggedInUser();
+    this.initializeCalendarOptions();
+    this.fetchEvents();
+  }
 
+  initializeCalendarOptions(): void {
     this.calendarOptions = {
       plugins: [dayGridPlugin, interactionPlugin],
       headerToolbar: {
@@ -37,84 +39,57 @@ export class CalendarComponent implements OnInit {
       events: [],
       dateClick: this.handleDateClick.bind(this),
       eventClick: this.handleEventClick.bind(this),
-      eventDidMount: this.handleEventMount.bind(this) // Use eventDidMount instead of eventRender
+      eventContent: this.renderEventContent.bind(this) // Use eventContent instead of eventDidMount
     };
+  }
 
-    // Fetch events from the backend
+  fetchEvents(): void {
     this.http.get("http://localhost:8085/api/calendar_event_table/")
       .subscribe((resultData: any) => {
-        // Convert the backend data to FullCalendar event format
         const events = resultData.data.map((event: any) => ({
+          id: event.id, // Ensure to map the event id
           title: event.event_name,
           start: event.start_date,
           end: event.end_date,
-          allDay: true // Ensure allDay is set to true for single-day events
+          allDay: event.all_day // Ensure allDay is set based on the event data
         }));
 
-        // Add the fetched events to the calendar options
         this.calendarOptions.events = events;
       });
   }
 
-  refreshCalendar() {
-    // Fetch events from the backend
-    this.http.get("http://localhost:8085/api/calendar_event_table/")
-      .subscribe((resultData: any) => {
-        // Convert the backend data to FullCalendar event format
-        const events = resultData.data.map((event: any) => ({
-          title: event.event_name,
-          start: event.start_date,
-          end: event.end_date,
-          allDay: true // Ensure allDay is set to true for single-day events
-        }));
-  
-        // Update the events in the calendar options
-        this.calendarOptions.events = events;
-  
-        // Refetch the events and render them on the calendar
-        const calendarApi = this.calendarComponent.getApi();
-        calendarApi.removeAllEvents(); // Remove all existing events from the calendar
-        calendarApi.addEventSource(events); // Add the updated events to the calendar
-      });
-  }
-  
-  
-
-  handleDateClick(arg: { dateStr: string; }) {
+  handleDateClick(arg: { dateStr: string; }): void {
     this.eventModal.eventStart = arg.dateStr;
     this.eventModal.eventEnd = '';
     this.eventModal.eventTitle = '';
     this.eventModal.show(); // Implement show method in EventModalComponent to display the modal
   }
 
-  handleEventClick(arg: { event: { title: string; start: Date | null; end: Date | null; }; }) {
+  handleEventClick(arg: { event: { id: string; title: string; start: Date | null; end: Date | null; }; }): void {
     const eventTitle = arg.event.title;
-    const eventStart = arg.event.start ? arg.event.start.toLocaleString() : 'N/A';
-    const eventEnd = arg.event.end ? arg.event.end.toLocaleString() : 'N/A';
+    const eventStart = arg.event.start ? this.formatDate(arg.event.start) : 'N/A';
+    const eventEnd = arg.event.end ? this.formatDate(arg.event.end) : 'N/A'; // Check if end time exists
 
-    // Construct the HTML content for the modal dialog
     const modalContent = `
-     <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-primary text-white border-0 d-flex justify-content-center align-items-center">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow">
+          <div class="modal-header bg-primary text-white border-0 d-flex justify-content-center align-items-center">
             <h4 class="modal-title mb-0">${eventTitle}</h4>
             <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">&times;</span>
             </button>
-        </div>
-        <div class="modal-body">
+          </div>
+          <div class="modal-body">
             <p class="mb-0"><strong>Start Time:</strong> ${eventStart}</p>
-            <p class="mb-0"><strong>End Time:</strong> ${eventEnd}</p>
-        </div>
-        <div class="modal-footer border-0">
+            <p class="mb-0"><strong>End Time:</strong> ${eventEnd}</p> <!-- Display end time -->
+          </div>
+          <div class="modal-footer border-0">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
         </div>
-    </div>
-</div>
- `;
+      </div>
+    `;
 
-
-    // Create a modal element and append the content
     const modalElement = document.createElement('div');
     modalElement.classList.add('modal');
     modalElement.setAttribute('tabindex', '-1');
@@ -123,42 +98,75 @@ export class CalendarComponent implements OnInit {
     modalElement.setAttribute('aria-hidden', 'true');
     modalElement.innerHTML = modalContent;
 
-    // Append the modal to the document body
     document.body.appendChild(modalElement);
-
-    // Show the modal
     modalElement.classList.add('show');
     modalElement.style.display = 'block';
 
-    // Remove the modal from the DOM when it's closed
     modalElement.addEventListener('click', function () {
-        modalElement.remove();
+      modalElement.remove();
     });
-}
+  }
 
+  formatDate(date: Date): string {
+    return date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+  }
 
-
-  handleEventMount(info: { event: EventApi; el: HTMLElement; }) {
+  renderEventContent(info: { event: EventApi, timeText: string }) {
     const title = info.event.title;
     const startTime = info.event.start ? info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
     const endTime = info.event.end ? info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
-    const element = info.el;
-    element.innerHTML = `
-      <div class="fc-content" style="background-color: orange; color: white;">
-        <span class="fc-time">${startTime} - ${endTime}</span>
-        <span class="fc-title">${title}</span>
-      </div>
-    `;
+    return {
+      html: `
+        <div style="width: 100%; background: linear-gradient(135deg, #FF8C00, #FFA500); color: white; padding: 8px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <div style="font-size: 14px; font-weight: bold;">${title}</div>
+    <div style="font-size: 12px;">${startTime} - ${endTime}</div>
+</div>
+
+      `
+    };
   }
 
   addEvent(event: { title: string, start: string, end: string, createdBy: string, createdDate: string }) {
-    this.calendarOptions.events = [...(this.calendarOptions.events as any), {
+    const newEvent = {
       title: event.title,
       start: event.start,
       end: event.end,
       createdBy: event.createdBy,
       createdDate: event.createdDate
-    }];
+    };
+  
+    // this.http.post("http://localhost:8085/api/calendar_event_table/add", newEvent)
+    //   .subscribe(() => {
+    //     this.fetchEvents(); // Refresh events after adding
+    //   });
+  }
+  
+
+  refreshCalendar(): void {
+    this.fetchEvents(); // Fetch events again
+  }
+  
+
+  // deleteEvent(eventId: string) {
+  //   this.http.delete(`http://localhost:8085/api/calendar_event_table/delete/${eventId}`)
+  //     .subscribe(() => {
+  //       this.refreshCalendar(); // Refresh events after deleting
+  //     });
+  // }
+
+  // updateEvent(eventId: string, updatedEvent: { title: string, start: string, end: string, allDay: boolean }) {
+  //   this.http.put(`http://localhost:8085/api/calendar_event_table/update/${eventId}`, updatedEvent)
+  //     .subscribe(() => {
+  //       this.refreshCalendar(); // Refresh events after deleting
+  //     });
+  // }
+
+  handleModalClosed(): void {
+    this.refreshCalendar(); // Refresh calendar when modal is closed
+  }
+
+  handleEventSubmitted(): void {
+    this.refreshCalendar(); // Refresh calendar when event is submitted
   }
 }
