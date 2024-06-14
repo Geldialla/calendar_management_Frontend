@@ -20,6 +20,7 @@ import { UserCalendarComponent } from './user/calendar/user-calendar/user-calend
 import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
 import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
+import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 
 const routes: Routes = [
   {
@@ -70,6 +71,10 @@ const routes: Routes = [
       {
         path: 'View-Calendar',
         component: CalendarListComponent,
+      },
+      {
+        path: 'Email',
+        component: EmailSenderComponent,
       },
     ]
   },

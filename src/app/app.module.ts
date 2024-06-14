@@ -34,6 +34,8 @@ import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.com
 import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-dashboard.component';
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
+import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
+import { EmailService } from './admin/email-sender/email.service';
 
 
 @NgModule({
@@ -61,6 +63,7 @@ import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/c
     ManagerDashboardComponent,
     UserDashboardComponent,
     CalendarListComponent,
+    EmailSenderComponent,
   ],
   imports: [
     BrowserModule,
