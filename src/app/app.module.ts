@@ -35,7 +35,6 @@ import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-d
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
-import { EmailService } from './admin/email-sender/email.service';
 
 
 @NgModule({
@@ -63,7 +62,7 @@ import { EmailService } from './admin/email-sender/email.service';
     ManagerDashboardComponent,
     UserDashboardComponent,
     CalendarListComponent,
-    EmailSenderComponent,
+    EmailSenderComponent
   ],
   imports: [
     BrowserModule,
