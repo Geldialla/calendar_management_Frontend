@@ -21,6 +21,8 @@ import { UserEventModalComponent } from './user/calendar/user-event-modal/user-e
 import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
+import { ImageListComponent } from './admin/image/image-list/image-list.component';
+import { AddEditImageComponent } from './admin/image/add-edit-image/add-edit-image.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,14 @@ const routes: Routes = [
       {
         path: 'Email',
         component: EmailSenderComponent,
+      },
+      {
+        path: 'images',
+        component: ImageListComponent,
+      },
+      {
+        path: 'imagesaa',
+        component: AddEditImageComponent,
       },
     ]
   },

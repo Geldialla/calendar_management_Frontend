@@ -1,6 +1,5 @@
-// event-modal.component.ts
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Output, ElementRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/auth.service';
 
@@ -9,7 +8,7 @@ import { AuthService } from 'src/app/auth.service';
   templateUrl: './event-modal.component.html',
   styleUrls: ['./event-modal.component.css']
 })
-export class EventModalComponent {
+export class EventModalComponent implements OnInit {
   CalendarArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
@@ -32,24 +31,23 @@ export class EventModalComponent {
   @Output() modalClosed = new EventEmitter<void>();
   @Output() eventSubmitted = new EventEmitter<void>();
 
-
   constructor(private http: HttpClient, private snackBar: MatSnackBar, private authService: AuthService) {
     this.getAllEvents();
     this.getAllCalendarEvents();
-    this.getLoggedInUser()
   }
 
   ngOnInit(): void {
     this.getAllEvents();
     this.getAllCalendarEvents();
-    this.loggedInUser = this.authService.getLoggedInUser();
+    this.getLoggedInUser();
   }
 
   getLoggedInUser() {
     this.firstName = localStorage.getItem('loggedInUserFirstName');
     this.lastName = localStorage.getItem('loggedInUserLastName');
+    this.loggedInUser = { firstName: this.firstName, lastName: this.lastName };
+    console.log('Logged in user:', this.loggedInUser);  // Debugging line
   }
-  
 
   getAllCalendarEvents() {
     this.http.get("http://localhost:8085/api/calendar_event_table/")
@@ -66,10 +64,10 @@ export class EventModalComponent {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
-      "createdBy": `${this.firstName} ${this.lastName}`, // Corrected
+      "createdBy": `${this.firstName} ${this.lastName}`,
       "createdDate": createdDate
     };
-  
+
     this.http.post("http://localhost:8085/api/calendar_event_table/add", bodyData)
       .subscribe((resultData: any) => {
         this.snackBar.open('Event Registered Successfully', 'Close', {
@@ -79,7 +77,7 @@ export class EventModalComponent {
         this.getAllCalendarEvents();
       });
   }
-  
+
   deleteRecord(data: any) {
     this.http.delete("http://localhost:8085/api/calendar_event_table/delete" + "/" + data.id)
       .subscribe((resultData) => {
@@ -97,7 +95,7 @@ export class EventModalComponent {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
-      "createdBy": `${this.firstName} ${this.lastName}`, // Corrected
+      "createdBy": `${this.firstName} ${this.lastName}`,
       "createdDate": createdDate
     };
   }
@@ -126,6 +124,44 @@ export class EventModalComponent {
     this.modalClosed.emit(); // Emit event when modal is closed
   }
 
+  sendEmail(eventData: { title: string; start: string; end: string; createdBy: string; createdDate: string }) {
+    const formattedStartDate = new Date(eventData.start).toLocaleString();
+    const formattedEndDate = new Date(eventData.end).toLocaleString();
+    const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
+  
+    const emailData = {
+      email: 'geldi.alla@idracompany.com',  // You can dynamically set this or get it from user input
+      subject: `New Event Created: ${eventData.title}`,
+      message: `
+        <p>An event has been created with the following details:</p>
+        <p><strong>Title:</strong> ${eventData.title}</p>
+        <p><strong>Start:</strong> ${formattedStartDate}</p>
+        <p><strong>End:</strong> ${formattedEndDate}</p>
+        <p><strong>Created By:</strong> ${eventData.createdBy}</p>
+        <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
+      `
+    };
+  
+    this.http.post<any>('http://localhost:8085/send-email', emailData)
+      .subscribe(
+        response => {
+          console.log('Email sent successfully:', response);
+          this.snackBar.open('Email sent successfully', 'Close', {
+            duration: 6000,
+            panelClass: ['success-snackbar']
+          });
+        },
+        error => {
+          console.error('Error sending email:', error);
+          this.snackBar.open('Error sending email', 'Close', {
+            duration: 6000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      );
+  }
+  
+
   onSubmit() {
     if (!this.event_name || !this.start_date || !this.end_date) {
       this.snackBar.open('Please fill in all required fields', 'Close', {
@@ -134,32 +170,32 @@ export class EventModalComponent {
       });
       return;
     }
-  
-    // Convert string dates to Date objects
+
     const startDate = new Date(this.start_date);
     const endDate = new Date(this.end_date);
-  
-    // Check if the conversion was successful
+
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      // Handle invalid dates
       console.error('Invalid date format');
       return;
     }
-  
+
     const createdBy = this.loggedInUser ? `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}` : 'Unknown User';
     const createdDate = new Date().toISOString();
-  
-    this.eventAdded.emit({
+
+    const eventData = {
       title: this.event_name,
       start: startDate.toISOString(),
       end: endDate.toISOString(),
       createdBy: createdBy,
       createdDate: createdDate
-    });
+    };
+
+    this.eventAdded.emit(eventData);
     this.closeModal();
     this.save();
-    this.modalClosed.emit(); // Emit event when modal is closed
-  }
+    this.modalClosed.emit();
 
-  
+    // Send the email with event data
+    this.sendEmail(eventData);
+  }
 }

@@ -15,8 +15,9 @@
 
                                 <div class="form-group">
                                     <label>employee_name</label>
-                                    <input type="text" [(ngModel)]="employee_name" name="employee_name"
-                                        class="form-control" id="employee_name">
+                                    <select class="form-control" [(ngModel)]="employee_name" name="employee_name">
+                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{ user.first_name }} {{ user.last_name }}</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Role</label>
@@ -27,13 +28,13 @@
                                 <div class="form-group">
                                     <label>Supervisor</label>
                                     <select class="form-control" [(ngModel)]="employee_supervisor" name="employee_supervisor">
-                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{ user.first_name }}</option>
+                                        <option *ngFor="let user of UserArray" [value]="user.first_name">{{ user.first_name }} {{ user.last_name }}</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>employee_name</label>
-                                    <input type="text" [(ngModel)]="employee_image" name="employee_image"
-                                        class="form-control" id="employee_image">
+                                    <label>Employee Image</label>
+                                    <input type="image" [(ngModel)]="employee_image" name="employee_image" class="form-control" id="employee_image">
+
                                 </div>
                                 
                                 <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
