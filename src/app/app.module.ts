@@ -37,6 +37,11 @@ import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/c
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 import { ImageListComponent } from './admin/image/image-list/image-list.component';
 import { AddEditImageComponent } from './admin/image/add-edit-image/add-edit-image.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+
 
 
 @NgModule({
@@ -80,7 +85,12 @@ import { AddEditImageComponent } from './admin/image/add-edit-image/add-edit-ima
     MatIconModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    FullCalendarModule, // Import FullCalendarModule without calling forRoot
+    FullCalendarModule, 
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

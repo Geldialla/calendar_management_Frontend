@@ -79,11 +79,11 @@ const routes: Routes = [
         component: EmailSenderComponent,
       },
       {
-        path: 'images',
+        path: 'Library',
         component: ImageListComponent,
       },
       {
-        path: 'imagesaa',
+        path: 'Library-Add',
         component: AddEditImageComponent,
       },
     ]

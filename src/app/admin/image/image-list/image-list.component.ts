@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageService } from '../image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/api/images/image.service';
 
 @Component({
   selector: 'app-image-list',

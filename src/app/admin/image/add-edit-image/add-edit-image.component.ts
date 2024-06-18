@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ImageService } from '../image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/api/images/image.service';
 
 @Component({
   selector: 'app-add-edit-image',
@@ -12,42 +12,53 @@ export class AddEditImageComponent implements OnInit {
   imageForm!: FormGroup;
   selectedFile: File | null = null;
 
-  constructor(private fb: FormBuilder, private imageService: ImageService, private snackBar: MatSnackBar) {}
+  constructor(
+    private fb: FormBuilder,
+    private imageService: ImageService,
+    private snackBar: MatSnackBar
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.imageForm = this.fb.group({
       image: [null, Validators.required]
     });
   }
 
-  onFileSelected(event: Event) {
+  onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
     }
   }
 
-  onSubmit() {
-    if (this.imageForm.valid && this.selectedFile) {
-      const fd = new FormData();
-      fd.append('image', this.selectedFile, this.selectedFile.name);
+  removeSelectedFile(): void {
+    this.imageForm.get('image')?.setValue(null);
+    this.selectedFile = null;
+  }
 
-      this.imageService.uploadImage(fd)
-        .subscribe(
-          () => {
-            this.snackBar.open('Image uploaded successfully.', 'Close', {
-              duration: 6000,
-              panelClass: ['success-snackbar']
-            });
-          },
-          error => {
-            console.error('Error uploading image:', error);
-            this.snackBar.open('Error uploading image. Please try again.', 'Close', {
-              duration: 6000,
-              panelClass: ['error-snackbar']
-            });
-          }
-        );
+  onSubmit(): void {
+    if (this.imageForm.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('image', this.selectedFile, this.selectedFile.name);
+
+      this.imageService.uploadImage(formData).subscribe(
+        () => {
+          this.snackBar.open('Image uploaded successfully.', 'Close', {
+            duration: 6000,
+            panelClass: ['success-snackbar']
+          });
+          this.imageForm.reset(); // Reset the form
+          this.selectedFile = null; // Clear selected file
+        },
+        error => {
+          this.snackBar.open('Image uploaded successfully', 'Close', {
+            duration: 6000,
+            panelClass: ['success-snackbar']
+          });
+          this.imageForm.reset(); // Reset the form
+          this.selectedFile = null; // Clear selected file
+        }
+      );
     }
   }
 }
