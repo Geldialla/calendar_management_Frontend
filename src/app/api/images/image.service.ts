@@ -21,15 +21,17 @@ export class ImageService {
       );
   }
 
-  deleteImage(imageId: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${imageId}`)
-      .pipe(
-        catchError(error => {
-          console.error('Error deleting image:', error);
-          return throwError(error);
-        })
-      );
-  }
+  // image.service.ts
+deleteImage(filename: string): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/${filename}`)
+    .pipe(
+      catchError(error => {
+        console.error('Error deleting image:', error);
+        return throwError(error);
+      })
+    );
+}
+
 
   uploadImage(fd: FormData): Observable<any> {
     return this.http.post('http://localhost:8085/upload', fd)

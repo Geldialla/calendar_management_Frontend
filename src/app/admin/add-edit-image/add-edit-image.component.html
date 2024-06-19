@@ -1,0 +1,64 @@
+<div class="container-fluid mt-6">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Image Table</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="showForm">
+            <!-- Your form code goes here -->
+            <div class="container-fluid mt-6">
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5 class="card-title">Image Upload</h5>
+                    </div>
+                    <div class="card-body">
+                      <form [formGroup]="imageForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+                        <div class="form-group row">
+                          <label for="fileInput" class="col-sm-2 col-form-label">Select Image</label>
+                          <div class="col-sm-6">
+                            <input type="file" id="fileInput" (change)="onFileSelected($event)" formControlName="image"
+                              class="form-control">
+                            <div *ngIf="imageForm.get('image')?.invalid && imageForm.get('image')?.touched"
+                              class="invalid-feedback">
+                              Please choose an image file.
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <button type="button" class="btn btn-outline-secondary float-right" (click)="goBack()">Go
+                              Back</button>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <button type="submit" [disabled]="!imageForm.valid" class="btn btn-primary">
+                            Upload Image
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="showImages">
+            <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Add New Image</button>
+            <div class="image-list">
+              <div *ngFor="let image of images" class="image-item">
+                <img [src]="'http://localhost:8085/uploads/' + image.image_path" alt="Image">
+                <button (click)="deleteImage(image.image_path)" class="delete-button">Delete</button>
+              </div>
+            </div>
+
+            <mat-paginator [length]="images.length" [pageSize]="pageSize" (page)="pageChanged($event)"></mat-paginator>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

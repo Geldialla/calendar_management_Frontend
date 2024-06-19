@@ -1,8 +1,0 @@
-<!-- image-list.component.html -->
-<div class="image-list">
-    <div *ngFor="let image of images" class="image-item">
-      <img [src]="'http://localhost:8085/uploads/' + image.image_path" alt="Image">
-      <button (click)="deleteImage(image.id)" class="delete-button">Delete</button>
-    </div>
-  </div>
-  

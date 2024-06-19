@@ -35,8 +35,7 @@ import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-d
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
-import { ImageListComponent } from './admin/image/image-list/image-list.component';
-import { AddEditImageComponent } from './admin/image/add-edit-image/add-edit-image.component';
+import { AddEditImageComponent } from './admin/add-edit-image/add-edit-image.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -70,7 +69,6 @@ import { MatCardModule } from '@angular/material/card';
     UserDashboardComponent,
     CalendarListComponent,
     EmailSenderComponent,
-    ImageListComponent,
     AddEditImageComponent
   ],
   imports: [
