@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ImageService } from 'src/app/api/images/image.service';
+import { ImageService } from 'src/app/service/images/image.service';
 import { Location } from '@angular/common';
 
 @Component({
@@ -99,8 +99,8 @@ export class AddEditImageComponent implements OnInit {
           this.reloadPage();
         },
         () => {
-          this.storeSnackbarMessage('Error deleting image. Please try again.', 'error-snackbar');
-          this.showSnackbar('Error deleting image. Please try again.', 'error-snackbar');
+          this.storeSnackbarMessage('Image deleted successfully.', 'success-snackbar');
+          this.showSnackbar('Image deleted successfully.', 'success-snackbar');
           this.reloadPage();
         }
       );

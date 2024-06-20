@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
 import { EventModalComponent } from '../event-modal/event-modal.component';
+import { CalendarService } from 'src/app/service/calendar/calendar.service';
 
 @Component({
   selector: 'app-calendar-list',
@@ -31,17 +31,20 @@ export class CalendarListComponent implements OnInit {
   pageIndex = 1; // Current page index
   pagedRoleArray: any[] = []; // Array to hold the paged items
 
-  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar, private authService: AuthService) {
-    this.getAllRoles();
+  constructor(
+    private calendarService: CalendarService,
+    private snackBar: MatSnackBar,
+    private authService: AuthService) {
+    this.getAllCalendar();
   }
 
   ngOnInit(): void {
-    this.getAllRoles();
+    this.getAllCalendar();
     this.loggedInUser = this.authService.getLoggedInUser();
   }
 
-  getAllRoles() {
-    this.http.get("http://localhost:8085/api/calendar_event_table/")
+  getAllCalendar() {
+    this.calendarService.getAllCalendar()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.RoleArray = resultData.data;
@@ -59,9 +62,9 @@ export class CalendarListComponent implements OnInit {
     }
   }
 
-  register() {
+  addCalendar() {
     const createdDate = new Date().toISOString();
-    let bodyData = {
+    let calendar = {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
@@ -69,33 +72,33 @@ export class CalendarListComponent implements OnInit {
       "createdDate": createdDate
     };
 
-    this.http.post("http://localhost:8085/api/calendar_event_table/add", bodyData)
+    this.calendarService.addCalendar(calendar)
       .subscribe((resultData: any) => {
         this.snackBar.open('Event Registered Successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllRoles();
+        this.getAllCalendar();
         this.clearFormData();
         this.showTable = true;
         this.showForm = false;
       });
   }
 
-  deleteRecord(data: any) {
-    this.http.delete("http://localhost:8085/api/calendar_event_table/delete" + "/" + data.id)
+  deleteRecord(calendar: any) {
+    this.calendarService.deleteCalendar(calendar.id)
       .subscribe((resultData) => {
         this.snackBar.open('Event Deleted Successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllRoles();
+        this.getAllCalendar();
       });
   }
 
   updateRecords() {
     const createdDate = new Date().toISOString();
-    let bodyData = {
+    let calendar = {
       "event_name": this.event_name,
       "start_date": this.start_date,
       "end_date": this.end_date,
@@ -103,20 +106,20 @@ export class CalendarListComponent implements OnInit {
       "createdDate": createdDate
     };
 
-    this.http.put("http://localhost:8085/api/calendar_event_table/update" + "/" + this.currentCalendarID, bodyData)
+    this.calendarService.updateCalendar(this.currentCalendarID, calendar)
       .subscribe((resultData: any) => {
         this.snackBar.open('Event Updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllRoles();
+        this.getAllCalendar();
         this.showForm = false;
       });
   }
 
   save() {
     if (this.currentCalendarID === '') {
-      this.register();
+      this.addCalendar();
     } else {
       this.updateRecords();
     }

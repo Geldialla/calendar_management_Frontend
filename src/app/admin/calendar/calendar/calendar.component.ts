@@ -4,8 +4,8 @@ import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventModalComponent } from './event-modal/event-modal.component';
-import { HttpClient } from '@angular/common/http';
-import { AuthService } from 'src/app/auth.service';
+import { CalendarService } from 'src/app/service/calendar/calendar.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-calendar',
@@ -17,8 +17,8 @@ export class CalendarComponent implements OnInit {
   calendarOptions!: CalendarOptions;
   loggedInUser: any;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
-  
+  constructor(private calendarService: CalendarService, private authService: AuthService) { }
+
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
@@ -44,7 +44,7 @@ export class CalendarComponent implements OnInit {
   }
 
   fetchEvents(): void {
-    this.http.get("http://localhost:8085/api/calendar_event_table/")
+    this.calendarService.getAllCalendar()
       .subscribe((resultData: any) => {
         const events = resultData.data.map((event: any) => ({
           id: event.id, // Ensure to map the event id
@@ -135,32 +135,14 @@ export class CalendarComponent implements OnInit {
       createdBy: event.createdBy,
       createdDate: event.createdDate
     };
-  
-    // this.http.post("http://localhost:8085/api/calendar_event_table/add", newEvent)
-    //   .subscribe(() => {
-    //     this.fetchEvents(); // Refresh events after adding
-    //   });
+
+
   }
-  
 
   refreshCalendar(): void {
     this.fetchEvents(); // Fetch events again
   }
-  
 
-  // deleteEvent(eventId: string) {
-  //   this.http.delete(`http://localhost:8085/api/calendar_event_table/delete/${eventId}`)
-  //     .subscribe(() => {
-  //       this.refreshCalendar(); // Refresh events after deleting
-  //     });
-  // }
-
-  // updateEvent(eventId: string, updatedEvent: { title: string, start: string, end: string, allDay: boolean }) {
-  //   this.http.put(`http://localhost:8085/api/calendar_event_table/update/${eventId}`, updatedEvent)
-  //     .subscribe(() => {
-  //       this.refreshCalendar(); // Refresh events after deleting
-  //     });
-  // }
 
   handleModalClosed(): void {
     this.refreshCalendar(); // Refresh calendar when modal is closed

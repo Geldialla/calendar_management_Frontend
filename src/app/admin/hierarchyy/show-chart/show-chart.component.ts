@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HierarchyyService } from 'src/app/service/hierarchyy/hierarchyy.service';
 
 interface Employee {
   employee_name: string;
@@ -20,7 +21,7 @@ export class ShowChartComponent implements OnInit {
   empArr: Employee[] = [];
   hierarchy: Employee | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private hierarchyyService: HierarchyyService) {}
 
   ngOnInit(): void {
     this.fetchEmployees();
@@ -28,7 +29,7 @@ export class ShowChartComponent implements OnInit {
 
   fetchEmployees() {
     this.isLoading = true;
-    this.http.get("http://localhost:8085/api/hierarchy_table/")
+    this.hierarchyyService.getAllHierarchyy()
       .subscribe((resultData: any) => {
         this.empArr = resultData.data;
         console.log(this.empArr);  // Log fetched data

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { EventService } from 'src/app/service/events/event.service';
 
 @Component({
   selector: 'app-calendar-event',
@@ -18,7 +18,10 @@ export class CalendarEventComponent  {
   event_name: string = '';
   currentEventID = '';
 
-  constructor(private router: Router, private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private eventService : EventService,
+    private snackBar: MatSnackBar
+  ) {
     this.getAllEvents();
   }
   
@@ -29,7 +32,7 @@ export class CalendarEventComponent  {
   }
 
   getAllEvents() {
-    this.http.get("http://localhost:8085/api/event_table/")
+    this.eventService.getAllEvents()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         console.log(resultData.data);
@@ -51,11 +54,11 @@ export class CalendarEventComponent  {
 }
 
 register() {
-  let bodyData = {
+  let event = {
     "event_name": this.event_name,
   };
 
-  this.http.post("http://localhost:8085/api/event_table/add", bodyData)
+  this.eventService.addEvents(event)
     .pipe(
       catchError(error => {
         console.error('Error registering Event:', error);
@@ -82,8 +85,8 @@ register() {
     });
 }
 
-deleteRecord(data: any) {
-  this.http.delete("http://localhost:8085/api/event_table/delete" + "/" + data.id)
+updateEvents(event: any) {
+  this.eventService.deleteEvents(event.id)
     .subscribe((resultData) => {
       console.log(resultData);
       this.snackBar.open('Event Deleted Successfully', 'Close', {
@@ -95,11 +98,11 @@ deleteRecord(data: any) {
 }
 
 updateRecords() {
-  let bodyData = {
+  let event = {
     "event_name": this.event_name,
   };
 
-  this.http.put("http://localhost:8085/api/event_table/update" + "/" + this.currentEventID, bodyData)
+  this.eventService.updateEvents(this.currentEventID, event)
     .subscribe((resultData: any) => {
       console.log(resultData);
       this.snackBar.open('Event Updated successfully', 'Close', {
@@ -136,7 +139,7 @@ setDelete(data: any) {
     duration: 6000,
     panelClass: ['confirm-snackbar']
   }).onAction().subscribe(() => {
-    this.deleteRecord(data);
+    this.updateEvents(data);
   });
 }
 

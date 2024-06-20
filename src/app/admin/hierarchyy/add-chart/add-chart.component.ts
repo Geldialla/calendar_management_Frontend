@@ -4,8 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { ImageSelectionModalComponent } from '../../add-edit-image/image-selection-modal/image-selection-modal.component';
-import { ImageService } from 'src/app/api/images/image.service';
+import { ImageSelectionModalComponent } from '../image-selection-modal/image-selection-modal.component';
+import { ImageService } from 'src/app/service/images/image.service';
+import { HierarchyyService } from 'src/app/service/hierarchyy/hierarchyy.service';
+import { RolesService } from 'src/app/service/roles/roles.service';
+import { UserService } from 'src/app/service/users/users.service';
 
 @Component({
   selector: 'app-add-chart',
@@ -27,25 +30,27 @@ export class AddChartComponent {
   currentHierarchyID = '';
 
   constructor(
-    private http: HttpClient, 
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private yourService: ImageService
+    private imageService: ImageService,
+    private hierarchyyService: HierarchyyService,
+    private roleServise: RolesService,
+    private userService: UserService,
   ) {
-    this.getAllHierarchy();
+    this.getAllHierarchyy();
     this.getAllRoles();
     this.getAllUsers();
   }
 
   ngOnInit(): void {
-    this.getAllHierarchy();
+    this.getAllHierarchyy();
     this.updatePagedArray();
     this.getAllRoles();
     this.getAllUsers();
   }
 
-  getAllHierarchy() {
-    this.http.get("http://localhost:8085/api/hierarchy_table/")
+  getAllHierarchyy() {
+    this.hierarchyyService.getAllHierarchyy()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.HierarchyArray = resultData.data;
@@ -54,7 +59,7 @@ export class AddChartComponent {
   }
 
   getAllUsers() {
-    this.http.get("http://localhost:8085/api/users_table/")
+    this.userService.getAllUsers()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.UserArray = resultData.data;
@@ -63,7 +68,7 @@ export class AddChartComponent {
   }
 
   getAllRoles() {
-    this.http.get("http://localhost:8085/api/role_table/")
+    this.roleServise.getAllRoles()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.RoleArray = resultData.data;
@@ -81,15 +86,15 @@ export class AddChartComponent {
     }
   }
 
-  register() {
-    let bodyData = {
+  addHierarchyy() {
+    let hierarchy = {
       "employee_name": this.employee_name,
       "employee_role": this.employee_role,
       "employee_supervisor": this.employee_supervisor,
       "employee_image": this.employee_image, // Ensure this is just the image name
     };
   
-    this.http.post("http://localhost:8085/api/hierarchy_table/add", bodyData)
+    this.hierarchyyService.addHierarchyy(hierarchy)
       .pipe(
         catchError(error => {
           console.error('Error registering Employee:', error);
@@ -101,7 +106,7 @@ export class AddChartComponent {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllHierarchy();
+        this.getAllHierarchyy();
         this.clearFormData();
         this.showTable = true;
         this.updatePagedArray();
@@ -115,41 +120,40 @@ export class AddChartComponent {
   }
   
 
-  deleteRecord(data: any) {
-    this.http.delete("http://localhost:8085/api/hierarchy_table/delete" + "/" + data.id)
+  deleteHierarchyy(hierarchy: any) {
+    this.hierarchyyService.deleteHierarchyy(hierarchy.id)
       .subscribe((resultData) => {
         this.snackBar.open('Employee Deleted Successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllHierarchy();
+        this.getAllHierarchyy();
       });
   }
 
-  updateRecords() {
-    let bodyData = {
+  updateHierarchyy() {
+    let hierarchy = {
       "employee_name": this.employee_name,
       "employee_role": this.employee_role,
       "employee_supervisor": this.employee_supervisor,
       "employee_image": this.employee_image,
     };
 
-    this.http.put("http://localhost:8085/api/hierarchy_table/update" + "/" + this.currentHierarchyID, bodyData)
-      .subscribe((resultData: any) => {
+    this.hierarchyyService.updateHierarchyy(this.currentHierarchyID, hierarchy).subscribe((resultData: any) => {
         this.snackBar.open('Employee Updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
-        this.getAllHierarchy();
+        this.getAllHierarchyy();
         this.showForm = false;
       });
   }
 
   save() {
     if (this.currentHierarchyID === '') {
-      this.register();
+      this.addHierarchyy();
     } else {
-      this.updateRecords();
+      this.updateHierarchyy();
     }
     this.clearFormData();
     this.showTable = true;
@@ -169,7 +173,7 @@ export class AddChartComponent {
       duration: 6000,
       panelClass: ['confirm-snackbar']
     }).onAction().subscribe(() => {
-      this.deleteRecord(data);
+      this.deleteHierarchyy(data);
     });
   }
 
@@ -233,7 +237,7 @@ export class AddChartComponent {
 
   saveSelectedImage(imageName: string) {
     if (this.currentHierarchyID) {
-      this.yourService.updateEmployeeImage(this.currentHierarchyID, imageName).subscribe(
+      this.imageService.updateEmployeeImage(this.currentHierarchyID, imageName).subscribe(
         response => {
           console.log('Employee image updated successfully:', response);
         },

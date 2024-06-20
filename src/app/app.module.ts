@@ -40,7 +40,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { ImageSelectionModalComponent } from './admin/add-edit-image/image-selection-modal/image-selection-modal.component';
+import { ImageSelectionModalComponent } from './admin/hierarchyy/image-selection-modal/image-selection-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 

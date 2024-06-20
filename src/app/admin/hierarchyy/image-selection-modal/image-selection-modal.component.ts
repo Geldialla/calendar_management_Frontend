@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ImageService } from 'src/app/api/images/image.service';
+import { ImageService } from 'src/app/service/images/image.service';
 
 @Component({
   selector: 'app-image-selection-modal',

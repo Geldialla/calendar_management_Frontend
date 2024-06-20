@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
-  private baseUrl = 'http://localhost:8085/images';
+  private baseUrl = `${environment.apiBaseUrl}/images`;
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +35,7 @@ deleteImage(filename: string): Observable<any> {
 
 
   uploadImage(fd: FormData): Observable<any> {
-    return this.http.post('http://localhost:8085/upload', fd)
+    return this.http.post(`${environment.apiBaseUrl}/upload`, fd)
       .pipe(
         catchError(error => {
           console.error('Error uploading image:', error);

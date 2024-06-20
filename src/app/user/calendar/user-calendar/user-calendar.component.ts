@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { UserEventModalComponent } from '../user-event-modal/user-event-modal.component';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from 'src/app/auth.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
 
 @Component({
   selector: 'app-user-calendar',
