@@ -42,6 +42,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { ImageSelectionModalComponent } from './admin/hierarchyy/image-selection-modal/image-selection-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MyProfileComponent } from './admin/super-admin-panel/navbarDropdown/my-profile/my-profile.component';
+import { MyEventsComponent } from './admin/super-admin-panel/navbarDropdown/my-events/my-events.component';
+import { ChangePassComponent } from './admin/super-admin-panel/navbarDropdown/change-pass/change-pass.component';
 
 
 
@@ -72,7 +75,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     CalendarListComponent,
     EmailSenderComponent,
     AddEditImageComponent,
-    ImageSelectionModalComponent
+    ImageSelectionModalComponent,
+    MyProfileComponent,
+    MyEventsComponent,
+    ChangePassComponent
   ],
   imports: [
     BrowserModule,

@@ -20,7 +20,14 @@ export class AuthService {
     this.isLoggedIn = true;
     this.loggedInUser = {
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      phone_number: user.phone_number,
+      country: user.country,
+      address: user.address,
+      status: user.status,
+      role: user.role,
     };
     // Save user information in localStorage for persistence
     localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
@@ -45,4 +52,14 @@ export class AuthService {
     // Retrieve logged-in user's full name
     return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
   }
+
+  changePassword(currentPassword: string, newPassword: string): boolean {
+    if (this.loggedInUser && this.loggedInUser.password === currentPassword) {
+      this.loggedInUser.password = newPassword;
+      localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
+      return true;
+    }
+    return false;
+  }
+
 }

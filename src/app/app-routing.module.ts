@@ -22,6 +22,9 @@ import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/c
 import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 import { AddEditImageComponent } from './admin/add-edit-image/add-edit-image.component';
+import { ChangePassComponent } from './admin/super-admin-panel/navbarDropdown/change-pass/change-pass.component';
+import { MyEventsComponent } from './admin/super-admin-panel/navbarDropdown/my-events/my-events.component';
+import { MyProfileComponent } from './admin/super-admin-panel/navbarDropdown/my-profile/my-profile.component';
 
 const routes: Routes = [
   {
@@ -80,6 +83,18 @@ const routes: Routes = [
       {
         path: 'Library-Add',
         component: AddEditImageComponent,
+      },
+      {
+        path: 'MyProfile',
+        component: MyProfileComponent,
+      },
+      {
+        path: 'MyEvents',
+        component: MyEventsComponent,
+      },
+      {
+        path: 'ChangePassword',
+        component: ChangePassComponent,
       },
     ]
   },

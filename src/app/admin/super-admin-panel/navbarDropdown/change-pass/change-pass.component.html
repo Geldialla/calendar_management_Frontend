@@ -1,0 +1,20 @@
+<!-- change-password.component.html -->
+<div class="change-password-container">
+    <h2>Change Password</h2>
+    <form (ngSubmit)="onSubmit()" #changePasswordForm="ngForm">
+      <div class="form-group">
+        <label for="currentPassword">Current Password</label>
+        <input type="password" id="currentPassword" required [(ngModel)]="currentPassword" name="currentPassword" #currentPasswordInput="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" id="newPassword" required [(ngModel)]="newPassword" name="newPassword" #newPasswordInput="ngModel">
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm New Password</label>
+        <input type="password" id="confirmPassword" required [(ngModel)]="confirmPassword" name="confirmPassword" #confirmPasswordInput="ngModel">
+      </div>
+      <button type="submit" [disabled]="!changePasswordForm.form.valid">Change Password</button>
+    </form>
+  </div>
+  
