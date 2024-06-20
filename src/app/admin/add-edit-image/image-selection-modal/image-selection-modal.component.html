@@ -1,0 +1,11 @@
+<p>image-selection-modal works!</p>
+<h1>Select an Image</h1>
+<div class="image-list">
+  <div *ngFor="let image of images" class="image-item">
+    <img [src]="'http://localhost:8085/uploads/' + image.image_path" alt="Image" (click)="selectImage(image.image_path)">
+  </div>
+</div>
+<div class="modal-footer">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [disabled]="!selectedImage" (click)="onConfirm()">Confirm</button>
+</div>

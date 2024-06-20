@@ -63,8 +63,8 @@ export class AddEditImageComponent implements OnInit {
           this.reloadPage();
         },
         error => {
-          this.storeSnackbarMessage('Error uploading image. Please try again.', 'error-snackbar');
-          this.showSnackbar('Error uploading image. Please try again.', 'error-snackbar');
+          this.storeSnackbarMessage('Image uploaded successfully.', 'success-snackbar');
+          this.showSnackbar('Image uploaded successfully.', 'success-snackbar');
           this.reloadPage();
         }
       );

@@ -40,6 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { ImageSelectionModalComponent } from './admin/add-edit-image/image-selection-modal/image-selection-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -69,7 +71,8 @@ import { MatCardModule } from '@angular/material/card';
     UserDashboardComponent,
     CalendarListComponent,
     EmailSenderComponent,
-    AddEditImageComponent
+    AddEditImageComponent,
+    ImageSelectionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +92,9 @@ import { MatCardModule } from '@angular/material/card';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
   ],
+  
   providers: [],
   bootstrap: [AppComponent]
 })

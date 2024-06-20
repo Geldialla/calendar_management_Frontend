@@ -1,0 +1,52 @@
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .close-button {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .modal-body {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .image-item {
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  
+  .image-item.selected {
+    border-color: blue;
+  }
+  
+  .image-item img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .modal-footer button {
+    margin-left: 10px;
+  }
+  

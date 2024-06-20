@@ -42,4 +42,11 @@ deleteImage(filename: string): Observable<any> {
         })
       );
   }
+
+  updateEmployeeImage(employeeId: string, imageName: string): Observable<any> {
+    const url = `${this.baseUrl}/updateEmployeeImage`; // Adjust the URL if necessary
+    const body = { employeeId, employee_image: imageName };
+    return this.http.post(url, body);
+  }
+
 }

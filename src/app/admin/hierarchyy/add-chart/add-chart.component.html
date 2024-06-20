@@ -37,10 +37,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Employee Image</label>
-                                    <input type="image" [(ngModel)]="employee_image" name="employee_image"
-                                        class="form-control" id="employee_image">
-
-                                </div>
+                                    <button type="button" class="btn btn-outline-secondary" (click)="openImageSelectionModal()">Select Image</button>
+                                    <div *ngIf="employee_image">
+                                      <img [src]="'http://localhost:8085/uploads/' + employee_image" alt="Selected Image" class="selected-image">
+                                    </div>
+                                  </div>
+                                  
 
                                 <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
                             </form>
