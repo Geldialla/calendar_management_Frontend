@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { UserService } from '../users/users.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private isLoggedIn = false;
-  private loggedInUser: any; // Store logged-in user's information
+  private loggedInUser: any;
 
-  constructor() {
-    // Retrieve logged-in user from local storage on service initialization
+  constructor(private http: HttpClient, private userService: UserService) {
     const user = localStorage.getItem('loggedInUser');
     if (user) {
       this.isLoggedIn = true;
@@ -19,8 +22,9 @@ export class AuthService {
   login(user: any) {
     this.isLoggedIn = true;
     this.loggedInUser = {
-      firstName: user.firstName,
-      lastName: user.lastName,
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
       email: user.email,
       password: user.password,
       phone_number: user.phone_number,
@@ -29,14 +33,13 @@ export class AuthService {
       status: user.status,
       role: user.role,
     };
-    // Save user information in localStorage for persistence
     localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
   }
 
   logout() {
     this.isLoggedIn = false;
     this.loggedInUser = null;
-    localStorage.removeItem('loggedInUser'); // Remove user information from localStorage on logout
+    localStorage.removeItem('loggedInUser');
   }
 
   isAuthenticated(): boolean {
@@ -44,22 +47,31 @@ export class AuthService {
   }
 
   getLoggedInUser(): any {
-    // Retrieve logged-in user information from the property
     return this.loggedInUser;
   }
 
   getLoggedInUserName(): string {
-    // Retrieve logged-in user's full name
-    return `${this.loggedInUser.firstName} ${this.loggedInUser.lastName}`;
+    return `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`;
   }
 
-  changePassword(currentPassword: string, newPassword: string): boolean {
+  changePassword(currentPassword: string, newPassword: string): Observable<boolean> {
     if (this.loggedInUser && this.loggedInUser.password === currentPassword) {
       this.loggedInUser.password = newPassword;
-      localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
-      return true;
-    }
-    return false;
-  }
+      console.log('Updating user with ID:', this.loggedInUser.id);
+      console.log('User details before update:', this.loggedInUser);
 
+      return this.userService.updateUser(this.loggedInUser.id, this.loggedInUser).pipe(
+        map(() => {
+          localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
+          return true;
+        }),
+        catchError((error) => {
+          console.error('Error updating password:', error);
+          return throwError(error);
+        })
+      );
+    } else {
+      return throwError(new Error('Current password is incorrect'));
+    }
+  }
 }

@@ -45,6 +45,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MyProfileComponent } from './admin/super-admin-panel/navbarDropdown/my-profile/my-profile.component';
 import { MyEventsComponent } from './admin/super-admin-panel/navbarDropdown/my-events/my-events.component';
 import { ChangePassComponent } from './admin/super-admin-panel/navbarDropdown/change-pass/change-pass.component';
+import { MyProfileUserComponent } from './user/user-panel/navbarDropdown/my-profile-user/my-profile-user.component';
+import { MyEventsUserComponent } from './user/user-panel/navbarDropdown/my-events-user/my-events-user.component';
+import { ChangePassUserComponent } from './user/user-panel/navbarDropdown/change-pass-user/change-pass-user.component';
 
 
 
@@ -78,7 +81,10 @@ import { ChangePassComponent } from './admin/super-admin-panel/navbarDropdown/ch
     ImageSelectionModalComponent,
     MyProfileComponent,
     MyEventsComponent,
-    ChangePassComponent
+    ChangePassComponent,
+    MyProfileUserComponent,
+    MyEventsUserComponent,
+    ChangePassUserComponent
   ],
   imports: [
     BrowserModule,
