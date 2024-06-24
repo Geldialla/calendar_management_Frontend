@@ -53,6 +53,7 @@ export class AuthService {
   getLoggedInUserName(): string {
     return `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`;
   }
+  
 
   changePassword(currentPassword: string, newPassword: string): Observable<boolean> {
     if (this.loggedInUser && this.loggedInUser.password === currentPassword) {
