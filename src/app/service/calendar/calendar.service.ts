@@ -1,7 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+// calendar.service.ts
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +12,7 @@ import { environment } from 'src/environments/environment.development';
 export class CalendarService {
 
   private calendarUrl = `${environment.apiBaseUrl}/api/calendar_event_table`;
+  private approveEventUrl = `${environment.apiBaseUrl}/approve-event`; // Updated URL
 
   constructor(private http: HttpClient) { }
 
@@ -32,7 +36,7 @@ export class CalendarService {
       );
   }
 
-  updateCalendar(roleId: string,role: any) {
+  updateCalendar(roleId: string, role: any): Observable<any> {
     return this.http.put<any>(`${this.calendarUrl}/update/${roleId}`, role)
       .pipe(
         catchError(error => {
@@ -53,7 +57,7 @@ export class CalendarService {
   }
 
   getEventsByCreatedBy(createdBy: string): Observable<any[]> {
-    const params = new HttpParams().set('createdBy', createdBy);
+    const params = { createdBy }; // Simplified for query params
     return this.http.get<any[]>(this.calendarUrl, { params })
       .pipe(
         catchError(error => {
@@ -63,6 +67,13 @@ export class CalendarService {
       );
   }
 
-
-
+  approveEvent(eventId: string): Observable<any> {
+    return this.http.get<any>(`${this.approveEventUrl}/${eventId}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error approving event:', error);
+          return throwError(error);
+        })
+      );
+  }
 }

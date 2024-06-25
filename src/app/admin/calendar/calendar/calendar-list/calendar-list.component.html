@@ -53,6 +53,7 @@
                 </tr>
               </thead>
               <tbody>
+                <!-- Table rows -->
                 <tr *ngFor="let RoleItem of pagedRoleArray; let i = index">
                   <th scope="row">{{ (pageIndex - 1) * pageSize + i + 1 }}</th>
                   <td>{{ RoleItem.event_name }}</td>
@@ -63,6 +64,15 @@
                   <td>
                     <button class="btn btn-outline-primary btn-sm" (click)="setUpdate(RoleItem)">Edit</button>
                     <button class="btn btn-outline-danger btn-sm" (click)="setDelete(RoleItem)">Delete</button>
+                    <button class="btn btn-sm"
+                      [ngClass]="{
+                        'btn-outline-success': RoleItem.approved,
+                        'btn-outline-danger': !RoleItem.approved && RoleItem.approved !== undefined,
+                        'btn-outline-warning': RoleItem.approved === undefined
+                      }"
+                      (click)="toggleApprovalStatus(RoleItem)">
+                      {{ RoleItem.approved ? 'Disapprove' : 'Approve' }}
+                    </button>
                   </td>
                 </tr>
               </tbody>

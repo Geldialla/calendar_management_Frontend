@@ -49,7 +49,7 @@ export class EventModalComponent implements OnInit {
     console.log('Logged in user:', this.loggedInUser);  // Debugging line
   }
 
-  getAllCalendarEvents() {
+  getAllCalendarEvents(): void {
     this.http.get("http://localhost:8085/api/calendar_event_table/")
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
@@ -59,24 +59,57 @@ export class EventModalComponent implements OnInit {
 
   register() {
     const createdDate = new Date().toISOString();
-
+  
+    // Parse start_date and end_date into Date objects
+    const startDate = new Date(this.start_date as Date);
+    const endDate = new Date(this.end_date as Date);
+  
     let bodyData = {
       "event_name": this.event_name,
-      "start_date": this.start_date,
-      "end_date": this.end_date,
+      "start_date": startDate,
+      "end_date": endDate,
       "createdBy": `${this.firstName} ${this.lastName}`,
-      "createdDate": createdDate
+      "createdDate": createdDate,
+      "approved": "waiting"  // Set approved to "waiting"
     };
-
+  
     this.http.post("http://localhost:8085/api/calendar_event_table/add", bodyData)
       .subscribe((resultData: any) => {
-        this.snackBar.open('Event Registered Successfully', 'Close', {
+        if (resultData.status) {
+          this.snackBar.open('Event Registered Successfully', 'Close', {
+            duration: 6000,
+            panelClass: ['success-snackbar']
+          });
+          this.getAllCalendarEvents();
+  
+          // Transform bodyData to match the expected type
+          const emailData = {
+            title: bodyData.event_name,
+            start: startDate.toISOString(),
+            end: endDate.toISOString(),
+            createdBy: bodyData.createdBy,
+            createdDate: bodyData.createdDate,
+            eventId: resultData.eventId
+          };
+  
+          // Send the email with event data and event ID
+          this.sendEmail(emailData);
+        } else {
+          this.snackBar.open('Failed to register event', 'Close', {
+            duration: 6000,
+            panelClass: ['error-snackbar']
+          });
+        }
+      },
+      (error) => {
+        console.error('Error registering event:', error);
+        this.snackBar.open('Failed to register event', 'Close', {
           duration: 6000,
-          panelClass: ['success-snackbar']
+          panelClass: ['error-snackbar']
         });
-        this.getAllCalendarEvents();
       });
   }
+  
 
   deleteRecord(data: any) {
     this.http.delete("http://localhost:8085/api/calendar_event_table/delete" + "/" + data.id)
@@ -124,7 +157,7 @@ export class EventModalComponent implements OnInit {
     this.modalClosed.emit(); // Emit event when modal is closed
   }
 
-  sendEmail(eventData: { title: string; start: string; end: string; createdBy: string; createdDate: string }) {
+  sendEmail(eventData: { title: string; start: string; end: string; createdBy: string; createdDate: string; eventId: number }) {
     const formattedStartDate = new Date(eventData.start).toLocaleString();
     const formattedEndDate = new Date(eventData.end).toLocaleString();
     const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
@@ -139,7 +172,8 @@ export class EventModalComponent implements OnInit {
         <p><strong>End:</strong> ${formattedEndDate}</p>
         <p><strong>Created By:</strong> ${eventData.createdBy}</p>
         <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
-      `
+        <br>`,
+      eventId: eventData.eventId  // Include eventId
     };
   
     this.http.post<any>('http://localhost:8085/send-email', emailData)
@@ -194,8 +228,5 @@ export class EventModalComponent implements OnInit {
     this.closeModal();
     this.save();
     this.modalClosed.emit();
-
-    // Send the email with event data
-    this.sendEmail(eventData);
   }
 }

@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+// calendar-list.component.ts
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
@@ -14,7 +15,6 @@ export class CalendarListComponent implements OnInit {
   @ViewChild(EventModalComponent) eventModal!: EventModalComponent;
   RoleArray: any[] = [];
   isResultLoaded = false;
-  isUpdateFormActive = false;
   searchKeyword: string = '';
   loggedInUser: any;
   loggedInUserName: string | undefined;
@@ -34,22 +34,21 @@ export class CalendarListComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private snackBar: MatSnackBar,
-    private authService: AuthService) {
+    private authService: AuthService
+  ) {
     this.getAllCalendar();
   }
 
   ngOnInit(): void {
-    this.getAllCalendar();
     this.loggedInUser = this.authService.getLoggedInUser();
   }
 
   getAllCalendar() {
-    this.calendarService.getAllCalendar()
-      .subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.RoleArray = resultData.data;
-        this.updatePagedArray();
-      });
+    this.calendarService.getAllCalendar().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.RoleArray = resultData.data;
+      this.updatePagedArray();
+    });
   }
 
   search(): void {
@@ -65,56 +64,54 @@ export class CalendarListComponent implements OnInit {
   addCalendar() {
     const createdDate = new Date().toISOString();
     let calendar = {
-      "event_name": this.event_name,
-      "start_date": this.start_date,
-      "end_date": this.end_date,
-      "createdBy": `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
-      "createdDate": createdDate
+      event_name: this.event_name,
+      start_date: this.start_date,
+      end_date: this.end_date,
+      createdBy: `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
+      createdDate: createdDate,
+      approved: false // Default approval status
     };
 
-    this.calendarService.addCalendar(calendar)
-      .subscribe((resultData: any) => {
-        this.snackBar.open('Event Registered Successfully', 'Close', {
-          duration: 6000,
-          panelClass: ['success-snackbar']
-        });
-        this.getAllCalendar();
-        this.clearFormData();
-        this.showTable = true;
-        this.showForm = false;
+    this.calendarService.addCalendar(calendar).subscribe((resultData: any) => {
+      this.snackBar.open('Event Registered Successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
       });
+      this.getAllCalendar();
+      this.clearFormData();
+      this.showTable = true;
+      this.showForm = false;
+    });
   }
 
   deleteRecord(calendar: any) {
-    this.calendarService.deleteCalendar(calendar.id)
-      .subscribe((resultData) => {
-        this.snackBar.open('Event Deleted Successfully', 'Close', {
-          duration: 6000,
-          panelClass: ['success-snackbar']
-        });
-        this.getAllCalendar();
+    this.calendarService.deleteCalendar(calendar.id).subscribe(() => {
+      this.snackBar.open('Event Deleted Successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
       });
+      this.getAllCalendar();
+    });
   }
 
   updateRecords() {
     const createdDate = new Date().toISOString();
     let calendar = {
-      "event_name": this.event_name,
-      "start_date": this.start_date,
-      "end_date": this.end_date,
-      "createdBy": `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
-      "createdDate": createdDate
+      event_name: this.event_name,
+      start_date: this.start_date,
+      end_date: this.end_date,
+      createdBy: `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
+      createdDate: createdDate
     };
 
-    this.calendarService.updateCalendar(this.currentCalendarID, calendar)
-      .subscribe((resultData: any) => {
-        this.snackBar.open('Event Updated successfully', 'Close', {
-          duration: 6000,
-          panelClass: ['success-snackbar']
-        });
-        this.getAllCalendar();
-        this.showForm = false;
+    this.calendarService.updateCalendar(this.currentCalendarID, calendar).subscribe(() => {
+      this.snackBar.open('Event Updated successfully', 'Close', {
+        duration: 6000,
+        panelClass: ['success-snackbar']
       });
+      this.getAllCalendar();
+      this.showForm = false;
+    });
   }
 
   save() {
@@ -151,6 +148,28 @@ export class CalendarListComponent implements OnInit {
     this.currentCalendarID = data.id;
     this.showForm = true;
     this.showTable = false;
+  }
+
+  toggleApprovalStatus(event: any) {
+    event.approved = !event.approved; // Toggle approved status
+    this.calendarService.updateCalendar(event.id, event).subscribe(
+      () => {
+        this.snackBar.open('Approval status updated successfully', 'Close', {
+          duration: 6000,
+          panelClass: ['success-snackbar']
+        });
+        this.getAllCalendar();
+      },
+      error => {
+        console.error('Error updating approval status:', error);
+        this.snackBar.open('Failed to update approval status', 'Close', {
+          duration: 6000,
+          panelClass: ['error-snackbar']
+        });
+        // Revert the change if update fails (optional)
+        event.approved = !event.approved;
+      }
+    );
   }
 
   toggleFormVisibility() {

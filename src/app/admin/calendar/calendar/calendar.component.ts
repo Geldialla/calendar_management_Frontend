@@ -1,4 +1,5 @@
 // calendar.component.ts
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -6,6 +7,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { EventModalComponent } from './event-modal/event-modal.component';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-calendar',
@@ -17,8 +20,12 @@ export class CalendarComponent implements OnInit {
   calendarOptions!: CalendarOptions;
   loggedInUser: any;
 
-  constructor(private calendarService: CalendarService, private authService: AuthService) { }
-
+  constructor(
+    private calendarService: CalendarService,
+    private authService: AuthService,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
@@ -47,25 +54,26 @@ export class CalendarComponent implements OnInit {
     this.calendarService.getAllCalendar()
       .subscribe((resultData: any) => {
         const events = resultData.data.map((event: any) => ({
-          id: event.id, // Ensure to map the event id
+          id: event.id,
           title: event.event_name,
           start: event.start_date,
           end: event.end_date,
-          allDay: event.all_day // Ensure allDay is set based on the event data
+          allDay: event.all_day,
+          approved: event.approved // Add approved property
         }));
 
         this.calendarOptions.events = events;
       });
   }
 
-  handleDateClick(arg: { dateStr: string; }): void {
+  handleDateClick(arg: { dateStr: string }): void {
     this.eventModal.eventStart = arg.dateStr;
     this.eventModal.eventEnd = '';
     this.eventModal.eventTitle = '';
     this.eventModal.show(); // Implement show method in EventModalComponent to display the modal
   }
 
-  handleEventClick(arg: { event: { id: string; title: string; start: Date | null; end: Date | null; }; }): void {
+  handleEventClick(arg: { event: { id: string; title: string; start: Date | null; end: Date | null } }): void {
     const eventTitle = arg.event.title;
     const eventStart = arg.event.start ? this.formatDate(arg.event.start) : 'N/A';
     const eventEnd = arg.event.end ? this.formatDate(arg.event.end) : 'N/A'; // Check if end time exists
@@ -111,23 +119,40 @@ export class CalendarComponent implements OnInit {
     return date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
   }
 
-  renderEventContent(info: { event: EventApi, timeText: string }) {
+  renderEventContent(info: { event: EventApi; timeText: string }): { html: string } {
     const title = info.event.title;
     const startTime = info.event.start ? info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
     const endTime = info.event.end ? info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
+    let backgroundColor = '#FFA500'; // Default orange color for pending events
+    if (info.event.extendedProps['approved']) {
+      backgroundColor = '#32CD32'; // Green color for approved events
+    } else if (info.event.extendedProps['approved'] === false) {
+      backgroundColor = '#FF6347'; // Red color for declined events
+    }
+
     return {
       html: `
-        <div style="width: 100%; background: linear-gradient(135deg, #FF8C00, #FFA500); color: white; padding: 8px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-    <div style="font-size: 14px; font-weight: bold;">${title}</div>
-    <div style="font-size: 12px;">${startTime} - ${endTime}</div>
-</div>
-
+        <div style="width: 100%; background: ${backgroundColor}; color: white; padding: 8px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+          <div style="font-size: 14px; font-weight: bold;">${title}</div>
+          <div style="font-size: 12px;">${startTime} - ${endTime}</div>
+        </div>
       `
     };
   }
 
-  addEvent(event: { title: string, start: string, end: string, createdBy: string, createdDate: string }) {
+  approveEvent(currentCalendarID: string): void {
+    this.calendarService.approveEvent(currentCalendarID)
+      .subscribe(() => {
+        console.log('Event approved successfully');
+        this.refreshCalendar(); // Refresh calendar after approval
+      }, error => {
+        console.error('Error approving event:', error);
+        // Handle error as needed
+      });
+  }
+
+  addEvent(event: { title: string, start: string, end: string, createdBy: string, createdDate: string }): void {
     const newEvent = {
       title: event.title,
       start: event.start,
@@ -136,13 +161,12 @@ export class CalendarComponent implements OnInit {
       createdDate: event.createdDate
     };
 
-
+    // Implement logic to add event if needed
   }
 
   refreshCalendar(): void {
     this.fetchEvents(); // Fetch events again
   }
-
 
   handleModalClosed(): void {
     this.refreshCalendar(); // Refresh calendar when modal is closed
@@ -152,3 +176,4 @@ export class CalendarComponent implements OnInit {
     this.refreshCalendar(); // Refresh calendar when event is submitted
   }
 }
+

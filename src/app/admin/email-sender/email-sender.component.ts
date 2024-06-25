@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { EmailService } from 'src/app/service/email/email.service';
 
 @Component({
   selector: 'app-email-sender',
@@ -12,25 +12,20 @@ export class EmailSenderComponent {
   message: string = '';
   responseMessage: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private emailService: EmailService) { }
 
-  sendEmail() {
-    const emailData = {
-      email: this.email,
-      subject: this.subject,
-      message: this.message
-    };
-
-    this.http.post<any>('http://localhost:8085/send-email', emailData)
+  sendEmail(): void {
+    this.emailService.sendEmail(this.email, this.subject, this.message)
       .subscribe(
         response => {
           console.log('Email sent successfully:', response);
-          this.responseMessage = response.message;
+          // Handle success message or further actions if needed
         },
         error => {
           console.error('Error sending email:', error);
-          this.responseMessage = `Error: ${error.message}`;
+          // Handle error message or display to user
         }
       );
   }
+
 }
