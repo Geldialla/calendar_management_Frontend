@@ -97,6 +97,7 @@ a:focus {
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
+    background: #6d7fcc;
 }
 
 a[data-toggle="collapse"] {
@@ -165,4 +166,84 @@ a.article:hover {
     #sidebarCollapse span {
         display: none;
     }
+}
+
+/* Profile Dropdown */
+.navbar-nav .nav-item .dropdown-menu {
+    right: 0;
+    left: auto;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.navbar-nav .nav-item .dropdown-menu a.dropdown-item {
+    color: #333;
+    font-weight: 500;
+    padding: 10px 20px;
+}
+
+.navbar-nav .nav-item .dropdown-menu a.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.navbar-nav .nav-item .dropdown-menu .dropdown-divider {
+    margin: 5px 0;
+}
+
+.navbar-nav .nav-item .dropdown-menu a.dropdown-item i {
+    margin-right: 10px;
+}
+
+/* Profile Dropdown - User Icon */
+.navbar-nav .nav-item .dropdown-menu .user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #6d7fcc;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    margin-left: 20px;
+}
+
+.navbar-nav .nav-item .dropdown-menu .user-icon i {
+    font-size: 20px;
+}
+
+/* Profile Dropdown - Username */
+.navbar-nav .nav-item .dropdown-menu .username {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.navbar-nav .nav-item .dropdown-menu .user-email {
+    font-size: 14px;
+    color: #999;
+}
+
+
+/* Style for the Weather Widget */
+.weather {
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.weather p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.weather img {
+    max-width: 50px; /* Adjust size as needed */
+    margin-top: 5px;
 }

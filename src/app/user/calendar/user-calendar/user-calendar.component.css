@@ -1,0 +1,16 @@
+.modal-title {
+    font-size: 1.5rem;
+    /* Adjust the size as needed */
+    margin-right: auto;
+    /* Pushes the close button to the right */
+}
+
+
+/* Example of overriding .fc-h-event styles */
+:host ::ng-deep .fc-h-event {
+    background-color: none !important; /* or set your desired background color */
+    border: none !important; /* or set your desired background color */
+    border-radius: 20px !important; /* or set your desired background color */
+    /* Add other necessary styles */
+  }
+  

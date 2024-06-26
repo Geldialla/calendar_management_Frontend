@@ -3,11 +3,11 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 import { UserService } from 'src/app/service/users/users.service';
 
 @Component({
-  selector: 'app-my-profile-user',
-  templateUrl: './my-profile-user.component.html',
-  styleUrls: ['./my-profile-user.component.css']
+  selector: 'app-my-profile-manager',
+  templateUrl: './my-profile-manager.component.html',
+  styleUrls: ['./my-profile-manager.component.css']
 })
-export class MyProfileUserComponent implements OnInit {
+export class MyProfileManagerComponent implements OnInit {
   UserArray: any[] = [];
   loggedInUser: any;
   userProfile: any;
@@ -18,40 +18,19 @@ export class MyProfileUserComponent implements OnInit {
     private userService: UserService
   ) { }
 
-  // ngOnInit(): void {
-  //   this.loggedInUser = this.authService.getLoggedInUser();
-  
-  //   this.userService.getAllUsers().subscribe(
-  //     (users: any[]) => {
-  //       console.log('Fetched users:', users); // Debugging log
-  
-  //       this.UserArray = users as any[]; // Ensure UserArray is correctly assigned
-  
-  //       this.userProfile = this.UserArray.find(user => user.email === this.loggedInUser.email);
-  
-  //       if (!this.userProfile) {
-  //         this.errorMessage = 'User not found in the database.';
-  //       }
-  //     },
-  //     error => {
-  //       console.error('Error fetching users:', error);
-  //       this.errorMessage = 'Error fetching users from API.';
-  //     }
-  //   );
-  // }
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
-    
+
     this.userService.getAllUsers().subscribe(
       (response: any) => {
         console.log('API Response:', response); // Debugging log
-    
+
         if (response.status === true && Array.isArray(response.data)) {
           this.UserArray = response.data;
-    
+
           this.userProfile = this.UserArray.find(user => user.email === this.loggedInUser.email);
-    
+
           if (!this.userProfile) {
             this.errorMessage = 'User not found in the database.';
           }
@@ -65,6 +44,7 @@ export class MyProfileUserComponent implements OnInit {
       }
     );
   }
-  
-  
+
+
 }
+

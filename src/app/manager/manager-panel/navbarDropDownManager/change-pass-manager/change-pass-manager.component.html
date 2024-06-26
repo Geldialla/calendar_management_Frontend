@@ -1,0 +1,35 @@
+<div class="content-container">
+    <div class="change-password-container">
+      <div class="form-group">
+        <label for="currentPassword">Current Password</label>
+        <div class="password-input">
+          <input [type]="showCurrentPassword ? 'text' : 'password'" id="currentPassword" [(ngModel)]="currentPassword" name="currentPassword" required>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <div class="password-input">
+          <input [type]="showNewPassword ? 'text' : 'password'" id="newPassword" [(ngModel)]="newPassword" name="newPassword" required (input)="validatePassword()">
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-input">
+          <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        </div>
+      </div>
+  
+      <div class="password-requirements">
+        <p [style.color]="passwordRequirements.length ? '#49c922' : '#5e5353'">At least 8 characters</p>
+        <p [style.color]="passwordRequirements.uppercase ? '#49c922' : '#5e5353'">At least one uppercase letter</p>
+        <p [style.color]="passwordRequirements.number ? '#49c922' : '#5e5353'">At least one number</p>
+        <p [style.color]="passwordRequirements.specialChar ? '#49c922' : '#5e5353'">At least one special character</p>
+        <p [style.color]="newPassword === confirmPassword ? '#49c922' : '#5e5353'">Passwords match</p>
+      </div>
+  
+      <button type="button" class="submit-button" (click)="onSubmit()">Change Password</button>
+    </div>
+  </div>
+  

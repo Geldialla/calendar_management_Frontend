@@ -1,0 +1,48 @@
+<div class="profile-container" *ngIf="userProfile; else noUser">
+    <div class="profile-card">
+      <div class="profile-header">
+        <h2 class="profile-heading">My Profile</h2>
+      </div>
+      <div class="profile-body">
+        <div class="profile-item">
+          <div class="profile-label">First Name:</div>
+          <div class="profile-value">{{ userProfile.first_name }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Last Name:</div>
+          <div class="profile-value">{{ userProfile.last_name }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Email:</div>
+          <div class="profile-value">{{ userProfile.email }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Phone Number:</div>
+          <div class="profile-value">{{ userProfile.phone_number }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Country:</div>
+          <div class="profile-value">{{ userProfile.country }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Address:</div>
+          <div class="profile-value">{{ userProfile.address }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Status:</div>
+          <div class="profile-value">{{ userProfile.status }}</div>
+        </div>
+        <div class="profile-item">
+          <div class="profile-label">Role:</div>
+          <div class="profile-value">{{ userProfile.role }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ng-template #noUser>
+    <div class="error-container">
+      <p class="error-message">{{ errorMessage }}</p>
+    </div>
+  </ng-template>
+  

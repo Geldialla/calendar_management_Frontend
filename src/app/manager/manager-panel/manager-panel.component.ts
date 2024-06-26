@@ -13,7 +13,11 @@ export class ManagerPanelComponent implements OnInit {
   firstName: string | null = null;
   lastName: string | null = null;
 
-  constructor(private elRef: ElementRef, private router: Router, private authService: AuthService) { }
+  constructor(
+    private elRef: ElementRef,
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     // Get logged-in user information

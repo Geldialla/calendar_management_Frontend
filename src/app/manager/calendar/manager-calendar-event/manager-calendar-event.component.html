@@ -1,0 +1,87 @@
+<!-- calendar-list.component.html -->
+<div class="container-fluid mt-6">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Event Management</h5>
+          </div>
+          <div class="card-body">
+            <div *ngIf="showForm">
+              <form (ngSubmit)="save()" style="width: 50%; margin: 0 auto;">
+                <a class="btn btn-outline-secondary float-right mb-1" (click)="goBack()">Go Back</a>
+                <div class="form-group">
+                  <label>Event Name</label>
+                  <input type="text" [(ngModel)]="event_name" name="event_name" class="form-control" id="event_name"
+                    required>
+                </div>
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="datetime-local" [(ngModel)]="start_date" name="start_date" class="form-control"
+                    id="start_date" required>
+                </div>
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="datetime-local" [(ngModel)]="end_date" name="end_date" class="form-control" id="end_date">
+                </div>
+                <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
+              </form>
+            </div>
+            <div *ngIf="showTable">
+              <div class="d-flex justify-content-between mb-2">
+                <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New Event</button>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="searchKeyword"
+                    (input)="search()">
+                </div>
+              </div>
+              <table class="table table-striped table-bordered table-hover" style="width: 100%;">
+                <thead>
+                  <tr *ngIf="!isResultLoaded">
+                    <th colspan="10">
+                      <h1>Loading...</h1>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Created By</th>
+                    <th scope="col">Created Date</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Table rows -->
+                  <tr *ngFor="let RoleItem of pagedRoleArray; let i = index">
+                    <th scope="row">{{ (pageIndex - 1) * pageSize + i + 1 }}</th>
+                    <td>{{ RoleItem.event_name }}</td>
+                    <td>{{ RoleItem.start_date | date: 'medium' }}</td>
+                    <td>{{ RoleItem.end_date | date: 'medium' }}</td>
+                    <td>{{ RoleItem.createdBy }}</td>
+                    <td>{{ RoleItem.createdDate | date: 'medium' }}</td>
+                    <td>
+                      <!-- <button class="btn btn-outline-primary btn-sm" (click)="setUpdate(RoleItem)">Edit</button> -->
+                      <button class="btn btn-outline-danger btn-sm" (click)="setDelete(RoleItem)">Delete</button>
+                      <button class="btn btn-sm"
+                        [ngClass]="{
+                          'btn-outline-danger': RoleItem.approved,
+                          'btn-outline-success': !RoleItem.approved && RoleItem.approved !== undefined,
+                          'btn-outline-warning': RoleItem.approved === undefined
+                        }"
+                        (click)="toggleApprovalStatus(RoleItem)">
+                        {{ RoleItem.approved ? 'Disapprove' : 'Approve' }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator [length]="RoleArray.length" [pageSize]="pageSize"
+                (page)="pageChanged($event)"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

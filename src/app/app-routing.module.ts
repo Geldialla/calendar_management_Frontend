@@ -15,19 +15,21 @@ import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
 import { UserCalendarComponent } from './user/calendar/user-calendar/user-calendar.component';
 import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
-import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 import { AddEditImageComponent } from './admin/add-edit-image/add-edit-image.component';
 import { ChangePassComponent } from './admin/super-admin-panel/navbarDropdown/change-pass/change-pass.component';
 import { MyEventsComponent } from './admin/super-admin-panel/navbarDropdown/my-events/my-events.component';
 import { MyProfileComponent } from './admin/super-admin-panel/navbarDropdown/my-profile/my-profile.component';
-import { MyProfileUserComponent } from './user/user-panel/navbarDropdown/my-profile-user/my-profile-user.component';
-import { MyEventsUserComponent } from './user/user-panel/navbarDropdown/my-events-user/my-events-user.component';
-import { ChangePassUserComponent } from './user/user-panel/navbarDropdown/change-pass-user/change-pass-user.component';
 import { CalendarEventComponent } from './admin/calendar/calendar-event/calendar-event.component';
 import { CalendarListComponent } from './admin/calendar/calendar-list/calendar-list.component';
 import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
 import { LoginComponent } from './login/login.component';
+import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar-event/manager-calendar-event.component';
+import { MyProfileUserComponent } from './user/user-panel/navbarDropDownUser/my-profile-user/my-profile-user.component';
+import { ChangePassUserComponent } from './user/user-panel/navbarDropDownUser/change-pass-user/change-pass-user.component';
+import { MyProfileManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-profile-manager/my-profile-manager.component';
+import { MyEventsManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-events-manager/my-events-manager.component';
+import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDownManager/change-pass-manager/change-pass-manager.component';
 
 const routes: Routes = [
   {
@@ -99,6 +101,7 @@ const routes: Routes = [
         path: 'ChangePassword',
         component: ChangePassComponent,
       },
+      
     ]
   },
   {
@@ -116,6 +119,18 @@ const routes: Routes = [
       {
         path: 'Add-event',
         component: ManagerCalendarEventComponent,
+      },
+      {
+        path: 'MyProfile',
+        component: MyProfileManagerComponent,
+      },
+      {
+        path: 'MyEvents',
+        component: MyEventsManagerComponent,
+      },
+      {
+        path: 'ChangePassword',
+        component: ChangePassManagerComponent,
       },
     ]
   },
@@ -141,11 +156,11 @@ const routes: Routes = [
       },
       {
         path: 'MyProfile',
-        component: MyProfileUserComponent,
+        component: MyProfileComponent,
       },
       {
         path: 'MyEvents',
-        component: MyEventsUserComponent,
+        component: MyProfileUserComponent,
       },
       {
         path: 'ChangePassword',
@@ -153,6 +168,7 @@ const routes: Routes = [
       },
     ]
   },
+
 
 ];
 
