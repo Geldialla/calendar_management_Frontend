@@ -56,4 +56,13 @@ export class UserHierarchyComponent implements OnInit {
     });
     console.log(this.hierarchy);  // Log hierarchy structure
   }
+
+  findSupervisor(employeeName: string): Employee | null {
+    const employee = this.empArr.find(emp => emp.employee_name === employeeName);
+    if (!employee) {
+      return null;
+    }
+    return this.empArr.find(emp => emp.employee_name === employee.employee_supervisor) || null;
+  }
+
 }

@@ -11,7 +11,9 @@ export class AuthService {
   private isLoggedIn = false;
   private loggedInUser: any;
 
-  constructor(private http: HttpClient, private userService: UserService) {
+  constructor(
+    private userService: UserService
+  ) {
     const user = localStorage.getItem('loggedInUser');
     if (user) {
       this.isLoggedIn = true;
@@ -53,7 +55,7 @@ export class AuthService {
   getLoggedInUserName(): string {
     return `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`;
   }
-  
+
 
   changePassword(currentPassword: string, newPassword: string): Observable<boolean> {
     if (this.loggedInUser && this.loggedInUser.password === currentPassword) {
@@ -75,4 +77,5 @@ export class AuthService {
       return throwError(new Error('Current password is incorrect'));
     }
   }
+  
 }

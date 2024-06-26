@@ -3,6 +3,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
 import { EmailService } from 'src/app/service/email/email.service';
 import { EventService } from 'src/app/service/events/event.service';
+import { AuthService } from 'src/app/service/auth/auth.service';
+import { HierarchyyService } from 'src/app/service/hierarchyy/hierarchyy.service';
+import { UserService } from 'src/app/service/users/users.service';
 
 @Component({
   selector: 'app-user-event-modal',
@@ -36,7 +39,10 @@ export class UserEventModalComponent implements OnInit {
     private snackBar: MatSnackBar,
     private calendarService: CalendarService,
     private eventService: EventService,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private authService: AuthService,
+    private hierarchyyService: HierarchyyService,
+    private userService: UserService
   ) {
     this.getAllEvents();
     this.getAllCalendarEvents();
@@ -66,7 +72,6 @@ export class UserEventModalComponent implements OnInit {
   register() {
     const createdDate = new Date().toISOString();
 
-    // Parse start_date and end_date into Date objects
     const startDate = new Date(this.start_date as Date);
     const endDate = new Date(this.end_date as Date);
 
@@ -76,7 +81,7 @@ export class UserEventModalComponent implements OnInit {
       "end_date": endDate,
       "createdBy": `${this.firstName} ${this.lastName}`,
       "createdDate": createdDate,
-      "approved": "waiting"  // Set approved to "waiting"
+      "approved": "waiting"
     };
 
     this.calendarService.addCalendar(bodyData)
@@ -88,7 +93,6 @@ export class UserEventModalComponent implements OnInit {
           });
           this.getAllCalendarEvents();
 
-          // Transform bodyData to match the expected type
           const emailData = {
             title: bodyData.event_name,
             start: startDate.toISOString(),
@@ -98,7 +102,6 @@ export class UserEventModalComponent implements OnInit {
             eventId: resultData.eventId
           };
 
-          // Send the email with event data and event ID
           this.sendEmail(emailData);
         } else {
           this.snackBar.open('Failed to register event', 'Close', {
@@ -115,7 +118,6 @@ export class UserEventModalComponent implements OnInit {
           });
         });
   }
-
 
   deleteRecord(data: any) {
     this.calendarService.deleteCalendar(data.id)
@@ -160,54 +162,93 @@ export class UserEventModalComponent implements OnInit {
 
   closeModal() {
     this.modal.nativeElement.style.display = 'none';
-    this.modalClosed.emit(); // Emit event when modal is closed
+    this.modalClosed.emit(); 
   }
 
   sendEmail(eventData: { title: string; start: string; end: string; createdBy: string; createdDate: string; eventId: number }) {
     const formattedStartDate = new Date(eventData.start).toLocaleString();
     const formattedEndDate = new Date(eventData.end).toLocaleString();
     const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
-
-    const emailData = {
-      email: 'geldi.alla@idracompany.com',  // You can dynamically set this or get it from user input
-      subject: `New Event Created: ${eventData.title}`,
-      message: `
-        <p>An event has been created with the following details:</p>
-        <p><strong>Title:</strong> ${eventData.title}</p>
-        <p><strong>Start:</strong> ${formattedStartDate}</p>
-        <p><strong>End:</strong> ${formattedEndDate}</p>
-        <p><strong>Created By:</strong> ${eventData.createdBy}</p>
-        <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
-        <br>`,
-      eventId: eventData.eventId  // Include eventId
-    };
-
-    // Call sendEmailVerification with all required parameters
-    this.emailService.sendEmailVerification(
-      emailData.email,
-      emailData.subject,
-      emailData.message,
-      emailData.eventId
-    ).subscribe(
-      response => {
-        console.log('Email sent successfully:', response);
-        this.snackBar.open('Email sent successfully', 'Close', {
-          duration: 6000,
-          panelClass: ['success-snackbar']
+  
+    this.hierarchyyService.getAllHierarchyy().subscribe((hierarchyData: any) => {
+      console.log('Hierarchy data:', hierarchyData);  // Debugging line
+  
+      const loggedInUserFirstName = this.firstName;
+      console.log('Logged in user first name:', loggedInUserFirstName);  // Debugging line
+  
+      const supervisorName = hierarchyData.data.find((emp: any) => {
+        console.log('Checking employee:', emp);  // Debugging line
+        return emp.employee_name.split(' ')[0] === loggedInUserFirstName;
+      })?.employee_supervisor;
+  
+      if (supervisorName) {
+        console.log('Supervisor found:', supervisorName);  // Debugging line
+  
+        this.userService.getAllUsers().subscribe((userData: any) => {
+          console.log('User data:', userData);  // Debugging line
+  
+          const supervisorEmail = userData.data.find((user: any) => {
+            const userName = `${user.first_name} ${user.last_name}`;
+            console.log('Checking user:', userName);  // Debugging line
+            return supervisorName === user.first_name || supervisorName === userName;
+          })?.email;
+  
+          if (supervisorEmail) {
+            console.log('Supervisor email found:', supervisorEmail);  // Debugging line
+  
+            const emailData = {
+              email: supervisorEmail,
+              subject: `New Event Created: ${eventData.title}`,
+              message: `
+                <p>An event has been created with the following details:</p>
+                <p><strong>Title:</strong> ${eventData.title}</p>
+                <p><strong>Start:</strong> ${formattedStartDate}</p>
+                <p><strong>End:</strong> ${formattedEndDate}</p>
+                <p><strong>Created By:</strong> ${eventData.createdBy}</p>
+                <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
+                <br>`,
+              eventId: eventData.eventId
+            };
+  
+            this.emailService.sendEmailVerification(
+              emailData.email,
+              emailData.subject,
+              emailData.message,
+              emailData.eventId
+            ).subscribe(
+              response => {
+                console.log('Email sent successfully:', response);
+                this.snackBar.open('Email sent successfully', 'Close', {
+                  duration: 6000,
+                  panelClass: ['success-snackbar']
+                });
+              },
+              error => {
+                console.error('Error sending email:', error);
+                this.snackBar.open('Error sending email', 'Close', {
+                  duration: 6000,
+                  panelClass: ['error-snackbar']
+                });
+              }
+            );
+          } else {
+            console.error('Supervisor email not found.');
+            this.snackBar.open('Supervisor email not found.', 'Close', {
+              duration: 6000,
+              panelClass: ['error-snackbar']
+            });
+          }
         });
-      },
-      error => {
-        console.error('Error sending email:', error);
-        this.snackBar.open('Error sending email', 'Close', {
+      } else {
+        console.error('Supervisor not found in hierarchy.');
+        this.snackBar.open('Supervisor not found in hierarchy.', 'Close', {
           duration: 6000,
           panelClass: ['error-snackbar']
         });
       }
-    );
+    });
   }
-
-
-
+  
   onSubmit() {
     if (!this.event_name || !this.start_date || !this.end_date) {
       this.snackBar.open('Please fill in all required fields', 'Close', {
@@ -240,5 +281,6 @@ export class UserEventModalComponent implements OnInit {
     this.closeModal();
     this.save();
     this.modalClosed.emit();
+    this.eventSubmitted.emit();
   }
 }
