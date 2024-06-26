@@ -226,3 +226,24 @@ a.article:hover {
     font-size: 14px;
     color: #999;
 }
+
+
+/* Style for the Weather Widget */
+.weather {
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.weather p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.weather img {
+    max-width: 50px; /* Adjust size as needed */
+    margin-top: 5px;
+}

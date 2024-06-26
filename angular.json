@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sda-online-shop": {
+    "calendar-managment": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sda-online-shop",
+            "outputPath": "dist/calendar-managment",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -69,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sda-online-shop:build:production"
+              "browserTarget": "calendar-managment:build:production"
             },
             "development": {
-              "browserTarget": "sda-online-shop:build:development"
+              "browserTarget": "calendar-managment:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sda-online-shop:build"
+            "browserTarget": "calendar-managment:build"
           }
         },
         "test": {

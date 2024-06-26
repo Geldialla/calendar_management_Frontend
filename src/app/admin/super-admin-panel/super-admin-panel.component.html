@@ -5,6 +5,16 @@
             <h3 class="ml-2">Welcome,<br> {{ firstName }} {{ lastName }}!</h3>
         </div>
 
+        <div class="weather">
+            <div *ngIf="weather">
+                <p>{{ weather.name }}: {{ weather.weather[0].description }}</p>
+                <p>Temperature: {{ weather.main.temp }}&#8451;</p>
+                <img *ngIf="weather.weather[0].main === 'Clear'" src="path/to/sunny-icon.png" alt="Sunny">
+                <img *ngIf="weather.weather[0].main === 'Rain'" src="path/to/rainy-icon.png" alt="Rainy">
+                <!-- Add more conditions and icons as needed -->
+            </div>
+        </div>
+
         <ul class="list-unstyled components">
             <li>
                 <a routerLink="/SuperAdminPanel/Calendar" class="nav-link">Calendar</a>

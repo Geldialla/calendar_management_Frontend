@@ -1,14 +1,10 @@
-// calendar.component.ts
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { EventModalComponent } from './event-modal/event-modal.component';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { EventModalComponent } from '../event-modal/event-modal.component';
 
 @Component({
   selector: 'app-calendar',
@@ -23,8 +19,6 @@ export class CalendarComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private authService: AuthService,
-    private http: HttpClient,
-    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {

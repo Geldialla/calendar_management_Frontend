@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/service/auth/auth.service';
+import { CalendarService } from 'src/app/service/calendar/calendar.service';
+import { EmailService } from 'src/app/service/email/email.service';
+import { EventService } from 'src/app/service/events/event.service';
 
 @Component({
   selector: 'app-event-modal',
@@ -31,7 +33,7 @@ export class EventModalComponent implements OnInit {
   @Output() modalClosed = new EventEmitter<void>();
   @Output() eventSubmitted = new EventEmitter<void>();
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private authService: AuthService) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private calendarService: CalendarService,private eventService : EventService, private emailService: EmailService) {
     this.getAllEvents();
     this.getAllCalendarEvents();
   }
@@ -50,7 +52,7 @@ export class EventModalComponent implements OnInit {
   }
 
   getAllCalendarEvents(): void {
-    this.http.get("http://localhost:8085/api/calendar_event_table/")
+    this.calendarService.getAllCalendar()
       .subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.CalendarArray = resultData.data;
@@ -73,7 +75,7 @@ export class EventModalComponent implements OnInit {
       "approved": "waiting"  // Set approved to "waiting"
     };
   
-    this.http.post("http://localhost:8085/api/calendar_event_table/add", bodyData)
+    this.calendarService.addCalendar(bodyData)
       .subscribe((resultData: any) => {
         if (resultData.status) {
           this.snackBar.open('Event Registered Successfully', 'Close', {
@@ -112,7 +114,7 @@ export class EventModalComponent implements OnInit {
   
 
   deleteRecord(data: any) {
-    this.http.delete("http://localhost:8085/api/calendar_event_table/delete" + "/" + data.id)
+    this.calendarService.deleteCalendar(data.id)
       .subscribe((resultData) => {
         this.snackBar.open('Event Deleted Successfully', 'Close', {
           duration: 6000,
@@ -142,7 +144,7 @@ export class EventModalComponent implements OnInit {
   }
 
   getAllEvents() {
-    this.http.get("http://localhost:8085/api/event_table/")
+    this.eventService.getAllEvents()
       .subscribe((resultData: any) => {
         this.EventArray = resultData.data;
       });
@@ -176,24 +178,30 @@ export class EventModalComponent implements OnInit {
       eventId: eventData.eventId  // Include eventId
     };
   
-    this.http.post<any>('http://localhost:8085/send-email', emailData)
-      .subscribe(
-        response => {
-          console.log('Email sent successfully:', response);
-          this.snackBar.open('Email sent successfully', 'Close', {
-            duration: 6000,
-            panelClass: ['success-snackbar']
-          });
-        },
-        error => {
-          console.error('Error sending email:', error);
-          this.snackBar.open('Error sending email', 'Close', {
-            duration: 6000,
-            panelClass: ['error-snackbar']
-          });
-        }
-      );
+    // Call sendEmailVerification with all required parameters
+    this.emailService.sendEmailVerification(
+      emailData.email,
+      emailData.subject,
+      emailData.message,
+      emailData.eventId
+    ).subscribe(
+      response => {
+        console.log('Email sent successfully:', response);
+        this.snackBar.open('Email sent successfully', 'Close', {
+          duration: 6000,
+          panelClass: ['success-snackbar']
+        });
+      },
+      error => {
+        console.error('Error sending email:', error);
+        this.snackBar.open('Error sending email', 'Close', {
+          duration: 6000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    );
   }
+  
   
 
   onSubmit() {

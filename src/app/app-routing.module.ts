@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login/login.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
 import { RoleComponent } from './admin/role/role.component';
 import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
-import { EventModalComponent } from './admin/calendar/calendar/event-modal/event-modal.component';
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
-import { CalendarEventComponent } from './admin/calendar-event/calendar-event.component';
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 import { ManagerCalendarComponent } from './manager/calendar/manager-calendar/manager-calendar.component';
 import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
@@ -18,7 +15,6 @@ import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
 import { UserCalendarComponent } from './user/calendar/user-calendar/user-calendar.component';
 import { UserEventModalComponent } from './user/calendar/user-event-modal/user-event-modal.component';
-import { CalendarListComponent } from './admin/calendar/calendar/calendar-list/calendar-list.component';
 import { ManagerCalendarEventComponent } from './manager/calendar/manager-calendar/manager-calendar-event/manager-calendar-event.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 import { AddEditImageComponent } from './admin/add-edit-image/add-edit-image.component';
@@ -28,6 +24,10 @@ import { MyProfileComponent } from './admin/super-admin-panel/navbarDropdown/my-
 import { MyProfileUserComponent } from './user/user-panel/navbarDropdown/my-profile-user/my-profile-user.component';
 import { MyEventsUserComponent } from './user/user-panel/navbarDropdown/my-events-user/my-events-user.component';
 import { ChangePassUserComponent } from './user/user-panel/navbarDropdown/change-pass-user/change-pass-user.component';
+import { CalendarEventComponent } from './admin/calendar/calendar-event/calendar-event.component';
+import { CalendarListComponent } from './admin/calendar/calendar-list/calendar-list.component';
+import { EventModalComponent } from './admin/calendar/event-modal/event-modal.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {

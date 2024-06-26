@@ -20,8 +20,10 @@ export class CalendarListComponent implements OnInit {
   loggedInUserName: string | undefined;
 
   event_name: string = '';
-  start_date: Date | null = null;
-  end_date: Date | null = null;
+  start_date: string | null = null;
+  end_date: string | null = null;
+
+
   currentCalendarID = '';
 
   showForm: boolean = false;
@@ -62,16 +64,20 @@ export class CalendarListComponent implements OnInit {
   }
 
   addCalendar() {
+    // Convert start_date and end_date from string to Date
+    let start_date = this.start_date ? new Date(this.start_date) : null;
+    let end_date = this.end_date ? new Date(this.end_date) : null;
+    
     const createdDate = new Date().toISOString();
     let calendar = {
       event_name: this.event_name,
-      start_date: this.start_date,
-      end_date: this.end_date,
+      start_date: start_date,
+      end_date: end_date,
       createdBy: `${this.loggedInUser.first_name} ${this.loggedInUser.last_name}`,
       createdDate: createdDate,
       approved: false // Default approval status
     };
-
+  
     this.calendarService.addCalendar(calendar).subscribe((resultData: any) => {
       this.snackBar.open('Event Registered Successfully', 'Close', {
         duration: 6000,
@@ -83,6 +89,7 @@ export class CalendarListComponent implements OnInit {
       this.showForm = false;
     });
   }
+  
 
   deleteRecord(calendar: any) {
     this.calendarService.deleteCalendar(calendar.id).subscribe(() => {
@@ -143,12 +150,16 @@ export class CalendarListComponent implements OnInit {
 
   setUpdate(data: any) {
     this.event_name = data.event_name;
-    this.start_date = new Date(data.start_date);
-    this.end_date = new Date(data.end_date);
+    // Format dates to "yyyy-MM-ddThh:mm"
+    this.start_date = data.start_date ? new Date(data.start_date).toISOString().slice(0, 16) : null;
+    this.end_date = data.end_date ? new Date(data.end_date).toISOString().slice(0, 16) : null;
     this.currentCalendarID = data.id;
     this.showForm = true;
     this.showTable = false;
   }
+  
+
+
 
   toggleApprovalStatus(event: any) {
     event.approved = !event.approved; // Toggle approved status
