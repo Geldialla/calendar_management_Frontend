@@ -36,15 +36,7 @@
                                 <input type="text" [(ngModel)]="phone_number" name="phone_number" class="form-control"
                                     id="phone_number">
                             </div>
-                            <div class="form-group">
-                                <label>Country</label>
-                                <input type="text" [(ngModel)]="country" name="country" class="form-control"
-                                    id="country">
-                            </div>
-                            <div class="form-group">
-                                <label>Address</label>
-                                <input type="text" [(ngModel)]="address" name="address" class="form-control" id="address">
-                            </div>
+                        
                             <div class="form-group">
                                 <label>Status</label>
                                 <input type="text" [(ngModel)]="status" name="status" class="form-control"
@@ -59,6 +51,29 @@
                                     <option value="user">User</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <select class="form-control" [(ngModel)]="employee_role" name="employee_role">
+                                    <option *ngFor="let role of RoleArray" [value]="role.user_role">{{
+                                        role.user_role }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Supervisor</label>
+                                <select class="form-control" [(ngModel)]="employee_supervisor"
+                                    name="employee_supervisor">
+                                    <option *ngFor="let user of UserArray" [value]="user.first_name">{{
+                                        user.first_name }} {{ user.last_name }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Employee Image</label>
+                                <button type="button" class="btn btn-outline-secondary" (click)="openImageSelectionModal()">Select Image</button>
+                                <div *ngIf="employee_image">
+                                  <img [src]="'http://localhost:8085/uploads/' + employee_image" alt="Selected Image" class="selected-image">
+                                </div>
+                              </div>
+                              
                             
                             
                             <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
@@ -93,10 +108,11 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">Password</th>
                                     <th scope="col">Phone Number</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Address</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Employee Role</th>
+                                    <th scope="col">Supervisor</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -112,10 +128,11 @@
                                     <td>{{ UsersItem.password }}</td>
                                     <td>{{ UsersItem.password }}</td>
                                     <td>{{ UsersItem.phone_number }}</td>
-                                    <td>{{ UsersItem.country }}</td>
-                                    <td>{{ UsersItem.address }}</td>
                                     <td>{{ UsersItem.status }}</td>
                                     <td>{{ UsersItem.role }}</td>
+                                    <td>{{ UsersItem.employee_role }}</td>
+                                    <td>{{ UsersItem.employee_supervisor }}</td>
+                                    <td>{{ UsersItem.remployee_imageole }}</td>
                                     <!-- Action buttons -->
                                     <td>
                                         <button type="button" class="btn btn-outline-success mr-1"

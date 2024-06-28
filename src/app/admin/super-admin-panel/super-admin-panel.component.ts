@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { WeatherService } from 'src/app/service/weather/weather.service';
@@ -16,8 +16,13 @@ export class SuperAdminPanelComponent implements OnInit {
   lastName: string | null = null;
   weather: any;
 
-
-  constructor(private elRef: ElementRef, private router: Router, private authService: AuthService, private weatherService: WeatherService) { }
+  constructor(
+    private elRef: ElementRef,
+    private router: Router,
+    private authService: AuthService,
+    private weatherService: WeatherService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     // Get logged-in user information
@@ -30,14 +35,17 @@ export class SuperAdminPanelComponent implements OnInit {
       $('#sidebar').toggleClass('active');
     });
 
+    // Fetch weather data
     this.getWeather('Tirana, AL');
-
   }
-
 
   getWeather(city: string): void {
     this.weatherService.getWeather(city).subscribe(data => {
       this.weather = data;
+      console.log('Weather data:', this.weather); // Debugging: Log weather data
+      this.cdr.detectChanges(); // Manually trigger change detection
+    }, error => {
+      console.error('Error fetching weather data:', error); // Debugging: Log error if occurs
     });
   }
 

@@ -4,7 +4,6 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
 import { RoleComponent } from './admin/role/role.component';
-import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
@@ -56,10 +55,6 @@ const routes: Routes = [
       {
         path: 'Role',
         component: RoleComponent,
-      },
-      {
-        path: 'Add-Hierarchy',
-        component: AddChartComponent,
       },
       {
         path: 'Show-Hierarchy',

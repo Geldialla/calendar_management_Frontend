@@ -20,7 +20,10 @@ export class RoleComponent {
   user_role: string = '';
   currentRoleID = '';
 
-  constructor(private roleService: RolesService, private snackBar: MatSnackBar) {
+  constructor(
+    private roleService: RolesService,
+    private snackBar: MatSnackBar
+  ) {
     this.getAllRoles();
   }
 

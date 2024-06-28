@@ -30,10 +30,11 @@ export class AuthService {
       email: user.email,
       password: user.password,
       phone_number: user.phone_number,
-      country: user.country,
-      address: user.address,
       status: user.status,
       role: user.role,
+      employee_role: user.employee_role,
+      employee_supervisor: user.employee_supervisor,
+      employee_image: user.employee_image,
     };
     localStorage.setItem('loggedInUser', JSON.stringify(this.loggedInUser));
   }

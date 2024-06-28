@@ -249,6 +249,7 @@ a.article:hover {
 h2 {
     font-size: 24px;
     margin-bottom: 10px;
+    color: black;
 }
 
 .weather-description {

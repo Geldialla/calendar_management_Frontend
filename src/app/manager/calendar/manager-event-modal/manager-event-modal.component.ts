@@ -4,7 +4,6 @@ import { AuthService } from 'src/app/service/auth/auth.service';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
 import { EmailService } from 'src/app/service/email/email.service';
 import { EventService } from 'src/app/service/events/event.service';
-import { HierarchyyService } from 'src/app/service/hierarchyy/hierarchyy.service';
 import { UserService } from 'src/app/service/users/users.service';
 
 @Component({
@@ -41,7 +40,7 @@ export class ManagerEventModalComponent implements OnInit {
     private eventService: EventService,
     private emailService: EmailService,
     private authService: AuthService,
-    private hierarchyyService: HierarchyyService,
+    private userSrvice: UserService,
     private userService: UserService
   ) {
     this.getAllEvents();
@@ -170,19 +169,19 @@ export class ManagerEventModalComponent implements OnInit {
     const formattedEndDate = new Date(eventData.end).toLocaleString();
     const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
   
-    this.hierarchyyService.getAllHierarchyy().subscribe((hierarchyData: any) => {
+    this.userSrvice.getAllUsers().subscribe((hierarchyData: any) => {
       console.log('Hierarchy data:', hierarchyData);  // Debugging line
   
       const loggedInUserFirstName = this.firstName;
       console.log('Logged in user first name:', loggedInUserFirstName);  // Debugging line
   
-      const supervisorName = hierarchyData.data.find((emp: any) => {
+      const first_name = hierarchyData.data.find((emp: any) => {
         console.log('Checking employee:', emp);  // Debugging line
-        return emp.employee_name.split(' ')[0] === loggedInUserFirstName;
+        return emp.first_name.split(' ')[0] === loggedInUserFirstName;
       })?.employee_supervisor;
   
-      if (supervisorName) {
-        console.log('Supervisor found:', supervisorName);  // Debugging line
+      if (first_name) {
+        console.log('Supervisor found:', first_name);  // Debugging line
   
         this.userService.getAllUsers().subscribe((userData: any) => {
           console.log('User data:', userData);  // Debugging line
@@ -190,7 +189,7 @@ export class ManagerEventModalComponent implements OnInit {
           const supervisorEmail = userData.data.find((user: any) => {
             const userName = `${user.first_name} ${user.last_name}`;
             console.log('Checking user:', userName);  // Debugging line
-            return supervisorName === user.first_name || supervisorName === userName;
+            return first_name;
           })?.email;
   
           if (supervisorEmail) {

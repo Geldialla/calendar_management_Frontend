@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ImageService } from 'src/app/service/images/image.service';
+import { RolesService } from 'src/app/service/roles/roles.service';
 import { UserService } from 'src/app/service/users/users.service';
+import { ImageSelectionModalComponent } from '../hierarchyy/image-selection-modal/image-selection-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-users',
@@ -10,6 +14,7 @@ import { UserService } from 'src/app/service/users/users.service';
 export class UsersComponent implements OnInit {
 
   UserArray: any[] = [];
+  RoleArray: any[] = [];
   isResultLoaded = false;
   searchKeyword: string = '';
 
@@ -18,10 +23,11 @@ export class UsersComponent implements OnInit {
   email: string = '';
   password: string = '';
   phone_number: string = '';
-  country: string = '';
-  address: string = '';
-  status: string = '';
+  status: boolean = false;
   role: string = '';
+  employee_role: string = '';
+  employee_supervisor: string = '';
+  employee_image: string = '';
   currentUserID = '';
 
   showForm: boolean = false;
@@ -33,11 +39,18 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private imageService: ImageService,
+    private roleServise: RolesService,
+    public dialog: MatDialog,
+  ) {
+    this.getAllRoles();
+    this.getAllUsers();
+  }
 
   ngOnInit(): void {
     this.getAllUsers();
+    this.getAllRoles();
     this.updatePagedArray();
   }
 
@@ -54,6 +67,15 @@ export class UsersComponent implements OnInit {
           console.error('Error fetching users:', error);
         }
       );
+  }
+
+  getAllRoles() {
+    this.roleServise.getAllRoles()
+      .subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.RoleArray = resultData.data;
+        this.updatePagedArray();
+      });
   }
 
   search(): void {
@@ -73,10 +95,11 @@ export class UsersComponent implements OnInit {
       "email": this.email,
       "password": this.password,
       "phone_number": this.phone_number,
-      "country": this.country,
-      "address": this.address,
       "status": this.status,
       "role": this.role,
+      "employee_role": this.employee_role,
+      "employee_supervisor": this.employee_supervisor,
+      "employee_image": this.employee_image,
     };
 
     this.userService.addUser(user)
@@ -126,10 +149,11 @@ export class UsersComponent implements OnInit {
       "email": this.email,
       "password": this.password,
       "phone_number": this.phone_number,
-      "country": this.country,
-      "address": this.address,
       "status": this.status,
       "role": this.role,
+      "employee_role": this.employee_role,
+      "employee_supervisor": this.employee_supervisor,
+      "employee_image": this.employee_image,
     };
 
     this.userService.updateUser(this.currentUserID, user)
@@ -166,10 +190,11 @@ export class UsersComponent implements OnInit {
     this.email = '';
     this.password = '';
     this.phone_number = '';
-    this.country = '';
-    this.address = '';
-    this.status = '';
+    this.status = false;
     this.role = '';
+    this.employee_role = '';
+    this.employee_supervisor = '';
+    this.employee_image = '';
     this.currentUserID = '';
   }
 
@@ -188,10 +213,11 @@ export class UsersComponent implements OnInit {
     this.email = user.email;
     this.password = user.password;
     this.phone_number = user.phone_number;
-    this.country = user.country;
-    this.address = user.address;
     this.status = user.status;
     this.role = user.role;
+    this.employee_role = user.employee_role;
+    this.employee_supervisor = user.employee_supervisor;
+    this.employee_image = user.employee_image;
     this.currentUserID = user.id;
 
     this.showForm = true;
@@ -228,6 +254,34 @@ export class UsersComponent implements OnInit {
   pageChanged(event: any): void {
     this.pageIndex = event.pageIndex + 1;
     this.updatePagedArray();
+  }
+
+  openImageSelectionModal(): void {
+    const dialogRef = this.dialog.open(ImageSelectionModalComponent, {
+      width: '600px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.selectedImage) {
+        this.employee_image = result.selectedImage;
+      }
+    });
+  }
+
+  saveSelectedImage(imageName: string) {
+    if (this.currentUserID) {
+      this.imageService.updateEmployeeImage(this.currentUserID, imageName).subscribe(
+        response => {
+          console.log('Employee image updated successfully:', response);
+        },
+        error => {
+          console.error('Error updating employee image:', error);
+        }
+      );
+    } else {
+      console.error('No employee selected for image update');
+    }
   }
 
 }

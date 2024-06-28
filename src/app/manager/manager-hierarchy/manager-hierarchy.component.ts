@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HierarchyyService } from 'src/app/service/hierarchyy/hierarchyy.service';
+import { UserService } from 'src/app/service/users/users.service';
 
 interface Employee {
-  employee_name: string;
+  first_name: string;
   employee_role: string;
   employee_supervisor: string;
   employee_image: string;  // New property for the image URL
@@ -15,12 +15,10 @@ interface Employee {
 })
 export class ManagerHierarchyComponent implements OnInit {
   isLoading: boolean = false;
-  empArr: Employee[] = [];
+  usrArr: Employee[] = [];
   hierarchy: Employee | null = null;
 
-  constructor(
-    private hierarchyyService: HierarchyyService
-  ) { }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.fetchEmployees();
@@ -28,10 +26,10 @@ export class ManagerHierarchyComponent implements OnInit {
 
   fetchEmployees() {
     this.isLoading = true;
-    this.hierarchyyService.getAllHierarchyy()
+    this.userService.getAllUsers()
       .subscribe((resultData: any) => {
-        this.empArr = resultData.data;
-        console.log(this.empArr);  // Log fetched data
+        this.usrArr = resultData.data;
+        console.log(this.usrArr);  // Log fetched data
         this.buildHierarchy();
         this.isLoading = false;
       });
@@ -39,10 +37,10 @@ export class ManagerHierarchyComponent implements OnInit {
 
   buildHierarchy() {
     let map: { [key: string]: Employee } = {};
-    this.empArr.forEach(emp => map[emp.employee_name] = emp);
+    this.usrArr.forEach(emp => map[emp.first_name] = emp);
     this.hierarchy = null;
 
-    this.empArr.forEach(emp => {
+    this.usrArr.forEach(emp => {
       if (emp.employee_role.toUpperCase() === 'CEO') {  // Case-insensitive comparison
         this.hierarchy = emp;
       } else {

@@ -14,7 +14,10 @@ export class MyEventsComponent implements OnInit {
   isResultLoaded = false;  // Define and initialize isResultLoaded
   userEvents: any[] = [];  // Define and initialize userEvents
 
-  constructor(private calendarService: CalendarService, private authService: AuthService) { }
+  constructor(
+    private calendarService: CalendarService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();

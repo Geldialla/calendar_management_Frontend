@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
@@ -33,7 +32,11 @@ export class EventModalComponent implements OnInit {
   @Output() modalClosed = new EventEmitter<void>();
   @Output() eventSubmitted = new EventEmitter<void>();
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar, private calendarService: CalendarService,private eventService : EventService, private emailService: EmailService) {
+  constructor(
+    private snackBar: MatSnackBar,
+     private calendarService: CalendarService,
+     private eventService : EventService,
+      private emailService: EmailService) {
     this.getAllEvents();
     this.getAllCalendarEvents();
   }

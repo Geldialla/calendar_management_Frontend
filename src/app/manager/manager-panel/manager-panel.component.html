@@ -5,15 +5,7 @@
             <h3 class="ml-2">Welcome,<br> {{ firstName }} {{ lastName }} !</h3>
         </div>
 
-        <div class="weather">
-            <div *ngIf="weather">
-                <p>{{ weather.name }}: {{ weather.weather[0].description }}</p>
-                <p>Temperature: {{ weather.main.temp }}&#8451;</p>
-                <img *ngIf="weather.weather[0].main === 'Clear'" src="path/to/sunny-icon.png" alt="Sunny">
-                <img *ngIf="weather.weather[0].main === 'Rain'" src="path/to/rainy-icon.png" alt="Rainy">
-                <!-- Add more conditions and icons as needed -->
-            </div>
-        </div>
+        
 
         <ul class="list-unstyled components">
             <li>
@@ -35,6 +27,27 @@
                 <a routerLink="/Manager/Hierarchy">Hierarchy</a>
             </li>
         </ul>
+        <div class="weather-container">
+            <div class="weather" *ngIf="weather">
+              <h2>{{ weather.name }}</h2>
+              <p class="weather-description">{{ weather.weather[0].description }}</p>
+              <p class="temperature">{{ weather.main.temp }}&#8451;</p>
+              <div class="weather-icon">
+                <img *ngIf="weather.weather[0].main === 'Clear'" src="assets/sunny-icon.png" alt="Sunny">
+                <img *ngIf="weather.weather[0].main === 'Rain'" src="assets/rainy-icon.png" alt="Rainy">
+                <img *ngIf="weather.weather[0].main === 'Clouds'" src="assets/cloudy-icon.png" alt="Cloudy">
+                <img *ngIf="weather.weather[0].main === 'Thunderstorm'" src="assets/thunderstorm-icon.png" alt="Thunderstorm">
+                <img *ngIf="weather.weather[0].main === 'Snow'" src="assets/snow-icon.png" alt="Snow">
+                <img *ngIf="weather.weather[0].main === 'Mist'" src="assets/mist-icon.png" alt="Mist">
+                <!-- Add more conditions and icons as needed -->
+                <img *ngIf="weather.weather[0].main !== 'Clear' && weather.weather[0].main !== 'Rain' && 
+                             weather.weather[0].main !== 'Clouds' && weather.weather[0].main !== 'Thunderstorm' &&
+                             weather.weather[0].main !== 'Snow' && weather.weather[0].main !== 'Mist'"
+                     src="assets/other-weather-icon.png" alt="Other Weather">
+              </div>
+            </div>
+            <div *ngIf="!weather">Loading weather data...</div>
+          </div>
     </nav>
 
     <!-- Page Content  -->
@@ -68,6 +81,7 @@
                     </ul>
                 </div>
             </div>
+            
         </nav>
 
         <router-outlet></router-outlet>

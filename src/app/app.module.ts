@@ -14,7 +14,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { RoleComponent } from './admin/role/role.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AddChartComponent } from './admin/hierarchyy/add-chart/add-chart.component';
 import { CommonModule } from '@angular/common';
 import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -62,7 +61,6 @@ import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDo
     UsersComponent,
     SuperAdminPanelComponent,
     RoleComponent,
-    AddChartComponent,
     ShowChartComponent,
     EventModalComponent,
     CalendarComponent,

@@ -25,7 +25,10 @@ export class ChangePassComponent implements OnInit {
 
 
 
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) { }
+  constructor(
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit() {
     this.loggedInUser = this.authService.getLoggedInUser();

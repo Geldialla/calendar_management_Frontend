@@ -9,7 +9,7 @@
   transition: all 0.5s;
 }
 
-/* .org-chart ul::before {
+.org-chart ul::before {
   content: '';
   position: absolute;
   top: 0;
@@ -17,7 +17,7 @@
   border-left: 1px solid #ccc;
   height: 20px;
   width: 0;
-} */
+}
 
 .org-chart li {
   float: left;

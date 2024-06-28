@@ -10,7 +10,12 @@ import { UserService } from 'src/app/service/users/users.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService, private snackBar: MatSnackBar,private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private snackBar: MatSnackBar,
+    private authService: AuthService
+  ) { }
 
   UserArray: any[] = [];
   email: string = '';
@@ -59,11 +64,11 @@ export class LoginComponent implements OnInit {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
-        
+
         // Save user information in local storage
         localStorage.setItem('loggedInUserFirstName', user.first_name);
         localStorage.setItem('loggedInUserLastName', user.last_name);
-  
+
         // Call authService login method
         this.authService.login(user);
       } else {
@@ -75,6 +80,6 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-  
-  
+
+
 }
