@@ -6,3 +6,10 @@
 .btn{
  margin: 5px;
 }
+
+.selected-image{
+    width: 150px;
+    height: 150px;
+    margin-left: 235px;
+
+}

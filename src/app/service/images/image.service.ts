@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.development';
 
 @Injectable({
@@ -22,21 +22,27 @@ export class ImageService {
       );
   }
 
-  // image.service.ts
-deleteImage(filename: string): Observable<any> {
-  return this.http.delete(`${this.baseUrl}/${filename}`)
-    .pipe(
-      catchError(error => {
-        console.error('Error deleting image:', error);
-        return throwError(error);
-      })
-    );
-}
-
+  deleteImage(filename: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${filename}`)
+      .pipe(
+        catchError(error => {
+          console.error('Error deleting image:', error);
+          return throwError(error);
+        })
+      );
+  }
 
   uploadImage(fd: FormData): Observable<any> {
-    return this.http.post(`${environment.apiBaseUrl}/upload`, fd)
+    return this.http.post(`${environment.apiBaseUrl}/upload`, fd, { observe: 'response' })
       .pipe(
+        map(response => {
+          console.log('Response:', response);
+          if (response.body) {
+            return response.body;
+          } else {
+            throw new Error('No response body');
+          }
+        }),
         catchError(error => {
           console.error('Error uploading image:', error);
           return throwError(error);
@@ -49,5 +55,4 @@ deleteImage(filename: string): Observable<any> {
     const body = { employeeId, employee_image: imageName };
     return this.http.post(url, body);
   }
-
 }

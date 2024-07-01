@@ -1,5 +1,3 @@
-// calendar-list.component.ts
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
@@ -22,7 +20,6 @@ export class CalendarListComponent implements OnInit {
   event_name: string = '';
   start_date: string | null = null;
   end_date: string | null = null;
-
 
   currentCalendarID = '';
 
@@ -49,8 +46,13 @@ export class CalendarListComponent implements OnInit {
     this.calendarService.getAllCalendar().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       this.RoleArray = resultData.data;
+      this.sortEventsByCreatedDate();
       this.updatePagedArray();
     });
+  }
+
+  sortEventsByCreatedDate() {
+    this.RoleArray.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime());
   }
 
   search(): void {
@@ -158,9 +160,6 @@ export class CalendarListComponent implements OnInit {
     this.showTable = false;
   }
   
-
-
-
   toggleApprovalStatus(event: any) {
     event.approved = !event.approved; // Toggle approved status
     this.calendarService.updateCalendar(event.id, event).subscribe(
