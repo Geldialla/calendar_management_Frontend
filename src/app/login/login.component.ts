@@ -46,29 +46,39 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.email === this.adminEmail && this.password === this.adminPassword) {
       // Admin login successful
-      this.router.navigate(['/SuperAdminPanel/Dashboard']);
+      this.router.navigate(['/SuperAdminPanel/Calendar']);
     } else {
       // Regular user login
       const user = this.UserArray.find(u => u.email === this.email && u.password === this.password);
       if (user) {
+        if (!user.status) {
+          // User status is inactive
+          this.snackBar.open('Your account is inactive. Please contact an administrator.', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar']
+          });
+          return; // Exit function early if status is inactive
+        }
+  
         // User login successful
         if (user.role === 'admin') {
-          this.router.navigate(['/SuperAdminPanel/Dashboard']);
+          this.router.navigate(['/SuperAdminPanel/Calendar']);
         } else if (user.role === 'manager') {
-          this.router.navigate(['/Manager']);
+          this.router.navigate(['/Manager/Calendar']);
         } else if (user.role === 'user') {
-          this.router.navigate(['/User/Dashboard']);
+          this.router.navigate(['/User/Calendar']);
         }
-        // Show snackbar
+  
+        // Show success message
         this.snackBar.open('Successfully logged in', 'Close', {
           duration: 3000,
           panelClass: ['success-snackbar']
         });
-
+  
         // Save user information in local storage
         localStorage.setItem('loggedInUserFirstName', user.first_name);
         localStorage.setItem('loggedInUserLastName', user.last_name);
-
+  
         // Call authService login method
         this.authService.login(user);
       } else {
@@ -80,6 +90,7 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+  
 
 
 }

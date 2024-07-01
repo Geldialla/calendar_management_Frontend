@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+[x: string]: any;
 
   UserArray: any[] = [];
   RoleArray: any[] = [];
@@ -100,6 +101,7 @@ export class UsersComponent implements OnInit {
       "employee_role": this.employee_role,
       "employee_supervisor": this.employee_supervisor,
       "employee_image": this.employee_image,
+      
     };
 
     this.userService.addUser(user)
@@ -282,6 +284,29 @@ export class UsersComponent implements OnInit {
     } else {
       console.error('No employee selected for image update');
     }
+  }
+
+
+  toggleApprovalStatus(user: any) {
+    user.status = !user.status; // Toggle approved status
+    this.userService.updateUser(user.id, user).subscribe(
+      () => {
+        this.snackBar.open('Approval status updated successfully', 'Close', {
+          duration: 6000,
+          panelClass: ['success-snackbar']
+        });
+        this.getAllUsers();
+      },
+      error => {
+        console.error('Error updating approval status:', error);
+        this.snackBar.open('Failed to update approval status', 'Close', {
+          duration: 6000,
+          panelClass: ['error-snackbar']
+        });
+        // Revert the change if update fails (optional)
+        user.status = !user.status;
+      }
+    );
   }
 
 }

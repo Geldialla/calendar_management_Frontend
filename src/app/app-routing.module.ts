@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { UsersComponent } from './admin/users/users.component';
 import { RoleComponent } from './admin/role/role.component';
@@ -8,7 +7,6 @@ import { ShowChartComponent } from './admin/hierarchyy/show-chart/show-chart.com
 import { CalendarComponent } from './admin/calendar/calendar/calendar.component';
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 import { ManagerCalendarComponent } from './manager/calendar/manager-calendar/manager-calendar.component';
-import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { ManagerPanelComponent } from './manager/manager-panel/manager-panel.component';
 import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
@@ -29,6 +27,7 @@ import { ChangePassUserComponent } from './user/user-panel/navbarDropDownUser/ch
 import { MyProfileManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-profile-manager/my-profile-manager.component';
 import { MyEventsManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-events-manager/my-events-manager.component';
 import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDownManager/change-pass-manager/change-pass-manager.component';
+import { MyEventsUserComponent } from './user/user-panel/navbarDropDownUser/my-events-user/my-events-user.component';
 
 const routes: Routes = [
   {
@@ -45,8 +44,8 @@ const routes: Routes = [
     component: SuperAdminPanelComponent,
     children: [
       {
-        path: 'Dashboard',
-        component: DashboardComponent,
+        path: 'Calendar',
+        component: CalendarComponent,
       },
       {
         path: 'Users',
@@ -59,10 +58,6 @@ const routes: Routes = [
       {
         path: 'Show-Hierarchy',
         component: ShowChartComponent,
-      },
-      {
-        path: 'Calendar',
-        component: CalendarComponent,
       },
       {
         path: 'Add-event',
@@ -104,12 +99,12 @@ const routes: Routes = [
     component: ManagerPanelComponent,
     children: [
       {
-        path: 'Hierarchy',
-        component: ManagerHierarchyComponent,
-      },
-      {
         path: 'Calendar',
         component: ManagerCalendarComponent,
+      },
+      {
+        path: 'Hierarchy',
+        component: ManagerHierarchyComponent,
       },
       {
         path: 'Add-event',
@@ -134,16 +129,12 @@ const routes: Routes = [
     component: UserPanelComponent,
     children: [
       {
-        path: 'Dashboard',
-        component: UserDashboardComponent,
+        path: 'Calendar',
+        component: UserCalendarComponent,
       },
       {
         path: 'Hierarchy',
         component: UserHierarchyComponent,
-      },
-      {
-        path: 'Calendar',
-        component: UserCalendarComponent,
       },
       {
         path: 'Add-event',
@@ -151,11 +142,11 @@ const routes: Routes = [
       },
       {
         path: 'MyProfile',
-        component: MyProfileComponent,
+        component: MyProfileUserComponent,
       },
       {
         path: 'MyEvents',
-        component: MyProfileUserComponent,
+        component: MyEventsUserComponent,
       },
       {
         path: 'ChangePassword',

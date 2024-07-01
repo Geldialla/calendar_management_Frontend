@@ -12,12 +12,20 @@ export class MyProfileUserComponent implements OnInit {
   loggedInUser: any;
   userProfile: any;
   errorMessage: string = '';
+  profileItems: { label: string, value: string }[] = [
+    { label: 'First Name', value: 'first_name' },
+    { label: 'Last Name', value: 'last_name' },
+    { label: 'Email', value: 'email' },
+    { label: 'Phone Number', value: 'phone_number' },
+    { label: 'Status', value: 'role' },
+    { label: 'Role', value: 'employee_role' },
+    { label: 'Supervisor', value: 'employee_supervisor' }
+  ];
 
   constructor(
     private authService: AuthService,
     private userService: UserService
   ) { }
-
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
@@ -44,6 +52,4 @@ export class MyProfileUserComponent implements OnInit {
       }
     );
   }
-
-
 }

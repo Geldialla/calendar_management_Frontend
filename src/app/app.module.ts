@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { UsersComponent } from './admin/users/users.component';
 import { SuperAdminPanelComponent } from './admin/super-admin-panel/super-admin-panel.component';
 import { MatTreeModule } from '@angular/material/tree';
@@ -26,8 +25,6 @@ import { UserPanelComponent } from './user/user-panel/user-panel.component';
 import { ManagerPanelComponent } from './manager/manager-panel/manager-panel.component';
 import { ManagerHierarchyComponent } from './manager/manager-hierarchy/manager-hierarchy.component';
 import { UserHierarchyComponent } from './user/user-hierarchy/user-hierarchy.component';
-import { ManagerDashboardComponent } from './manager/manager-dashboard/manager-dashboard.component';
-import { UserDashboardComponent } from './user/user-dashboard/user-dashboard.component';
 import { EmailSenderComponent } from './admin/email-sender/email-sender.component';
 import { AddEditImageComponent } from './admin/add-edit-image/add-edit-image.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,7 +54,6 @@ import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDo
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
     UsersComponent,
     SuperAdminPanelComponent,
     RoleComponent,
@@ -74,8 +70,6 @@ import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDo
     ManagerPanelComponent,
     ManagerHierarchyComponent,
     UserHierarchyComponent,
-    ManagerDashboardComponent,
-    UserDashboardComponent,
     CalendarListComponent,
     EmailSenderComponent,
     AddEditImageComponent,
