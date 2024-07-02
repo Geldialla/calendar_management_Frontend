@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/service/auth/auth.service';
+import { ImageService } from 'src/app/service/images/image.service';
 import { UserService } from 'src/app/service/users/users.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class MyProfileUserComponent implements OnInit {
   loggedInUser: any;
   userProfile: any;
   errorMessage: string = '';
+  imageBaseUrl: string = '';
   profileItems: { label: string, value: string }[] = [
     { label: 'First Name', value: 'first_name' },
     { label: 'Last Name', value: 'last_name' },
@@ -24,11 +26,13 @@ export class MyProfileUserComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private imageService: ImageService,
   ) { }
 
   ngOnInit(): void {
     this.loggedInUser = this.authService.getLoggedInUser();
+    this.imageBaseUrl = this.imageService.getImageBaseUrl();
 
     this.userService.getAllUsers().subscribe(
       (response: any) => {

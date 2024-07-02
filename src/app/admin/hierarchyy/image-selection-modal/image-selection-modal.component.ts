@@ -14,6 +14,7 @@ export class ImageSelectionModalComponent implements OnInit {
   selectedImage: string | null = null;
   imageForm!: FormGroup;
   selectedFile: File | null = null;
+  imageBaseUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,6 +28,7 @@ export class ImageSelectionModalComponent implements OnInit {
     this.imageForm = this.fb.group({
       image: [null, Validators.required]
     });
+    this.imageBaseUrl = this.imageService.getImageBaseUrl();
     this.getAllImages();
   }
 

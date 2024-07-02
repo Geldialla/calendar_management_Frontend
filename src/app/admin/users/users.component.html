@@ -65,7 +65,7 @@
                                 <button type="button" class="btn btn-outline-secondary"
                                     (click)="openImageSelectionModal()">Select Image</button>
                                 <div *ngIf="employee_image">
-                                    <img [src]="'http://localhost:8085/uploads/' + employee_image" alt="Selected Image"
+                                    <img [src]="imageBaseUrl + employee_image" alt="Selected Image"
                                         class="selected-image">
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                     <td>{{ UsersItem.role }}</td>
                                     <td>{{ UsersItem.employee_role }}</td>
                                     <td>{{ UsersItem.employee_supervisor }}</td>
-                                    <td> <img *ngIf="UsersItem.employee_image" [src]="'http://localhost:8085/uploads/' + UsersItem.employee_image" alt="Profile Image" class="profile-image"> </td>
+                                    <td> <img *ngIf="UsersItem.employee_image" [src]="imageBaseUrl + UsersItem.employee_image" alt="Profile Image" class="profile-image"> </td>
                                     <!-- Action buttons -->
                                     <td>
                                         <button type="button" class="btn btn-outline-success mr-1"

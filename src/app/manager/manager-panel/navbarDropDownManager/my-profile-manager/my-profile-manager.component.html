@@ -5,7 +5,7 @@
     </div>
     <div class="profile-body">
       <div class="profile-image-container">
-        <img *ngIf="userProfile.employee_image" [src]="'http://localhost:8085/uploads/' + userProfile.employee_image" alt="Profile Image" class="profile-image">
+        <img *ngIf="userProfile.employee_image" [src]="imageBaseUrl + userProfile.employee_image" alt="Profile Image" class="profile-image">
         <p *ngIf="!userProfile.employee_image" class="no-image-text">No image available</p>
       </div>
       <div class="profile-details">

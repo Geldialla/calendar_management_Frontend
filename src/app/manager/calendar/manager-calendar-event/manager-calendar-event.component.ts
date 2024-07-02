@@ -1,8 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
 import { ManagerEventModalComponent } from '../manager-event-modal/manager-event-modal.component';

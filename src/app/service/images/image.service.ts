@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment.development';
 })
 export class ImageService {
   private baseUrl = `${environment.apiBaseUrl}/images`;
+  private uploadUrl = `${environment.apiBaseUrl}/upload`;
+  private imageBaseUrl = `${environment.apiBaseUrl}/uploads/`; // Add this line
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +35,7 @@ export class ImageService {
   }
 
   uploadImage(fd: FormData): Observable<any> {
-    return this.http.post(`${environment.apiBaseUrl}/upload`, fd, { observe: 'response' })
+    return this.http.post(this.uploadUrl, fd, { observe: 'response' })
       .pipe(
         map(response => {
           console.log('Response:', response);
@@ -54,5 +56,10 @@ export class ImageService {
     const url = `${this.baseUrl}/updateEmployeeImage`; // Adjust the URL if necessary
     const body = { employeeId, employee_image: imageName };
     return this.http.post(url, body);
+  }
+
+  // Add this method
+  getImageBaseUrl(): string {
+    return this.imageBaseUrl;
   }
 }

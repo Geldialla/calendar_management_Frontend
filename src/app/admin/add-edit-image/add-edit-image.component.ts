@@ -19,8 +19,7 @@ export class AddEditImageComponent implements OnInit {
   pagedImagesArray: any[] = [];
   showForm: boolean = false;
   showImages: boolean = true;
-
-
+  imageBaseUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -33,10 +32,10 @@ export class AddEditImageComponent implements OnInit {
     this.imageForm = this.fb.group({
       image: [null, Validators.required]
     });
+    this.imageBaseUrl = this.imageService.getImageBaseUrl();
     this.getAllImages();
     this.checkSnackbarMessage();
   }
-  
   
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -135,8 +134,6 @@ export class AddEditImageComponent implements OnInit {
     window.location.reload();
   }
 
-
-
   toggleFormVisibility() {
     this.showForm = !this.showForm;
     this.showImages = false;
@@ -167,5 +164,4 @@ export class AddEditImageComponent implements OnInit {
     this.pageIndex = event.pageIndex + 1;
     this.updatePagedArray();
   }
-
 }

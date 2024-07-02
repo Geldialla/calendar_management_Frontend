@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ImageService } from 'src/app/service/images/image.service';
 import { UserService } from 'src/app/service/users/users.service';
 
 interface Employee {
@@ -7,6 +8,7 @@ interface Employee {
   employee_supervisor: string;
   employee_image: string;  // New property for the image URL
   children?: Employee[];
+  
 }
 @Component({
   selector: 'app-manager-hierarchy',
@@ -17,11 +19,16 @@ export class ManagerHierarchyComponent implements OnInit {
   isLoading: boolean = false;
   usrArr: Employee[] = [];
   hierarchy: Employee | null = null;
+  imageBaseUrl: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private imageService: ImageService,
+  ) {}
 
   ngOnInit(): void {
     this.fetchEmployees();
+    this.imageBaseUrl = this.imageService.getImageBaseUrl();
   }
 
   fetchEmployees() {

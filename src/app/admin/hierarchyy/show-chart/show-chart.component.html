@@ -2,7 +2,7 @@
   <ul>
     <li>
       <div class="user">
-        <img [src]="'http://localhost:8085/uploads/' + hierarchy.employee_image" alt="{{ hierarchy.first_name }}" class="employee-image">
+        <img [src]="imageBaseUrl + hierarchy.employee_image" alt="{{ hierarchy.first_name }}" class="employee-image">
         <div class="name">{{ hierarchy.first_name }}</div>
         <div class="role">{{ hierarchy.employee_role }}</div>
       </div>
@@ -16,7 +16,7 @@
 <ng-template #recursiveList let-children>
   <li *ngFor="let child of children">
     <div class="user">
-      <img [src]="'http://localhost:8085/uploads/' + child.employee_image" alt="{{ child.first_name }}" class="employee-image">
+      <img [src]="imageBaseUrl + child.employee_image" alt="{{ child.first_name }}" class="employee-image">
       <div class="name">{{ child.first_name }}</div>
       <div class="role">{{ child.employee_role }}</div>
     </div>

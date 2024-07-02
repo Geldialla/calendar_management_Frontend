@@ -49,7 +49,7 @@
             <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Add New Image</button>
             <div class="image-list">
               <div *ngFor="let image of images" class="image-item">
-                <img [src]="'http://localhost:8085/uploads/' + image.image_path" alt="Image">
+                <img [src]="imageBaseUrl + image.image_path" alt="Image"> <!-- Updated this line -->
                 <button (click)="deleteImage(image.image_path)" class="delete-button">Delete</button>
               </div>
             </div>

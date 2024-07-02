@@ -30,6 +30,7 @@ export class UsersComponent implements OnInit {
   employee_supervisor: string = '';
   employee_image: string = '';
   currentUserID = '';
+  imageBaseUrl: string = '';
 
   showForm: boolean = false;
   showTable: boolean = true;
@@ -50,6 +51,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.imageBaseUrl = this.imageService.getImageBaseUrl();
     this.getAllUsers();
     this.getAllRoles();
     this.updatePagedArray();
