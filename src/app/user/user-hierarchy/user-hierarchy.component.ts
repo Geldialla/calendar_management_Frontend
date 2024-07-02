@@ -3,10 +3,13 @@ import { ImageService } from 'src/app/service/images/image.service';
 import { UserService } from 'src/app/service/users/users.service';
 
 interface Employee {
+last_name: any;
+email: any;
   first_name: string;
   employee_role: string;
   employee_supervisor: string;
-  employee_image: string;  // New property for the image URL
+  employee_image: string;
+  isVisible?: boolean;
   children?: Employee[];
 }
 
@@ -20,10 +23,11 @@ export class UserHierarchyComponent implements OnInit {
   usrArr: Employee[] = [];
   hierarchy: Employee | null = null;
   imageBaseUrl: string = '';
+  selectedUser: Employee | null = null;
 
   constructor(
     private userService: UserService,
-    private imageService: ImageService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +40,7 @@ export class UserHierarchyComponent implements OnInit {
     this.userService.getAllUsers()
       .subscribe((resultData: any) => {
         this.usrArr = resultData.data;
-        console.log(this.usrArr);  // Log fetched data
+        console.log(this.usrArr);
         this.buildHierarchy();
         this.isLoading = false;
       });
@@ -44,11 +48,14 @@ export class UserHierarchyComponent implements OnInit {
 
   buildHierarchy() {
     let map: { [key: string]: Employee } = {};
-    this.usrArr.forEach(emp => map[emp.first_name] = emp);
+    this.usrArr.forEach(emp => {
+      map[emp.first_name] = emp;
+      emp.isVisible = true;  // Initialize all employees to be visible
+    });
     this.hierarchy = null;
 
     this.usrArr.forEach(emp => {
-      if (emp.employee_role.toUpperCase() === 'CEO') {  // Case-insensitive comparison
+      if (emp.employee_role.toUpperCase() === 'CEO') {
         this.hierarchy = emp;
       } else {
         let supervisor = map[emp.employee_supervisor];
@@ -58,7 +65,19 @@ export class UserHierarchyComponent implements OnInit {
         }
       }
     });
-    console.log(this.hierarchy);  // Log hierarchy structure
+    console.log(this.hierarchy);
   }
 
+  toggleVisibility(employee: Employee, event: MouseEvent) {
+    event.stopPropagation();
+    employee.isVisible = !employee.isVisible;
+  }
+
+  selectUser(employee: Employee) {
+    this.selectedUser = employee;
+  }
+
+  closeUserDetails() {
+    this.selectedUser = null;
+  }
 }

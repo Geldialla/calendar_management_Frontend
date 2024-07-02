@@ -1,12 +1,15 @@
 <div class="org-chart" *ngIf="!isLoading && hierarchy">
   <ul>
     <li>
-      <div class="user">
+      <div class="user" (click)="selectUser(hierarchy)">
         <img [src]="imageBaseUrl + hierarchy.employee_image" alt="{{ hierarchy.first_name }}" class="employee-image">
         <div class="name">{{ hierarchy.first_name }}</div>
         <div class="role">{{ hierarchy.employee_role }}</div>
+        <button (click)="toggleVisibility(hierarchy, $event)" class="toggle-btn">
+          {{ hierarchy.isVisible ? '-' : '+' }}
+        </button>
       </div>
-      <ul>
+      <ul *ngIf="hierarchy.isVisible">
         <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: hierarchy.children }"></ng-container>
       </ul>
     </li>
@@ -15,13 +18,29 @@
 
 <ng-template #recursiveList let-children>
   <li *ngFor="let child of children">
-    <div class="user">
+    <div class="user" (click)="selectUser(child)">
       <img [src]="imageBaseUrl + child.employee_image" alt="{{ child.first_name }}" class="employee-image">
       <div class="name">{{ child.first_name }}</div>
       <div class="role">{{ child.employee_role }}</div>
+      <button *ngIf="child.children && child.children.length" (click)="toggleVisibility(child, $event)" class="toggle-btn">
+        {{ child.isVisible ? '-' : '+' }}
+      </button>
     </div>
-    <ul *ngIf="child.children">
+    <ul *ngIf="child.isVisible">
       <ng-container *ngTemplateOutlet="recursiveList; context:{ $implicit: child.children }"></ng-container>
     </ul>
   </li>
 </ng-template>
+
+<div *ngIf="selectedUser" class="user-details-overlay" (click)="closeUserDetails()">
+  <div class="user-details" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeUserDetails()">×</button>
+    <img [src]="imageBaseUrl + selectedUser.employee_image" alt="{{ selectedUser.first_name }}" class="employee-image">
+    <div class="name">{{ selectedUser.first_name }} {{ selectedUser.last_name }}</div>
+    <div class="role">{{ selectedUser.employee_role }}</div>
+    <div class="role">{{ selectedUser.email }}</div>
+    <div class="info">
+      <!-- Add more user info here as needed -->
+    </div>
+  </div>
+</div>

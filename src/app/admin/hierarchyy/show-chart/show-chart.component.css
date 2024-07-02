@@ -1,6 +1,8 @@
+/* General styles for the organization chart */
 .org-chart {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .org-chart ul {
@@ -68,70 +70,152 @@
   border-radius: 5px 0 0 0;
 }
 
+/* Styles for user nodes */
 .org-chart .user {
   text-decoration: none;
-  color: #666;
+  color: #333;
   display: inline-block;
-  padding: 20px 10px;
+  padding: 20px 15px;
   transition: all 0.5s;
   background: #fff;
-  min-width: 120px;
-  border-radius: 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  cursor: pointer;
 }
 
 .org-chart .user:hover,
 .org-chart .user:hover + ul li .user {
-  background: #d3e0f1;
-  color: #002a50;
+  background: #f0f4f8;
+  color: #0073e6;
   transition: all 0.15s;
   transform: translateY(-5px);
-  box-shadow: inset 0 0 0 3px #22659c, 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: inset 0 0 0 3px #0073e6, 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .org-chart .user:hover img {
-  box-shadow: 0 0 0 5px #22659c;
+  box-shadow: 0 0 0 5px #0073e6;
 }
 
 .org-chart .user:hover + ul li::after,
 .org-chart .user:hover + ul li::before,
 .org-chart .user:hover + ul::before,
 .org-chart .user:hover + ul ul::before {
-  border-color: #94a0b4;
+  border-color: #0073e6;
 }
 
 .org-chart .user > div,
 .org-chart .user > a {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .org-chart .user img {
   margin: 0 auto;
-  max-width: 60px;
-  max-width: 60px;
-  width: 60px;
-  height: 60px;
+  max-width: 70px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   box-shadow: 0 0 0 2px #aaa;
+  transition: all 0.3s;
+}
+
+.org-chart .user img:hover {
+  transform: scale(1.1);
 }
 
 .org-chart .user .name {
-  font-size: 16px;
+  font-size: 18px;
   margin: 15px 0 0;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .org-chart .user .role {
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 10px;
   margin-top: 5px;
 }
 
-.org-chart .user .manager {
-  font-size: 12px;
-  color: #b21e04;
+.org-chart .toggle-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  margin-top: 10px;
+  cursor: pointer;
+  color: #0073e6;
 }
 
-h2 {
+.org-chart .toggle-btn:focus {
+  outline: none;
+}
+
+/* Styles for user details overlay */
+.user-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.user-details {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  width: 300px;
   text-align: center;
-  color: #fff;
+}
+
+.user-details .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.user-details .close-btn:focus {
+  outline: none;
+}
+
+.user-details .employee-image {
+  margin: 0 auto;
+  max-width: 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #aaa;
+  transition: all 0.3s;
+}
+
+.user-details .employee-image:hover {
+  transform: scale(1.1);
+}
+
+.user-details .name {
+  font-size: 20px;
+  margin: 15px 0 0;
+  font-weight: 500;
+}
+
+.user-details .role {
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  color: #0073e6;
+}
+
+.user-details .info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
 }
