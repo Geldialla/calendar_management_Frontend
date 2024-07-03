@@ -3,8 +3,8 @@ import { CalendarOptions, EventApi } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { EventModalComponent } from 'src/app/admin/calendar/event-modal/event-modal.component';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
+import { UserEventModalComponent } from '../user-event-modal/user-event-modal.component';
 
 @Component({
   selector: 'app-user-calendar',
@@ -12,7 +12,7 @@ import { CalendarService } from 'src/app/service/calendar/calendar.service';
   styleUrls: ['./user-calendar.component.css']
 })
 export class UserCalendarComponent implements OnInit {
-  @ViewChild(EventModalComponent) eventModal!: EventModalComponent;
+  @ViewChild(UserEventModalComponent) eventModal!: UserEventModalComponent;
   calendarOptions!: CalendarOptions;
   loggedInUser: any;
 

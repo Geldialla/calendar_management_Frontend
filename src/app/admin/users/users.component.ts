@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
   email: string = '';
   password: string = '';
   phone_number: string = '';
-  status: boolean = false;
+  status: boolean = true;
   role: string = '';
   employee_role: string = '';
   employee_supervisor: string = '';

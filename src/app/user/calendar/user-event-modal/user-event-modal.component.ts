@@ -169,84 +169,87 @@ export class UserEventModalComponent implements OnInit {
     const formattedEndDate = new Date(eventData.end).toLocaleString();
     const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
   
-    this.userSrvice.getAllUsers().subscribe((hierarchyData: any) => {
-      console.log('Hierarchy data:', hierarchyData);  // Debugging line
+    // Get logged-in user's first and last name from local storage
+    const loggedInUserFirstName = this.firstName;
+    const loggedInUserLastName = this.lastName;
   
-      const loggedInUserFirstName = this.firstName;
-      console.log('Logged in user first name:', loggedInUserFirstName);  // Debugging line
+    // Find the logged-in user in the list of all users
+    this.userService.getAllUsers().subscribe((userData: any) => {
+      console.log('User data:', userData);  // Debugging line
   
-      const first_name = hierarchyData.data.find((emp: any) => {
-        console.log('Checking employee:', emp);  // Debugging line
-        return emp.first_name.split(' ')[0] === loggedInUserFirstName;
-      })?.employee_supervisor;
+      const loggedInUser = userData.data.find((user: any) => {
+        return user.first_name === loggedInUserFirstName && user.last_name === loggedInUserLastName;
+      });
   
-      if (first_name) {
-        console.log('Supervisor found:', first_name);  // Debugging line
+      if (loggedInUser) {
+        console.log('Logged in user found:', loggedInUser);  // Debugging line
   
-        this.userService.getAllUsers().subscribe((userData: any) => {
-          console.log('User data:', userData);  // Debugging line
+        // Get the supervisor's name of the logged-in user
+        const supervisorName = loggedInUser.employee_supervisor;
   
-          const supervisorEmail = userData.data.find((user: any) => {
-            const userName = `${user.first_name} ${user.last_name}`;
-            console.log('Checking user:', userName);  // Debugging line
-            return first_name;
-          })?.email;
-  
-          if (supervisorEmail) {
-            console.log('Supervisor email found:', supervisorEmail);  // Debugging line
-  
-            const emailData = {
-              email: supervisorEmail,
-              subject: `New Event Created: ${eventData.title}`,
-              message: `
-                <p>An event has been created with the following details:</p>
-                <p><strong>Title:</strong> ${eventData.title}</p>
-                <p><strong>Start:</strong> ${formattedStartDate}</p>
-                <p><strong>End:</strong> ${formattedEndDate}</p>
-                <p><strong>Created By:</strong> ${eventData.createdBy}</p>
-                <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
-                <br>`,
-              eventId: eventData.eventId
-            };
-  
-            this.emailService.sendEmailVerification(
-              emailData.email,
-              emailData.subject,
-              emailData.message,
-              emailData.eventId
-            ).subscribe(
-              response => {
-                console.log('Email sent successfully:', response);
-                this.snackBar.open('Email sent successfully', 'Close', {
-                  duration: 6000,
-                  panelClass: ['success-snackbar']
-                });
-              },
-              error => {
-                console.error('Error sending email:', error);
-                this.snackBar.open('Error sending email', 'Close', {
-                  duration: 6000,
-                  panelClass: ['error-snackbar']
-                });
-              }
-            );
-          } else {
-            console.error('Supervisor email not found.');
-            this.snackBar.open('Supervisor email not found.', 'Close', {
-              duration: 6000,
-              panelClass: ['error-snackbar']
-            });
-          }
+        // Find the supervisor's email in the list of all users
+        const supervisor = userData.data.find((user: any) => {
+          return user.first_name === supervisorName;
         });
+  
+        if (supervisor) {
+          console.log('Supervisor found:', supervisor);  // Debugging line
+  
+          const supervisorEmail = supervisor.email;
+  
+          const emailData = {
+            email: supervisorEmail,
+            subject: `New Event Created: ${eventData.title}`,
+            message: `
+              <p>An event has been created with the following details:</p>
+              <p><strong>Title:</strong> ${eventData.title}</p>
+              <p><strong>Start:</strong> ${formattedStartDate}</p>
+              <p><strong>End:</strong> ${formattedEndDate}</p>
+              <p><strong>Created By:</strong> ${eventData.createdBy}</p>
+              <p><strong>Created Date:</strong> ${formattedCreatedDate}</p>
+              <br>`,
+            eventId: eventData.eventId
+          };
+  
+          this.emailService.sendEmailVerification(
+            emailData.email,
+            emailData.subject,
+            emailData.message,
+            emailData.eventId
+          ).subscribe(
+            response => {
+              console.log('Email sent successfully:', response);
+              this.snackBar.open('Email sent successfully', 'Close', {
+                duration: 6000,
+                panelClass: ['success-snackbar']
+              });
+            },
+            error => {
+              console.error('Error sending email:', error);
+              this.snackBar.open('Error sending email', 'Close', {
+                duration: 6000,
+                panelClass: ['error-snackbar']
+              });
+            }
+          );
+        } else {
+          console.error('Supervisor not found in user data.');
+          this.snackBar.open('Supervisor not found in user data.', 'Close', {
+            duration: 6000,
+            panelClass: ['error-snackbar']
+          });
+        }
       } else {
-        console.error('Supervisor not found in hierarchy.');
-        this.snackBar.open('Supervisor not found in hierarchy.', 'Close', {
+        console.error('Logged in user not found.');
+        this.snackBar.open('Logged in user not found.', 'Close', {
           duration: 6000,
           panelClass: ['error-snackbar']
         });
       }
     });
   }
+  
+  
   
 
   onSubmit() {

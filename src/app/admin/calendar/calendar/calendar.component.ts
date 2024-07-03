@@ -170,4 +170,3 @@ export class CalendarComponent implements OnInit {
     this.refreshCalendar(); // Refresh calendar when event is submitted
   }
 }
-

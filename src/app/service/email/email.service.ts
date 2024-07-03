@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -13,16 +13,17 @@ export class EmailService {
 
   constructor(private http: HttpClient) { }
 
-  sendEmail(email: string, subject: string, message: string): Observable<any> {
-    const emailData = { email, subject, message };
+  sendEmail(email: string, subject: string, message: string, eventId: number): Observable<any> {
+    const emailData = { email, subject, message, eventId };
     return this.http.post<any>(this.apiUrl, emailData)
       .pipe(
         catchError(error => {
           console.error('Error sending email:', error);
-          throw error; // Rethrow or handle as needed
+          return throwError(error); // Rethrow or handle as needed
         })
       );
   }
+
   sendEmailVerification(email: string, subject: string, message: string,eventId: number ): Observable<any> {
     const emailData = { email, subject, message, eventId };
     return this.http.post<any>(this.apiUrl, emailData)

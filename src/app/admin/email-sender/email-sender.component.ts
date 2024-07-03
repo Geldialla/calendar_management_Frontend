@@ -14,18 +14,18 @@ export class EmailSenderComponent {
 
   constructor(private emailService: EmailService) { }
 
-  sendEmail(): void {
-    this.emailService.sendEmail(this.email, this.subject, this.message)
-      .subscribe(
-        response => {
-          console.log('Email sent successfully:', response);
-          // Handle success message or further actions if needed
-        },
-        error => {
-          console.error('Error sending email:', error);
-          // Handle error message or display to user
-        }
-      );
-  }
+  // sendEmail(): void {
+  //   this.emailService.sendEmail(this.email, this.subject, this.message)
+  //     .subscribe(
+  //       response => {
+  //         console.log('Email sent successfully:', response);
+  //         // Handle success message or further actions if needed
+  //       },
+  //       error => {
+  //         console.error('Error sending email:', error);
+  //         // Handle error message or display to user
+  //       }
+  //     );
+  // }
 
 }

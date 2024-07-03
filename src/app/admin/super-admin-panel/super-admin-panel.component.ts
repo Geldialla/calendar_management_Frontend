@@ -21,7 +21,7 @@ export class SuperAdminPanelComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private weatherService: WeatherService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
