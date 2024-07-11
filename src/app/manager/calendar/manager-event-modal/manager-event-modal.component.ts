@@ -40,7 +40,6 @@ export class ManagerEventModalComponent implements OnInit {
     private eventService: EventService,
     private emailService: EmailService,
     private authService: AuthService,
-    private userSrvice: UserService,
     private userService: UserService
   ) {
     this.getAllEvents();
@@ -57,7 +56,7 @@ export class ManagerEventModalComponent implements OnInit {
     this.firstName = localStorage.getItem('loggedInUserFirstName');
     this.lastName = localStorage.getItem('loggedInUserLastName');
     this.loggedInUser = { firstName: this.firstName, lastName: this.lastName };
-    console.log('Logged in user:', this.loggedInUser);  // Debugging line
+    console.log('Logged in user:', this.loggedInUser);
   }
 
   getAllCalendarEvents(): void {
@@ -70,7 +69,6 @@ export class ManagerEventModalComponent implements OnInit {
 
   register() {
     const createdDate = new Date().toISOString();
-
     const startDate = new Date(this.start_date as Date);
     const endDate = new Date(this.end_date as Date);
 
@@ -168,35 +166,24 @@ export class ManagerEventModalComponent implements OnInit {
     const formattedStartDate = new Date(eventData.start).toLocaleString();
     const formattedEndDate = new Date(eventData.end).toLocaleString();
     const formattedCreatedDate = new Date(eventData.createdDate).toLocaleString();
-  
-    // Get logged-in user's first and last name from local storage
+
     const loggedInUserFirstName = this.firstName;
     const loggedInUserLastName = this.lastName;
-  
-    // Find the logged-in user in the list of all users
+
     this.userService.getAllUsers().subscribe((userData: any) => {
-      console.log('User data:', userData);  // Debugging line
-  
-      const loggedInUser = userData.data.find((user: any) => {
-        return user.first_name === loggedInUserFirstName && user.last_name === loggedInUserLastName;
-      });
-  
+      const loggedInUser = userData.data.find((user: any) => 
+        user.first_name === loggedInUserFirstName && user.last_name === loggedInUserLastName
+      );
+
       if (loggedInUser) {
-        console.log('Logged in user found:', loggedInUser);  // Debugging line
-  
-        // Get the supervisor's name of the logged-in user
         const supervisorName = loggedInUser.employee_supervisor;
-  
-        // Find the supervisor's email in the list of all users
-        const supervisor = userData.data.find((user: any) => {
-          return user.first_name === supervisorName;
-        });
-  
+        const supervisor = userData.data.find((user: any) => 
+          user.first_name === supervisorName
+        );
+
         if (supervisor) {
-          console.log('Supervisor found:', supervisor);  // Debugging line
-  
           const supervisorEmail = supervisor.email;
-  
+
           const emailData = {
             email: supervisorEmail,
             subject: `New Event Created: ${eventData.title}`,
@@ -210,8 +197,8 @@ export class ManagerEventModalComponent implements OnInit {
               <br>`,
             eventId: eventData.eventId
           };
-  
-          this.emailService.sendEmailVerification(
+
+          this.emailService.sendEmail(
             emailData.email,
             emailData.subject,
             emailData.message,
@@ -248,9 +235,6 @@ export class ManagerEventModalComponent implements OnInit {
       }
     });
   }
-  
-  
-  
 
   onSubmit() {
     if (!this.event_name || !this.start_date || !this.end_date) {

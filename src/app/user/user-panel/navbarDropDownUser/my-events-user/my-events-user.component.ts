@@ -10,12 +10,12 @@ import { CalendarService } from 'src/app/service/calendar/calendar.service';
 })
 export class MyEventsUserComponent implements OnInit {
   loggedInUser: any;
-  isResultLoaded = false;  // Define and initialize isResultLoaded
-  userEvents: any[] = [];  // Define and initialize userEvents
+  isResultLoaded = false;
+  userEvents: any[] = [];
+  pageSize = 10;
+  pageIndex = 1;
+  pagedArray: any[] = [];
 
-  pageSize = 10; // Number of items per page
-  pageIndex = 1; // Current page index
-  pagedArray: any[] = []; // Array to hold the paged items
   constructor(
     private calendarService: CalendarService,
     private snackBar: MatSnackBar,
@@ -29,17 +29,34 @@ export class MyEventsUserComponent implements OnInit {
       this.calendarService.getEventsByCreatedBy(createdBy).subscribe(
         (data: any) => {
           if (data.status && data.data) {
-            this.userEvents = data.data;  // Assign data to userEvents
-            this.isResultLoaded = true;   // Update isResultLoaded flag
-            this.updatePagedArray();      // Update paged array after data is loaded
+            // Sorting logic
+            this.userEvents = data.data.sort((a: any, b: any) => {
+              const dateA = new Date(a.created_date).getTime();
+              const dateB = new Date(b.created_date).getTime();
+              const currentDate = new Date().getTime();
+              
+              // Compare dateA and dateB with currentDate
+              if (dateA > currentDate && dateB > currentDate) {
+                return dateA - dateB; // Sort future events first
+              } else if (dateA > currentDate) {
+                return -1; // Move A up
+              } else if (dateB > currentDate) {
+                return 1; // Move B up
+              } else {
+                return dateB - dateA; // Sort by created_date in descending order
+              }
+            });
+            
+            this.isResultLoaded = true;
+            this.updatePagedArray();
           } else {
             console.log('No events found for this user.');
-            this.isResultLoaded = true;   // Handle case where no events are found
+            this.isResultLoaded = true;
           }
         },
         (error) => {
           console.error('Error fetching events:', error);
-          this.isResultLoaded = true;     // Handle error case
+          this.isResultLoaded = true;
         }
       );
     }
@@ -60,9 +77,7 @@ export class MyEventsUserComponent implements OnInit {
         duration: 6000,
         panelClass: ['success-snackbar']
       });
-      // Remove the deleted event from userEvents
       this.userEvents = this.userEvents.filter(event => event.id !== calendar.id);
-      // Update the paged array to refresh the table
       this.updatePagedArray();
     });
   }
@@ -70,16 +85,19 @@ export class MyEventsUserComponent implements OnInit {
   updatePagedArray(): void {
     const startIndex = (this.pageIndex - 1) * this.pageSize;
     const endIndex = Math.min(startIndex + this.pageSize, this.userEvents.length);
-
-    console.log("Start Index:", startIndex);
-    console.log("End Index:", endIndex);
-    console.log("Total Length:", this.userEvents.length);
-
     this.pagedArray = this.userEvents.slice(startIndex, endIndex);
   }
 
   pageChanged(event: any): void {
     this.pageIndex = event.pageIndex + 1;
+    this.updatePagedArray();
+  }
+
+  addNewEvent(newEvent: any): void {
+    // Add new event to the beginning of the array
+    this.userEvents.unshift(newEvent);
+    
+    // Update the paged array to reflect the new event
     this.updatePagedArray();
   }
 }

@@ -16,6 +16,7 @@ export class MyEventsManagerComponent implements OnInit {
   pageSize = 10; // Number of items per page
   pageIndex = 1; // Current page index
   pagedArray: any[] = []; // Array to hold the paged items
+
   constructor(
     private calendarService: CalendarService,
     private snackBar: MatSnackBar,
@@ -29,7 +30,8 @@ export class MyEventsManagerComponent implements OnInit {
       this.calendarService.getEventsByCreatedBy(createdBy).subscribe(
         (data: any) => {
           if (data.status && data.data) {
-            this.userEvents = data.data;  // Assign data to userEvents
+            // Sort userEvents by creation date in descending order
+            this.userEvents = data.data.sort((a: any, b: any) => new Date(b.creation_date).getTime() - new Date(a.creation_date).getTime());
             this.isResultLoaded = true;   // Update isResultLoaded flag
             this.updatePagedArray();      // Update paged array after data is loaded
           } else {

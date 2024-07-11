@@ -19,10 +19,11 @@ export class EmailService {
       .pipe(
         catchError(error => {
           console.error('Error sending email:', error);
-          return throwError(error); // Rethrow or handle as needed
+          return throwError(error);
         })
       );
   }
+
 
   sendEmailVerification(email: string, subject: string, message: string,eventId: number ): Observable<any> {
     const emailData = { email, subject, message, eventId };

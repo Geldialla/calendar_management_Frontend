@@ -18,29 +18,31 @@
 
                         <div *ngIf="isResultLoaded && userEvents.length > 0">
                             <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Title</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let event of pagedArray; let i = index">
-                                        <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
-                                        <td>{{ event.event_name }}</td>
-                                        <td>{{ event.start_date | date: 'medium' }}</td>
-                                        <td>{{ event.end_date | date: 'medium' }}</td>
-                                        <td>
-                                            <button class="btn btn-outline-danger btn-sm" (click)="setDelete(event)">Delete</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Title</th>
+                                  <th>Start Date</th>
+                                  <th>End Date</th>
+                                  <th>Created Date</th> <!-- New column -->
+                                  <th>Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let event of pagedArray; let i = index">
+                                    <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
+                                    <td>{{ event.event_name }}</td>
+                                    <td>{{ event.start_date | date: 'medium' }}</td>
+                                    <td>{{ event.end_date | date: 'medium' }}</td>
+                                    <td>{{ event.createdDate | date: 'medium' }}</td> <!-- Display created_date -->
+                                    <td>
+                                        <button class="btn btn-outline-danger btn-sm" (click)="setDelete(event)">Delete</button>
+                                    </td>
+                                </tr>
+                            </tbody>
                             </table>
-                        </div>
-                    </div>
+                          </div>
+                          
 
                     <mat-paginator [length]="userEvents.length" [pageSize]="pageSize" (page)="pageChanged($event)"></mat-paginator>
 

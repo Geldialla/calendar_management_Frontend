@@ -87,21 +87,21 @@
 .org-chart .user:hover,
 .org-chart .user:hover + ul li .user {
   background: #f0f4f8;
-  color: #0073e6;
+  color: hsl(39, 100%, 50%);
   transition: all 0.15s;
   transform: translateY(-5px);
-  box-shadow: inset 0 0 0 3px #0073e6, 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: inset 0 0 0 3px hsl(39, 100%, 50%), 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .org-chart .user:hover img {
-  box-shadow: 0 0 0 5px #0073e6;
+  box-shadow: 0 0 0 5px hsl(39, 100%, 50%);
 }
 
 .org-chart .user:hover + ul li::after,
 .org-chart .user:hover + ul li::before,
 .org-chart .user:hover + ul::before,
 .org-chart .user:hover + ul ul::before {
-  border-color: #0073e6;
+  border-color: hsl(39, 100%, 50%);
 }
 
 .org-chart .user > div,
@@ -141,7 +141,7 @@
   font-size: 18px;
   margin-top: 10px;
   cursor: pointer;
-  color: #0073e6;
+  color: #333;
 }
 
 .org-chart .toggle-btn:focus {
