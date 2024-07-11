@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
+import { EventService } from 'src/app/service/events/event.service';
 
 @Component({
   selector: 'app-calendar-list',
@@ -29,16 +30,20 @@ export class CalendarListComponent implements OnInit {
   pageSize = 10; // Number of items per page
   pageIndex = 1; // Current page index
   pagedRoleArray: any[] = []; // Array to hold the paged items
+  EventArray: any[] = [];
 
   constructor(
     private calendarService: CalendarService,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private eventService: EventService,
   ) {
     this.getAllCalendar();
+    this.getAllEvents();
   }
 
   ngOnInit(): void {
+    this.getAllEvents();
     this.loggedInUser = this.authService.getLoggedInUser();
   }
 
@@ -49,6 +54,12 @@ export class CalendarListComponent implements OnInit {
       this.sortEventsByCreatedDate();
       this.updatePagedArray();
     });
+  }
+  getAllEvents() {
+    this.eventService.getAllEvents()
+      .subscribe((resultData: any) => {
+        this.EventArray = resultData.data;
+      });
   }
 
   sortEventsByCreatedDate() {

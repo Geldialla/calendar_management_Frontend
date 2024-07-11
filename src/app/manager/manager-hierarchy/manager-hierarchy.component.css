@@ -147,6 +147,17 @@
 .org-chart .toggle-btn:focus {
   outline: none;
 }
+.org-chart .employee-image {
+  width: 100%;
+  height: auto;
+  max-width: 70px;
+  max-height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #aaa;
+  transition: all 0.3s;
+  object-fit: cover;
+}
+
 
 /* Styles for user details overlay */
 .user-details-overlay {
@@ -188,13 +199,15 @@
 }
 
 .user-details .employee-image {
-  margin: 0 auto;
+  width: 100%;
+  height: auto;
   max-width: 100px;
-  width: 100px;
-  height: 100px;
+  max-height: 100px;
   border-radius: 50%;
   box-shadow: 0 0 0 2px #aaa;
   transition: all 0.3s;
+  object-fit: cover;
+
 }
 
 .user-details .employee-image:hover {
@@ -214,8 +227,10 @@
   color: #0073e6;
 }
 
-.user-details .info {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
+.user-details .email {
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  color: #0073e6;
+  margin-left: -10px;
 }

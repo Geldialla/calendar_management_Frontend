@@ -6,7 +6,7 @@
         <div class="name">{{ hierarchy.first_name }}</div>
         <div class="role">{{ hierarchy.employee_role }}</div>
         <button (click)="toggleVisibility(hierarchy, $event)" class="toggle-btn">
-          {{ hierarchy.isVisible ? '▲' : '▼' }}
+          {{ hierarchy.isVisible ? '-' : '+' }}
         </button>
       </div>
       <ul *ngIf="hierarchy.isVisible">
@@ -23,7 +23,7 @@
       <div class="name">{{ child.first_name }}</div>
       <div class="role">{{ child.employee_role }}</div>
       <button *ngIf="child.children && child.children.length" (click)="toggleVisibility(child, $event)" class="toggle-btn">
-        {{ child.isVisible ? '▲' : '▼' }}
+        {{ child.isVisible ? '-' : '+' }}
       </button>
     </div>
     <ul *ngIf="child.isVisible">
@@ -38,9 +38,6 @@
     <img [src]="imageBaseUrl + selectedUser.employee_image" alt="{{ selectedUser.first_name }}" class="employee-image">
     <div class="name">{{ selectedUser.first_name }} {{ selectedUser.last_name }}</div>
     <div class="role">{{ selectedUser.employee_role }}</div>
-    <div class="role">{{ selectedUser.email }}</div>
-    <div class="info">
-      <!-- Add more user info here as needed -->
-    </div>
+    <div class="email">{{ selectedUser.email }}</div>
   </div>
 </div>

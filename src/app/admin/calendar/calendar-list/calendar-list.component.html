@@ -12,8 +12,10 @@
               <a class="btn btn-outline-secondary float-right mb-1" (click)="goBack()">Go Back</a>
               <div class="form-group">
                 <label>Event Name</label>
-                <input type="text" [(ngModel)]="event_name" name="event_name" class="form-control" id="event_name"
-                  required>
+                <select id="title" [(ngModel)]="event_name" name="title" required>
+                  <option value="" disabled selected>Select One</option>
+                  <option *ngFor="let event of EventArray" [value]="event.event_name">{{ event.event_name }}</option>
+                </select>
               </div>
               <div class="form-group">
                 <label>Start Date</label>

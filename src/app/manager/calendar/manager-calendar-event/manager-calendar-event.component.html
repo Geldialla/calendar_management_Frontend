@@ -8,7 +8,7 @@
           </div>
           <div class="card-body">
             <div *ngIf="showForm">
-              <form (ngSubmit)="save()" style="width: 50%; margin: 0 auto;">
+              <!-- <form (ngSubmit)="save()" style="width: 50%; margin: 0 auto;">
                 <a class="btn btn-outline-secondary float-right mb-1" (click)="goBack()">Go Back</a>
                 <div class="form-group">
                   <label>Event Name</label>
@@ -25,13 +25,13 @@
                   <input type="datetime-local" [(ngModel)]="end_date" name="end_date" class="form-control" id="end_date">
                 </div>
                 <button type="submit" class="btn btn-outline-success btn-block">Submit</button>
-              </form>
+              </form> -->
             </div>
             <div *ngIf="showTable">
               <div class="d-flex justify-content-between mb-2">
-                <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New Event</button>
+                <!-- <button class="btn btn-outline-primary" (click)="toggleFormVisibility()">Create New Event</button> -->
                 <div class="col-md-4">
-                  <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="searchKeyword"
+                  <input type="text" class="form-control" placeholder="Search by Created By" [(ngModel)]="searchKeyword"
                     (input)="search()">
                 </div>
               </div>
