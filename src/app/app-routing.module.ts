@@ -28,6 +28,7 @@ import { MyProfileManagerComponent } from './manager/manager-panel/navbarDropDow
 import { MyEventsManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-events-manager/my-events-manager.component';
 import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDownManager/change-pass-manager/change-pass-manager.component';
 import { MyEventsUserComponent } from './user/user-panel/navbarDropDownUser/my-events-user/my-events-user.component';
+import { NotFoundComponent } from './404/not-found/not-found.component';
 
 const routes: Routes = [
   {
@@ -153,6 +154,14 @@ const routes: Routes = [
         component: ChangePassUserComponent,
       },
     ]
+  },
+  { 
+    path: '404', 
+    component: NotFoundComponent 
+  },
+  { 
+    path: '**', 
+    redirectTo: '/404' 
   },
 
 

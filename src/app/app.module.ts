@@ -47,6 +47,7 @@ import { ChangePassUserComponent } from './user/user-panel/navbarDropDownUser/ch
 import { MyProfileManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-profile-manager/my-profile-manager.component';
 import { MyEventsManagerComponent } from './manager/manager-panel/navbarDropDownManager/my-events-manager/my-events-manager.component';
 import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDownManager/change-pass-manager/change-pass-manager.component';
+import { NotFoundComponent } from './404/not-found/not-found.component';
 
 
 
@@ -83,6 +84,7 @@ import { ChangePassManagerComponent } from './manager/manager-panel/navbarDropDo
     MyProfileManagerComponent,
     MyEventsManagerComponent,
     ChangePassManagerComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

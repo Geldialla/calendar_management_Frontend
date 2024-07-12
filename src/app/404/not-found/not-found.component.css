@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: black; /* White text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    
+  }
+  
+  h1 {
+    font-size: 5rem; /* Large font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+    padding: 10px;
+  }
+  
+  p {
+    font-size: 1.5rem; /* Medium font size for the paragraph */
+    max-width: 80%; /* Limit paragraph width for readability */
+    padding: 10px;
+  }
+  
+  /* Styling for the link */
+  a {
+    color: black; /* White color for the link text */
+    text-decoration: underline; /* Underline the link */
+    transition: color 0.3s; /* Smooth color transition on hover */
+  }
+  
+  a:hover {
+    color: #f0c600; /* Yellow color on hover */
+  }
+  
