@@ -177,29 +177,26 @@ export class CalendarListComponent implements OnInit {
 
 
   toggleApprovalStatus(event: any) {
-    // Parse the createdDate and add 2 hours
-    const originalCreatedDate = new Date(event.createdDate);
-    originalCreatedDate.setHours(originalCreatedDate.getHours() + 2);
-    const adjustedCreatedDate = originalCreatedDate.toISOString();
+    event.approved = !event.approved; // Toggle approved status
   
-    // Create a copy of the event with the updated approval status and adjusted createdDate
-    const updatedEvent = {
-      ...event,
-      approved: !event.approved,
-      createdDate: adjustedCreatedDate // Set the adjusted createdDate
-    };
+    // Add 2 hours to start_date, end_date, and createdDate
+    if (event.start_date) {
+      event.start_date = new Date(new Date(event.start_date).getTime() + 2 * 60 * 60 * 1000).toISOString();
+    }
+    if (event.end_date) {
+      event.end_date = new Date(new Date(event.end_date).getTime() + 2 * 60 * 60 * 1000).toISOString();
+    }
+    if (event.createdDate) {
+      event.createdDate = new Date(new Date(event.createdDate).getTime() + 2 * 60 * 60 * 1000).toISOString();
+    }
   
-    console.log('Before sending to backend:', updatedEvent);
-  
-    // Send the update request to the backend
-    this.calendarService.updateCalendar(event.id, updatedEvent).subscribe(
+    this.calendarService.updateCalendar(event.id, event).subscribe(
       () => {
         this.snackBar.open('Approval status updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
         this.getAllCalendar();
-        this.cdr.detectChanges(); // Force change detection
       },
       error => {
         console.error('Error updating approval status:', error);
@@ -209,13 +206,9 @@ export class CalendarListComponent implements OnInit {
         });
         // Revert the change if update fails (optional)
         event.approved = !event.approved;
-        this.cdr.detectChanges(); // Force change detection
       }
     );
   }
-  
-  
-  
 
   toggleFormVisibility() {
     this.showForm = !this.showForm;
