@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { CalendarService } from 'src/app/service/calendar/calendar.service';
@@ -34,7 +34,8 @@ export class ManagerCalendarEventComponent implements OnInit {
   constructor(
     private calendarService: CalendarService,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     this.getAllCalendar();
   }
@@ -160,14 +161,29 @@ export class ManagerCalendarEventComponent implements OnInit {
 
 
   toggleApprovalStatus(event: any) {
-    event.approved = !event.approved; // Toggle approved status
-    this.calendarService.updateCalendar(event.id, event).subscribe(
+    // Parse the createdDate and add 2 hours
+    const originalCreatedDate = new Date(event.createdDate);
+    originalCreatedDate.setHours(originalCreatedDate.getHours() + 2);
+    const adjustedCreatedDate = originalCreatedDate.toISOString();
+  
+    // Create a copy of the event with the updated approval status and adjusted createdDate
+    const updatedEvent = {
+      ...event,
+      approved: !event.approved,
+      createdDate: adjustedCreatedDate // Set the adjusted createdDate
+    };
+  
+    console.log('Before sending to backend:', updatedEvent);
+  
+    // Send the update request to the backend
+    this.calendarService.updateCalendar(event.id, updatedEvent).subscribe(
       () => {
         this.snackBar.open('Approval status updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
         this.getAllCalendar();
+        this.cdr.detectChanges(); // Force change detection
       },
       error => {
         console.error('Error updating approval status:', error);
@@ -177,9 +193,11 @@ export class ManagerCalendarEventComponent implements OnInit {
         });
         // Revert the change if update fails (optional)
         event.approved = !event.approved;
+        this.cdr.detectChanges(); // Force change detection
       }
     );
   }
+  
 
   toggleFormVisibility() {
     this.showForm = !this.showForm;

@@ -62,7 +62,7 @@
                   <td>{{ RoleItem.start_date | date: 'medium' }}</td>
                   <td>{{ RoleItem.end_date | date: 'medium' }}</td>
                   <td>{{ RoleItem.createdBy }}</td>
-                  <td>{{ RoleItem.createdDate | date: 'medium' }}</td>
+                  <td>{{ RoleItem.createdDate | date: 'medium' : '+0000' }}</td>
                   <td>
                     <button class="btn btn-outline-primary btn-sm" (click)="setUpdate(RoleItem)">Edit</button>
                     <button class="btn btn-outline-danger btn-sm" (click)="setDelete(RoleItem)">Delete</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { EventModalComponent } from '../event-modal/event-modal.component';
@@ -21,6 +21,7 @@ export class CalendarListComponent implements OnInit {
   event_name: string = '';
   start_date: string | null = null;
   end_date: string | null = null;
+  createdDate: string | null = null;
 
   currentCalendarID = '';
 
@@ -37,6 +38,7 @@ export class CalendarListComponent implements OnInit {
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private eventService: EventService,
+    private cdr: ChangeDetectorRef // Inject ChangeDetectorRef
   ) {
     this.getAllCalendar();
     this.getAllEvents();
@@ -55,6 +57,7 @@ export class CalendarListComponent implements OnInit {
       this.updatePagedArray();
     });
   }
+
   getAllEvents() {
     this.eventService.getAllEvents()
       .subscribe((resultData: any) => {
@@ -102,7 +105,6 @@ export class CalendarListComponent implements OnInit {
       this.showForm = false;
     });
   }
-  
 
   deleteRecord(calendar: any) {
     this.calendarService.deleteCalendar(calendar.id).subscribe(() => {
@@ -149,6 +151,7 @@ export class CalendarListComponent implements OnInit {
     this.event_name = '';
     this.start_date = null;
     this.end_date = null;
+    this.createdDate = null;
     this.currentCalendarID = '';
   }
 
@@ -166,20 +169,37 @@ export class CalendarListComponent implements OnInit {
     // Format dates to "yyyy-MM-ddThh:mm"
     this.start_date = data.start_date ? new Date(data.start_date).toISOString().slice(0, 16) : null;
     this.end_date = data.end_date ? new Date(data.end_date).toISOString().slice(0, 16) : null;
+    this.createdDate = data.createdDate ? new Date(data.createdDate).toISOString().slice(0, 16) : null;
     this.currentCalendarID = data.id;
     this.showForm = true;
     this.showTable = false;
   }
-  
+
+
   toggleApprovalStatus(event: any) {
-    event.approved = !event.approved; // Toggle approved status
-    this.calendarService.updateCalendar(event.id, event).subscribe(
+    // Parse the createdDate and add 2 hours
+    const originalCreatedDate = new Date(event.createdDate);
+    originalCreatedDate.setHours(originalCreatedDate.getHours() + 2);
+    const adjustedCreatedDate = originalCreatedDate.toISOString();
+  
+    // Create a copy of the event with the updated approval status and adjusted createdDate
+    const updatedEvent = {
+      ...event,
+      approved: !event.approved,
+      createdDate: adjustedCreatedDate // Set the adjusted createdDate
+    };
+  
+    console.log('Before sending to backend:', updatedEvent);
+  
+    // Send the update request to the backend
+    this.calendarService.updateCalendar(event.id, updatedEvent).subscribe(
       () => {
         this.snackBar.open('Approval status updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
         this.getAllCalendar();
+        this.cdr.detectChanges(); // Force change detection
       },
       error => {
         console.error('Error updating approval status:', error);
@@ -189,9 +209,13 @@ export class CalendarListComponent implements OnInit {
         });
         // Revert the change if update fails (optional)
         event.approved = !event.approved;
+        this.cdr.detectChanges(); // Force change detection
       }
     );
   }
+  
+  
+  
 
   toggleFormVisibility() {
     this.showForm = !this.showForm;

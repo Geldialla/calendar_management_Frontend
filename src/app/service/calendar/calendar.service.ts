@@ -1,5 +1,3 @@
-// calendar.service.ts
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
@@ -12,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class CalendarService {
 
   private calendarUrl = `${environment.apiBaseUrl}/api/calendar_event_table`;
-  private approveEventUrl = `${environment.apiBaseUrl}/approve-event`; // Updated URL
+  private approveEventUrl = `${environment.apiBaseUrl}/approve-event`;
 
   constructor(private http: HttpClient) { }
 
@@ -26,8 +24,9 @@ export class CalendarService {
       );
   }
 
-  addCalendar(role: any): Observable<any> {
-    return this.http.post<any>(`${this.calendarUrl}/add`, role)
+  addCalendar(event: any): Observable<any> {
+    const formattedEvent = this.formatEventDates(event);
+    return this.http.post<any>(`${this.calendarUrl}/add`, formattedEvent)
       .pipe(
         catchError(error => {
           console.error('Error adding Calendar:', error);
@@ -36,8 +35,9 @@ export class CalendarService {
       );
   }
 
-  updateCalendar(roleId: string, role: any): Observable<any> {
-    return this.http.put<any>(`${this.calendarUrl}/update/${roleId}`, role)
+  updateCalendar(eventId: string, event: any): Observable<any> {
+    const formattedEvent = this.formatEventDates(event);
+    return this.http.put<any>(`${this.calendarUrl}/update/${eventId}`, formattedEvent)
       .pipe(
         catchError(error => {
           console.error('Error updating Calendar:', error);
@@ -46,8 +46,8 @@ export class CalendarService {
       );
   }
 
-  deleteCalendar(roleId: string): Observable<any> {
-    return this.http.delete<any>(`${this.calendarUrl}/delete/${roleId}`)
+  deleteCalendar(eventId: string): Observable<any> {
+    return this.http.delete<any>(`${this.calendarUrl}/delete/${eventId}`)
       .pipe(
         catchError(error => {
           console.error('Error deleting Calendar:', error);
@@ -57,7 +57,7 @@ export class CalendarService {
   }
 
   getEventsByCreatedBy(createdBy: string): Observable<any[]> {
-    const params = { createdBy }; // Simplified for query params
+    const params = { createdBy };
     return this.http.get<any[]>(this.calendarUrl, { params })
       .pipe(
         catchError(error => {
@@ -75,5 +75,14 @@ export class CalendarService {
           return throwError(error);
         })
       );
+  }
+
+  private formatEventDates(event: any): any {
+    return {
+      ...event,
+      start_date: new Date(event.start_date).toISOString(),
+      end_date: new Date(event.end_date).toISOString(),
+      createdDate: new Date(event.createdDate).toISOString()
+    };
   }
 }
