@@ -293,7 +293,7 @@ export class UsersComponent implements OnInit {
     user.status = !user.status; // Toggle approved status
     this.userService.updateUser(user.id, user).subscribe(
       () => {
-        this.snackBar.open('Approval status updated successfully', 'Close', {
+        this.snackBar.open('User status updated successfully', 'Close', {
           duration: 6000,
           panelClass: ['success-snackbar']
         });
@@ -301,7 +301,7 @@ export class UsersComponent implements OnInit {
       },
       error => {
         console.error('Error updating approval status:', error);
-        this.snackBar.open('Failed to update approval status', 'Close', {
+        this.snackBar.open('Failed to update User status', 'Close', {
           duration: 6000,
           panelClass: ['error-snackbar']
         });
